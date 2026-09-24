@@ -1,7 +1,7 @@
 import { SignJWT, jwtVerify } from 'jose';
 import crypto from 'crypto';
 
-const JWT_SECRET = process.env.JWT_SECRET || 'avora_enterprise_secret_jwt_key_32chars_minimum_length';
+const JWT_SECRET = process.env.ADMIN_JWT_SECRET || process.env.JWT_SECRET || 'avora_enterprise_secret_jwt_key_32chars_minimum_length';
 const key = new TextEncoder().encode(JWT_SECRET);
 
 export interface AdminPayload {
