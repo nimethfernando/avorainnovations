@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useState, Suspense } from 'react';
-import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Lock, Mail, ArrowRight, Loader2, ShieldCheck } from 'lucide-react';
 
@@ -45,14 +44,12 @@ function LoginForm() {
     <div className="w-full max-w-md">
       <div className="rounded-3xl border border-slate-800 bg-slate-900/90 p-8 sm:p-10 shadow-2xl space-y-6 backdrop-blur-xl">
         {/* Brand header */}
-        <div className="text-center space-y-3">
-          <Link href="/" className="inline-block">
-            <img
-              src="/logo-dark.png"
-              alt="AVORA Innovations"
-              className="h-14 w-auto mx-auto object-contain hover:opacity-90 transition-opacity"
-            />
-          </Link>
+        <div className="text-center space-y-2">
+          <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-blue-600 via-indigo-600 to-purple-600 p-0.5 mx-auto shadow-lg shadow-blue-500/20">
+            <div className="w-full h-full bg-slate-950 rounded-[14px] flex items-center justify-center font-black text-2xl text-white">
+              A
+            </div>
+          </div>
           <h1 className="text-2xl font-black tracking-tight text-white">
             AVORA Executive Portal
           </h1>

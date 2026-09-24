@@ -52,7 +52,9 @@ export default function AdminSidebar() {
         {/* Brand Header */}
         <div className="p-6 border-b border-slate-800 flex items-center justify-between">
           <Link href="/admin" className="flex items-center gap-2.5">
-            <img src="/icon.png" alt="Avora Logo" className="w-8 h-8 object-contain" />
+            <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-blue-600 to-indigo-600 flex items-center justify-center font-black text-white text-base">
+              A
+            </div>
             <div>
               <div className="font-extrabold text-sm text-white tracking-tight">AVORA CMS</div>
               <div className="text-[10px] text-blue-400 font-medium">Enterprise Suite</div>

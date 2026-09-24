@@ -49,13 +49,6 @@ export function constructMetadata({
       images: [image.startsWith('http') ? image : `${APP_URL}${image}`],
       creator: '@avorainnovations',
     },
-    icons: {
-      icon: [
-        { url: '/favicon.ico', sizes: '32x32' },
-        { url: '/icon.png', sizes: '512x512', type: 'image/png' },
-      ],
-      apple: [{ url: '/apple-touch-icon.png', sizes: '180x180' }],
-    },
     robots: {
       index: !noIndex,
       follow: !noIndex,
