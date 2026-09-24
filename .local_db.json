@@ -1,0 +1,138 @@
+{
+  "adminUsers": [
+    {
+      "id": "admin-1",
+      "email": "admin@avorainnovations.com",
+      "name": "Avora Executive Admin",
+      "password": "6ecc737b340c5f1477653ed2b372b020:ca72a21c4e32fa3c4f3c2511bd7e143c3fc3d9ce0d0e49ae732b7bf3f2722ec91c121a13d22b037d6a1a60dbbfaa44d1b3aa5b7b034ad90083f7c9e35e9bebbb",
+      "role": "superadmin",
+      "createdAt": "2026-09-24T09:26:13.837Z",
+      "updatedAt": "2026-09-24T09:26:13.837Z"
+    }
+  ],
+  "pages": [
+    {
+      "id": "page-home",
+      "slug": "home",
+      "title": "AVORA Innovations — Enterprise AI & Digital Engineering",
+      "description": "Next-Generation AI solutions, custom software engineering, and digital transformation for global enterprises.",
+      "isPublished": true,
+      "metaTitle": "AVORA Innovations | Enterprise AI, Cloud & Software Engineering",
+      "metaDesc": "Avora Innovations designs and engineers production-grade AI systems, mobile applications, cloud infrastructures, and digital products for forward-thinking enterprises.",
+      "sections": "[{\"type\":\"hero\",\"enabled\":true},{\"type\":\"about\",\"enabled\":true},{\"type\":\"services\",\"enabled\":true},{\"type\":\"technologies\",\"enabled\":true},{\"type\":\"industries\",\"enabled\":true},{\"type\":\"case-studies\",\"enabled\":true},{\"type\":\"why-avora\",\"enabled\":true},{\"type\":\"testimonials\",\"enabled\":true},{\"type\":\"blogs\",\"enabled\":true},{\"type\":\"faqs\",\"enabled\":true},{\"type\":\"cta\",\"enabled\":true}]",
+      "createdAt": "2026-09-24T09:26:13.837Z",
+      "updatedAt": "2026-09-24T09:26:13.837Z"
+    }
+  ],
+  "blogs": [
+    {
+      "id": "agentic-ai-architectures-2026",
+      "slug": "agentic-ai-architectures-2026",
+      "title": "Architecting Autonomous Multi-Agent AI Systems: Beyond Simple LLM Prompting",
+      "excerpt": "How modern engineering teams are replacing monolithic prompts with deterministic supervisor-worker agent topologies and persistent episodic memory graphs.",
+      "content": "\n      <h2>The Shift from Prompt Engineering to Agentic Systems</h2>\n      <p>In the early days of generative AI, software developers focused almost exclusively on prompt engineering—carefully crafting single-shot or few-shot context windows to coax a single large language model into performing a task. While effective for simple summarization or creative drafting, this paradigm breaks down completely when applied to multi-step enterprise business operations.</p>\n      \n      <p>Today, the gold standard for enterprise artificial intelligence is <strong>Agentic Architecture</strong>: networks of specialized, autonomous agents that collaborate, critique each other's outputs, call external deterministic APIs, and self-heal when unexpected exceptions occur.</p>\n\n      <h2>Key Architectural Components</h2>\n      <ul>\n        <li><strong>Supervisor-Worker Hierarchy:</strong> A primary orchestrator agent decomposes user goals into an executable Directed Acyclic Graph (DAG) of subtasks, delegating each step to domain-specific worker agents.</li>\n        <li><strong>Persistent Memory Graphs:</strong> Agents store intermediate facts, previous tool outputs, and environmental states in vector and key-value stores to maintain continuity across long-running tasks.</li>\n        <li><strong>Deterministic Validation Gates:</strong> Rather than trusting model outputs blindly, agent actions pass through unit tests, schema validators, and human-in-the-loop review triggers before executing database writes.</li>\n      </ul>\n\n      <h2>Real-World Enterprise Outcomes</h2>\n      <p>At Avora Innovations, our multi-agent customer operations and financial reconciliation platforms have achieved 94% autonomous task completion rates, compared to just 38% for traditional single-turn prompt chains. As models continue to improve in reasoning and tool-calling efficiency, multi-agent systems represent the single most transformative shift in corporate automation since the advent of cloud computing.</p>\n    ",
+      "category": "Artificial Intelligence",
+      "tags": "[\"AI Agents\",\"LLM\",\"Enterprise Architecture\",\"Automation\"]",
+      "coverImage": "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1200&q=80",
+      "authorName": "Dr. Aris Thorne",
+      "authorRole": "Head of AI Research, Avora Innovations",
+      "readTime": "6 min read",
+      "isFeatured": true,
+      "isPublished": true,
+      "createdAt": "2026-09-18T00:00:00.000Z",
+      "updatedAt": "2026-09-24T09:26:13.837Z"
+    },
+    {
+      "id": "nextjs-16-turbopack-performance",
+      "slug": "nextjs-16-turbopack-performance",
+      "title": "Extreme Performance Engineering: Achieving Sub-Second Core Web Vitals with Next.js 16 and Turbopack",
+      "excerpt": "A deep dive into Server Components, partial prerendering, and edge streaming strategies that deliver sub-0.7s Largest Contentful Paint worldwide.",
+      "content": "\n      <h2>Why Web Performance is a Direct Revenue Driver</h2>\n      <p>In modern digital commerce and enterprise SaaS, every 100 milliseconds of latency directly degrades user retention and conversion rates. When Google shifted its ranking algorithms to prioritize Core Web Vitals—specifically Largest Contentful Paint (LCP), Interaction to Next Paint (INP), and Cumulative Layout Shift (CLS)—performance ceased to be an engineering luxury and became a critical business imperative.</p>\n\n      <h2>Harnessing Next.js 16 and Turbopack</h2>\n      <p>The combination of Next.js 16, React 19, and the Turbopack compiler allows developers to achieve performance milestones previously impossible with legacy webpack setups:</p>\n      <ul>\n        <li><strong>Zero-Bundle-Size Server Components:</strong> Heavy dependencies like markdown parsers, syntax highlighters, and date utilities execute exclusively on the server, resulting in 0 KB added to the client JavaScript bundle.</li>\n        <li><strong>Streaming SSR with Suspense:</strong> Critical page skeletons and hero text are delivered to the browser in under 50 milliseconds, while secondary data blocks stream in concurrently as async promises resolve.</li>\n        <li><strong>Intelligent Image and Asset Optimization:</strong> Next-generation image formats (AVIF and WebP) with strict layout reservation prevent layout shifts entirely.</li>\n      </ul>\n\n      <h2>The Avora Engineering Benchmark</h2>\n      <p>Across all enterprise client deployments, Avora mandates a minimum Google Lighthouse performance score of 95+ and an INP of under 50 milliseconds. By engineering for the edge from day one, we guarantee user experiences that feel instantaneous anywhere in the world.</p>\n    ",
+      "category": "Engineering",
+      "tags": "[\"Next.js\",\"React 19\",\"Performance\",\"Web Development\"]",
+      "coverImage": "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1200&q=80",
+      "authorName": "Siddharth Patel",
+      "authorRole": "Principal Web Architect, Avora Innovations",
+      "readTime": "5 min read",
+      "isFeatured": false,
+      "isPublished": true,
+      "createdAt": "2026-09-12T00:00:00.000Z",
+      "updatedAt": "2026-09-24T09:26:13.837Z"
+    },
+    {
+      "id": "mariadb-enterprise-high-throughput",
+      "slug": "mariadb-enterprise-high-throughput",
+      "title": "High-Throughput Relational Architecture: Scaling MariaDB with Connection Pooling and Packet Compression",
+      "excerpt": "Best practices for running MariaDB in mission-critical applications with Prisma ORM v7 and high-throughput connection pooling.",
+      "content": "\n      <h2>The Enduring Strength of Relational Foundations</h2>\n      <p>While NoSQL and vector databases capture headlines, relational databases remain the bedrock of global enterprise finance, ERP, and transactional commerce. MariaDB 3.5+ represents the pinnacle of open-source relational engineering, combining rock-solid ACID compliance with bleeding-edge thread pooling, columnstore analytical capabilities, and packet compression.</p>\n\n      <h2>Architecting for High Concurrency</h2>\n      <p>To support tens of thousands of concurrent requests without exhausting socket descriptors, modern architectures must leverage:</p>\n      <ul>\n        <li><strong>Connection Pooling:</strong> Reusing established TCP connections rather than incurring TLS handshake overhead on every query.</li>\n        <li><strong>Packet Compression:</strong> Drastically reducing network bandwidth consumption between distributed app containers and database clusters.</li>\n        <li><strong>Prisma 7 Driver Adapters:</strong> Utilizing low-overhead native driver adapters for direct query execution without intermediate abstraction penalties.</li>\n      </ul>\n\n      <p>By pairing MariaDB with strategic in-memory caching layers like Redis, enterprise applications achieve the elusive trifecta: mathematical correctness, infinite scale, and sub-millisecond query execution.</p>\n    ",
+      "category": "Database & Cloud",
+      "tags": "[\"MariaDB\",\"Prisma\",\"Database Architecture\",\"Performance\"]",
+      "coverImage": "https://images.unsplash.com/photo-1544383835-bda2bc66a55d?auto=format&fit=crop&w=1200&q=80",
+      "authorName": "Klaus Reinhardt",
+      "authorRole": "Lead Database Infrastructure Engineer",
+      "readTime": "7 min read",
+      "isFeatured": false,
+      "isPublished": true,
+      "createdAt": "2026-09-04T00:00:00.000Z",
+      "updatedAt": "2026-09-24T09:26:13.837Z"
+    }
+  ],
+  "inquiries": [
+    {
+      "id": "inq-1790241973838",
+      "name": "Verification Lead",
+      "email": "lead@enterprise.com",
+      "message": "Testing enterprise inquiry intake pipeline.",
+      "status": "new",
+      "createdAt": "2026-09-24T09:26:13.838Z",
+      "updatedAt": "2026-09-24T09:26:13.838Z"
+    },
+    {
+      "id": "inq-1",
+      "name": "David Vance",
+      "email": "d.vance@solargen.example.com",
+      "phone": "+1 (555) 349-2810",
+      "company": "Solargen Dynamics",
+      "service": "AI & Machine Learning",
+      "budget": "$50,000 - $100,000",
+      "timeline": "1-3 months",
+      "message": "Looking to build an autonomous computer vision inspection pipeline for solar panel fabrication lines.",
+      "status": "new",
+      "createdAt": "2026-09-24T05:26:13.837Z",
+      "updatedAt": "2026-09-24T09:26:13.837Z"
+    },
+    {
+      "id": "inq-2",
+      "name": "Dr. Sarah Lin",
+      "email": "slin@biovista.example.com",
+      "phone": "+1 (555) 782-9901",
+      "company": "BioVista Diagnostics",
+      "service": "Generative AI & LLMs",
+      "budget": "$100,000+",
+      "timeline": "Immediate",
+      "message": "Need a private enterprise RAG engine to query clinical trial results with strict citation verification.",
+      "status": "contacting",
+      "createdAt": "2026-09-23T09:26:13.837Z",
+      "updatedAt": "2026-09-24T09:26:13.837Z"
+    }
+  ],
+  "contacts": [],
+  "subscribers": [
+    {
+      "id": "sub-1",
+      "email": "tech-insights@innovators.example.com",
+      "isActive": true,
+      "createdAt": "2026-09-24T09:26:13.837Z"
+    }
+  ],
+  "settings": {
+    "siteName": "AVORA Innovations",
+    "tagline": "Enterprise AI & Digital Engineering Partner",
+    "contactEmail": "contact@avorainnovations.com",
+    "contactPhone": "+1 (800) 512-AVORA",
+    "headquarters": "100 Innovation Way, Suite 400, San Francisco, CA 94105",
+    "twitter": "https://twitter.com/avorainnovations",
+    "linkedin": "https://linkedin.com/company/avorainnovations",
+    "github": "https://github.com/avorainnovations"
+  }
+}
