@@ -111,27 +111,17 @@ export default function Header() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="flex items-center justify-between h-20">
             {/* Brand Logo */}
-            <Link href="/" className="flex items-center gap-3 group">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 via-indigo-600 to-purple-600 p-0.5 shadow-lg shadow-blue-500/20 group-hover:scale-105 transition-transform">
-                <div className="w-full h-full bg-slate-950 rounded-[10px] flex items-center justify-center">
-                  <span className="text-xl font-black bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
-                    A
-                  </span>
-                </div>
-              </div>
-              <div className="flex flex-col">
-                <div className="flex items-center gap-1.5">
-                  <span className="font-extrabold text-lg sm:text-xl tracking-tight text-slate-900 dark:text-white">
-                    AVORA
-                  </span>
-                  <span className="font-medium text-xs text-blue-600 dark:text-blue-400 uppercase tracking-widest">
-                    INNOVATIONS
-                  </span>
-                </div>
-                <span className="text-[10px] text-slate-500 dark:text-slate-400 font-medium tracking-tight">
-                  Enterprise AI & Engineering
-                </span>
-              </div>
+            <Link href="/" className="flex items-center group">
+              <img
+                src="/logo-transparent.png"
+                alt="AVORA Innovations"
+                className="h-10 sm:h-12 w-auto object-contain dark:hidden group-hover:scale-105 transition-transform"
+              />
+              <img
+                src="/logo-dark.png"
+                alt="AVORA Innovations"
+                className="h-10 sm:h-12 w-auto object-contain hidden dark:block group-hover:scale-105 transition-transform"
+              />
             </Link>
 
             {/* Desktop Navigation Links */}
