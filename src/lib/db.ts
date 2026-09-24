@@ -2,34 +2,7 @@ import { PrismaClient } from '@prisma/client';
 import { PrismaMariaDb } from '@prisma/adapter-mariadb';
 import fs from 'fs';
 import path from 'path';
-import mariadb from 'mariadb';
 import { hashPassword } from './auth';
-
-let mariadbPool: any = null;
-
-function getPool() {
-  if (mariadbPool) return mariadbPool;
-  const dbUrl = process.env.DATABASE_URL;
-  if (!dbUrl) return null;
-
-  try {
-    const parsed = new URL(dbUrl);
-    mariadbPool = mariadb.createPool({
-      host: parsed.hostname,
-      port: parseInt(parsed.port || '3306', 10),
-      user: decodeURIComponent(parsed.username),
-      password: decodeURIComponent(parsed.password),
-      database: parsed.pathname.replace(/^\//, ''),
-      acquireTimeout: 20000,
-      connectTimeout: 15000,
-      connectionLimit: 10,
-    });
-    return mariadbPool;
-  } catch (e) {
-    console.warn('[MariaDB] Could not initialize pool:', e);
-    return null;
-  }
-}
 import {
   BLOG_POSTS_DATA,
   SERVICES_DATA,
@@ -485,37 +458,6 @@ export const db = {
   // --- Inquiries ---
   async getAllInquiries() {
     const store = loadLocalStore();
-    const pool = getPool();
-    if (pool) {
-      try {
-        const conn = await pool.getConnection();
-        const rows = await conn.query('SELECT * FROM Inquiry ORDER BY createdAt DESC');
-        conn.release();
-        if (rows && Array.isArray(rows) && rows.length > 0) {
-          const dbInquiries = rows.map((r: any) => ({
-            id: String(r.id),
-            name: r.name || 'Anonymous',
-            email: r.email || '',
-            phone: r.phone || '',
-            company: r.company || '',
-            service: r.service || 'General Inquiry',
-            budget: r.budget || '',
-            timeline: r.timeline || '',
-            message: r.message || '',
-            status: r.status || 'new',
-            createdAt: r.createdAt ? new Date(r.createdAt).toISOString() : new Date().toISOString(),
-            updatedAt: r.updatedAt ? new Date(r.updatedAt).toISOString() : new Date().toISOString(),
-          }));
-          const ids = new Set(dbInquiries.map((i: any) => i.id));
-          const localRemaining = store.inquiries.filter((i) => !ids.has(i.id));
-          return [...dbInquiries, ...localRemaining].sort(
-            (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-          );
-        }
-      } catch (err: any) {
-        console.warn('[MariaDB] Inquiry query fallback:', err?.message);
-      }
-    }
     return store.inquiries.sort(
       (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
     );
@@ -541,21 +483,6 @@ export const db = {
     };
     store.inquiries.unshift(newInq);
     saveLocalStore(store);
-
-    const pool = getPool();
-    if (pool) {
-      try {
-        const conn = await pool.getConnection();
-        await conn.query(
-          `INSERT INTO Inquiry (id, name, email, phone, service, message, source, status, createdAt, updatedAt)
-           VALUES (?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW())`,
-          [newInq.id, newInq.name, newInq.email, newInq.phone || null, newInq.service || null, newInq.message, 'website', 'new']
-        );
-        conn.release();
-      } catch (err: any) {
-        console.warn('[MariaDB] Inquiry insert fallback:', err?.message);
-      }
-    }
     return newInq;
   },
 
@@ -566,36 +493,15 @@ export const db = {
       store.inquiries[idx].status = status;
       store.inquiries[idx].updatedAt = new Date().toISOString();
       saveLocalStore(store);
+      return store.inquiries[idx];
     }
-
-    const pool = getPool();
-    if (pool) {
-      try {
-        const conn = await pool.getConnection();
-        await conn.query('UPDATE Inquiry SET status = ?, updatedAt = NOW() WHERE id = ?', [status, id]);
-        conn.release();
-      } catch (err: any) {
-        console.warn('[MariaDB] Inquiry status update fallback:', err?.message);
-      }
-    }
-    return idx !== -1 ? store.inquiries[idx] : null;
+    return null;
   },
 
   async deleteInquiry(id: string) {
     const store = loadLocalStore();
     store.inquiries = store.inquiries.filter((i) => i.id !== id);
     saveLocalStore(store);
-
-    const pool = getPool();
-    if (pool) {
-      try {
-        const conn = await pool.getConnection();
-        await conn.query('DELETE FROM Inquiry WHERE id = ?', [id]);
-        conn.release();
-      } catch (err: any) {
-        console.warn('[MariaDB] Inquiry delete fallback:', err?.message);
-      }
-    }
     return true;
   },
 
@@ -612,46 +518,11 @@ export const db = {
     };
     store.subscribers.unshift(newSub);
     saveLocalStore(store);
-
-    const pool = getPool();
-    if (pool) {
-      try {
-        const conn = await pool.getConnection();
-        await conn.query(
-          `INSERT INTO Subscriber (id, email, createdAt) VALUES (?, ?, NOW()) ON DUPLICATE KEY UPDATE id=id`,
-          [newSub.id, newSub.email]
-        );
-        conn.release();
-      } catch (err: any) {
-        console.warn('[MariaDB] Subscriber insert fallback:', err?.message);
-      }
-    }
     return newSub;
   },
 
   async getAllSubscribers() {
     const store = loadLocalStore();
-    const pool = getPool();
-    if (pool) {
-      try {
-        const conn = await pool.getConnection();
-        const rows = await conn.query('SELECT * FROM Subscriber ORDER BY createdAt DESC');
-        conn.release();
-        if (rows && Array.isArray(rows) && rows.length > 0) {
-          const dbSubs = rows.map((r: any) => ({
-            id: String(r.id),
-            email: r.email,
-            isActive: true,
-            createdAt: r.createdAt ? new Date(r.createdAt).toISOString() : new Date().toISOString(),
-          }));
-          const emails = new Set(dbSubs.map((s: any) => s.email.toLowerCase()));
-          const localRemaining = store.subscribers.filter((s) => !emails.has(s.email.toLowerCase()));
-          return [...dbSubs, ...localRemaining];
-        }
-      } catch (err: any) {
-        console.warn('[MariaDB] Subscriber query fallback:', err?.message);
-      }
-    }
     return store.subscribers;
   },
 

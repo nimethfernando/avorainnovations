@@ -10,11 +10,11 @@ export interface EmailOptions {
 export async function sendEmail({ to, subject, html, text }: EmailOptions): Promise<boolean> {
   const host = process.env.SMTP_HOST || 'smtp.gmail.com';
   const port = parseInt(process.env.SMTP_PORT || '587', 10);
-  const user = process.env.EMAIL_USER || process.env.SMTP_USER;
-  const pass = process.env.EMAIL_PASS || process.env.SMTP_PASS;
-  const from = process.env.SMTP_FROM || `AVORA Innovations <${user || 'notifications@avorainnovations.com'}>`;
+  const user = process.env.SMTP_USER;
+  const pass = process.env.SMTP_PASS;
+  const from = process.env.SMTP_FROM || 'AVORA Innovations <notifications@avorainnovations.com>';
 
-  if (!user || !pass || (user.includes('yourcpanel') && pass.includes('your-app-password'))) {
+  if (!user || user === 'notifications@avorainnovations.com' || !pass || pass === 'your-app-password') {
     console.log(`[SMTP MOCK] Email would be sent to: ${to}`);
     console.log(`[SMTP MOCK] Subject: ${subject}`);
     console.log(`[SMTP MOCK] Body:\n${text || html}`);
