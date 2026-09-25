@@ -127,27 +127,19 @@ export default function Header() {
           <div className="flex items-center justify-between h-20">
             {/* Brand Logo */}
             <div className="flex items-center gap-3">
-              <Link href="/" className="flex items-center gap-3 group">
-                <div className="relative w-11 h-11 sm:w-12 sm:h-12 rounded-xl bg-white shadow-sm ring-1 ring-slate-200/90 dark:ring-slate-700/60 p-1 flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition-all">
-                  <img
-                    src="/avora-symbol.png"
-                    alt="AVORA Innovations"
-                    className="w-full h-full object-contain"
-                  />
-                </div>
-                <div className="flex flex-col">
-                  <div className="flex items-center gap-1.5">
-                    <span className="font-extrabold text-lg sm:text-xl tracking-tight text-slate-900 dark:text-white leading-none">
-                      AVORA
-                    </span>
-                    <span className="font-semibold text-[11px] text-blue-600 dark:text-blue-400 uppercase tracking-widest leading-none">
-                      INNOVATIONS
-                    </span>
-                  </div>
-                  <span className="text-[10px] text-slate-500 dark:text-slate-400 font-medium tracking-tight mt-1">
-                    Enterprise AI & Engineering
-                  </span>
-                </div>
+              <Link href="/" className="flex items-center group py-1">
+                {/* Light Mode Logo */}
+                <img
+                  src="/logo-horizontal.png"
+                  alt="AVORA Innovations"
+                  className="h-10 sm:h-11 w-auto object-contain dark:hidden group-hover:scale-105 transition-transform"
+                />
+                {/* Dark Mode Logo */}
+                <img
+                  src="/logo-horizontal-dark.png"
+                  alt="AVORA Innovations"
+                  className="h-10 sm:h-11 w-auto object-contain hidden dark:block group-hover:scale-105 transition-transform"
+                />
               </Link>
 
               {/* Signature "EXPLORE AI AGENT LAB" Glowing Capsule (Konstant's "STEP INTO AI" equivalent) */}

@@ -109,16 +109,12 @@ export default function Footer() {
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8 pb-16 border-b border-slate-900 text-sm">
           {/* Col 1: Brand & Contact Info */}
           <div className="col-span-2 lg:col-span-2 space-y-4">
-            <Link href="/" className="flex items-center gap-3 group">
-              <div className="w-11 h-11 rounded-xl bg-white p-1 shadow-md ring-1 ring-white/20 flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition-all">
-                <img src="/avora-symbol.png" alt="AVORA Innovations" className="w-full h-full object-contain" />
-              </div>
-              <div>
-                <span className="font-extrabold text-xl tracking-tight text-white">AVORA</span>
-                <span className="text-xs text-blue-400 ml-1.5 uppercase tracking-widest font-semibold">
-                  INNOVATIONS
-                </span>
-              </div>
+            <Link href="/" className="inline-block group mb-1">
+              <img
+                src="/logo-horizontal-dark.png"
+                alt="AVORA Innovations"
+                className="h-10 sm:h-11 w-auto object-contain group-hover:scale-105 transition-transform"
+              />
             </Link>
             <p className="text-xs text-slate-400 leading-relaxed max-w-sm">
               AVORA Innovations is an elite global digital engineering and artificial intelligence studio. We architect and deploy high-performance software, deep neural networks, and cloud infrastructures for enterprise leaders.
