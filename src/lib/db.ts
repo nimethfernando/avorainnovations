@@ -1,5 +1,3 @@
-import { PrismaClient } from '@prisma/client';
-import { PrismaMariaDb } from '@prisma/adapter-mariadb';
 import fs from 'fs';
 import path from 'path';
 import { hashPassword } from './auth';
