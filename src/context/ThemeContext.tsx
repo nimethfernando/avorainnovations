@@ -23,15 +23,22 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
         setThemeState(stored);
         if (stored === 'dark') {
           document.documentElement.classList.add('dark');
+          document.documentElement.classList.remove('light');
+          document.documentElement.style.colorScheme = 'dark';
         } else {
           document.documentElement.classList.remove('dark');
+          document.documentElement.classList.add('light');
+          document.documentElement.style.colorScheme = 'light';
         }
       } else {
         // Default to dark theme for modern enterprise AI aesthetic
         document.documentElement.classList.add('dark');
+        document.documentElement.classList.remove('light');
+        document.documentElement.style.colorScheme = 'dark';
       }
     } catch {
       document.documentElement.classList.add('dark');
+      document.documentElement.style.colorScheme = 'dark';
     }
     setMounted(true);
   }, []);
@@ -42,8 +49,12 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
       localStorage.setItem('avora_theme', newTheme);
       if (newTheme === 'dark') {
         document.documentElement.classList.add('dark');
+        document.documentElement.classList.remove('light');
+        document.documentElement.style.colorScheme = 'dark';
       } else {
         document.documentElement.classList.remove('dark');
+        document.documentElement.classList.add('light');
+        document.documentElement.style.colorScheme = 'light';
       }
     } catch (e) {
       console.warn('Could not store theme preference:', e);
@@ -51,7 +62,8 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   };
 
   const toggleTheme = () => {
-    setTheme(theme === 'dark' ? 'light' : 'dark');
+    const isDark = document.documentElement.classList.contains('dark');
+    setTheme(isDark ? 'light' : 'dark');
   };
 
   return (
