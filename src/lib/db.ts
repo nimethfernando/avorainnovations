@@ -632,6 +632,32 @@ export const db = {
 
   // --- Testimonials (CMS Managed) ---
   async getAllTestimonials() {
+    // Check if initial testimonials seeding has occurred in the database
+    const seedCheck = await queryDb<any>(
+      "SELECT id FROM avora_cms_content WHERE type = 'system_meta' AND id = 'testimonials_seeded_v2' LIMIT 1"
+    );
+
+    if (seedCheck && seedCheck.length === 0) {
+      // Seed default TESTIMONIALS_DATA into DB so they become editable/deletable CMS entries
+      for (const t of TESTIMONIALS_DATA) {
+        await queryDb(
+          `
+          INSERT INTO avora_cms_content (id, type, slug, data)
+          VALUES (?, 'testimonial', ?, ?)
+          ON DUPLICATE KEY UPDATE id = id
+        `,
+          [t.id, t.id, JSON.stringify(t)]
+        );
+      }
+      await queryDb(
+        `
+        INSERT INTO avora_cms_content (id, type, slug, data)
+        VALUES ('testimonials_seeded_v2', 'system_meta', 'testimonials_seeded_v2', '{"seeded": true}')
+        ON DUPLICATE KEY UPDATE id = id
+      `
+      );
+    }
+
     const rows = await queryDb<any>("SELECT data FROM avora_cms_content WHERE type = 'testimonial' ORDER BY updatedAt DESC");
     if (rows && rows.length > 0) {
       try {
