@@ -26,10 +26,19 @@ export default function AdminTestimonialsPage() {
   const [uploadingImage, setUploadingImage] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const handleAvatarUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file || !editingItem) return;
+  const processImageFile = async (file: File) => {
+    if (!editingItem) return;
 
+    // 1. Instant local preview directly from the user's device
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      if (event.target?.result && typeof event.target.result === 'string') {
+        setEditingItem((prev) => (prev ? { ...prev, avatar: event.target!.result as string } : null));
+      }
+    };
+    reader.readAsDataURL(file);
+
+    // 2. Upload file to server media library
     setUploadingImage(true);
     try {
       const formData = new FormData();
@@ -41,17 +50,24 @@ export default function AdminTestimonialsPage() {
         body: formData,
       });
 
-      if (!res.ok) throw new Error('Upload failed');
-      const data = await res.json();
-      if (data?.url) {
-        setEditingItem((prev) => (prev ? { ...prev, avatar: data.url } : null));
+      if (res.ok) {
+        const data = await res.json();
+        if (data?.url) {
+          setEditingItem((prev) => (prev ? { ...prev, avatar: data.url } : null));
+        }
       }
     } catch (err) {
-      console.error(err);
-      alert('Failed to upload image. Please try again or paste an image URL.');
+      console.error('Upload to server failed, retained device preview:', err);
     } finally {
       setUploadingImage(false);
       if (fileInputRef.current) fileInputRef.current.value = '';
+    }
+  };
+
+  const handleAvatarUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      await processImageFile(file);
     }
   };
 
@@ -372,9 +388,27 @@ export default function AdminTestimonialsPage() {
                 <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300">
                   Client / Executive Photo (Avatar)
                 </label>
-                <div className="flex items-center gap-4 p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
+                <div
+                  onDragOver={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                  }}
+                  onDrop={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    const file = e.dataTransfer.files?.[0];
+                    if (file && file.type.startsWith('image/')) {
+                      processImageFile(file);
+                    }
+                  }}
+                  className="flex items-center gap-4 p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-blue-500/50 transition-colors"
+                >
                   {/* Photo Preview */}
-                  <div className="w-14 h-14 rounded-2xl overflow-hidden border-2 border-slate-300 dark:border-slate-700 bg-slate-200 dark:bg-slate-800 flex items-center justify-center flex-shrink-0 shadow-inner">
+                  <div
+                    onClick={() => fileInputRef.current?.click()}
+                    title="Click to select photo from device"
+                    className="w-14 h-14 rounded-2xl overflow-hidden border-2 border-slate-300 dark:border-slate-700 bg-slate-200 dark:bg-slate-800 flex items-center justify-center flex-shrink-0 shadow-inner cursor-pointer hover:border-blue-500 transition-colors"
+                  >
                     {editingItem.avatar ? (
                       // eslint-disable-next-line @next/next/no-img-element
                       <img
@@ -411,7 +445,7 @@ export default function AdminTestimonialsPage() {
                         ) : (
                           <>
                             <Upload className="w-3.5 h-3.5" />
-                            <span>Upload Photo</span>
+                            <span>Upload from Device</span>
                           </>
                         )}
                       </button>
@@ -437,7 +471,7 @@ export default function AdminTestimonialsPage() {
                   </div>
                 </div>
                 <p className="text-[11px] text-slate-500">
-                  Displayed on the homepage spotlight card, author badges, thumbnail navigation, and full review popups.
+                  Select a photo from your computer/device or drag &amp; drop here. Displayed across the spotlight hero, thumbnail selector, review cards, and full review popups.
                 </p>
               </div>
 

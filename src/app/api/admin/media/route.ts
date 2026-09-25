@@ -28,16 +28,23 @@ export async function POST(request: Request) {
       const bytes = await file.arrayBuffer();
       const buffer = Buffer.from(bytes);
 
-      const uploadsDir = path.join(process.cwd(), 'public', 'uploads');
-      if (!fs.existsSync(uploadsDir)) {
-        fs.mkdirSync(uploadsDir, { recursive: true });
+      let publicUrl = '';
+      try {
+        const uploadsDir = path.join(process.cwd(), 'public', 'uploads');
+        if (!fs.existsSync(uploadsDir)) {
+          fs.mkdirSync(uploadsDir, { recursive: true });
+        }
+
+        const safeName = Date.now() + '-' + file.name.replace(/[^a-zA-Z0-9.-]/g, '_');
+        const filePath = path.join(uploadsDir, safeName);
+        fs.writeFileSync(filePath, buffer);
+        publicUrl = `/uploads/${safeName}`;
+      } catch (fsErr) {
+        // Fallback for serverless environments (e.g. Vercel read-only filesystem)
+        const mime = file.type || 'image/png';
+        const base64 = buffer.toString('base64');
+        publicUrl = `data:${mime};base64,${base64}`;
       }
-
-      const safeName = Date.now() + '-' + file.name.replace(/[^a-zA-Z0-9.-]/g, '_');
-      const filePath = path.join(uploadsDir, safeName);
-      fs.writeFileSync(filePath, buffer);
-
-      const publicUrl = `/uploads/${safeName}`;
       const mediaItem = {
         id: 'media-' + Date.now(),
         name: file.name,
