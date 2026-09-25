@@ -14,6 +14,8 @@ model AdminUser {
   role      String   @default("admin")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@map("avora_admin_users")
 }
 
 model PageContent {
@@ -27,6 +29,8 @@ model PageContent {
   isPublished Boolean  @default(true)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+
+  @@map("avora_pages")
 }
 
 model Blog {
@@ -45,6 +49,8 @@ model Blog {
   isPublished Boolean  @default(true)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+
+  @@map("avora_blogs")
 }
 
 model Inquiry {
@@ -60,6 +66,8 @@ model Inquiry {
   status    String   @default("new")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@map("avora_inquiries")
 }
 
 model ContactSubmission {
@@ -70,6 +78,8 @@ model ContactSubmission {
   message   String   @db.Text
   phone     String?
   createdAt DateTime @default(now())
+
+  @@map("avora_contact_submissions")
 }
 
 model Subscriber {
@@ -77,6 +87,8 @@ model Subscriber {
   email     String   @unique
   isActive  Boolean  @default(true)
   createdAt DateTime @default(now())
+
+  @@map("avora_subscribers")
 }
 
 model Setting {
@@ -84,4 +96,7 @@ model Setting {
   key       String   @unique
   value     String   @db.LongText
   updatedAt DateTime @updatedAt
+
+  @@map("avora_settings")
 }
+

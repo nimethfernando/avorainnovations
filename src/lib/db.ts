@@ -1,7 +1,6 @@
-import { PrismaClient } from '@prisma/client';
-import { PrismaMariaDb } from '@prisma/adapter-mariadb';
 import fs from 'fs';
 import path from 'path';
+import mariadb, { Pool, PoolConnection } from 'mariadb';
 import { hashPassword } from './auth';
 import {
   BLOG_POSTS_DATA,
@@ -30,6 +29,51 @@ interface StorageData {
 }
 
 const STORAGE_FILE = path.join(process.cwd(), '.local_db.json');
+
+// --- MariaDB Connection Pool (Isolated avora_* tables) ---
+let pool: Pool | null = null;
+
+function getPool(): Pool | null {
+  if (pool) return pool;
+  const rawUrl = process.env.DATABASE_URL;
+  if (!rawUrl) return null;
+
+  try {
+    const normalizedUrl = rawUrl.replace(/^mariadb:\/\//, 'mysql://');
+    const parsed = new URL(normalizedUrl);
+    pool = mariadb.createPool({
+      host: parsed.hostname || 'localhost',
+      port: parseInt(parsed.port || '3306', 10),
+      user: decodeURIComponent(parsed.username || 'root'),
+      password: decodeURIComponent(parsed.password || ''),
+      database: parsed.pathname.replace(/^\//, ''),
+      connectionLimit: 10,
+      connectTimeout: 7000,
+      acquireTimeout: 7000,
+      idleTimeout: 30000,
+    });
+    return pool;
+  } catch (err) {
+    console.warn('[DB] Failed to initialize MariaDB pool:', err);
+    return null;
+  }
+}
+
+async function queryDb<T = any>(sql: string, params: any[] = []): Promise<T[] | null> {
+  const p = getPool();
+  if (!p) return null;
+  let conn: PoolConnection | null = null;
+  try {
+    conn = await p.getConnection();
+    const rows = await conn.query(sql, params);
+    return rows as T[];
+  } catch (err) {
+    console.error('[DB Query Error]:', err);
+    return null;
+  } finally {
+    if (conn) conn.release();
+  }
+}
 
 function getInitialData(): StorageData {
   const defaultAdmin = hashPassword(process.env.ADMIN_DEFAULT_PASSWORD || 'AvoraAdmin2026!Secure');
@@ -146,7 +190,6 @@ function loadLocalStore(): StorageData {
     if (fs.existsSync(STORAGE_FILE)) {
       const content = fs.readFileSync(STORAGE_FILE, 'utf-8');
       const parsed = JSON.parse(content);
-      // Ensure all arrays exist
       if (!parsed.services) parsed.services = SERVICES_DATA;
       if (!parsed.industries) parsed.industries = INDUSTRIES_DATA;
       if (!parsed.caseStudies) parsed.caseStudies = CASE_STUDIES_DATA;
@@ -171,15 +214,20 @@ function saveLocalStore(data: StorageData) {
   }
 }
 
-// Resilient Unified Database Layer with Full CMS Operations
+// Resilient Unified Database Layer with MariaDB and Fallback
 export const db = {
   // --- Admin User ---
   async findAdminByEmail(email: string) {
+    const rows = await queryDb<any>('SELECT * FROM avora_admin_users WHERE LOWER(email) = LOWER(?) LIMIT 1', [email]);
+    if (rows && rows.length > 0) return rows[0];
+
     const store = loadLocalStore();
     return store.adminUsers.find((u) => u.email.toLowerCase() === email.toLowerCase()) || null;
   },
 
   async updateAdminPassword(email: string, passwordHash: string) {
+    await queryDb('UPDATE avora_admin_users SET password = ?, updatedAt = NOW() WHERE LOWER(email) = LOWER(?)', [passwordHash, email]);
+
     const store = loadLocalStore();
     const idx = store.adminUsers.findIndex((u) => u.email.toLowerCase() === email.toLowerCase());
     if (idx !== -1) {
@@ -188,16 +236,32 @@ export const db = {
       saveLocalStore(store);
       return store.adminUsers[idx];
     }
-    return null;
+    return { email, password: passwordHash };
   },
 
   // --- Dynamic Pages ---
   async getPage(slug: string) {
+    const rows = await queryDb<any>('SELECT * FROM avora_pages WHERE slug = ? LIMIT 1', [slug]);
+    if (rows && rows.length > 0) {
+      return {
+        ...rows[0],
+        isPublished: Boolean(rows[0].isPublished),
+      };
+    }
+
     const store = loadLocalStore();
     return store.pages.find((p) => p.slug === slug) || null;
   },
 
   async getAllPages() {
+    const rows = await queryDb<any>('SELECT * FROM avora_pages ORDER BY createdAt DESC');
+    if (rows && rows.length > 0) {
+      return rows.map((r) => ({
+        ...r,
+        isPublished: Boolean(r.isPublished),
+      }));
+    }
+
     const store = loadLocalStore();
     return store.pages;
   },
@@ -211,6 +275,32 @@ export const db = {
     metaDesc?: string;
     isPublished?: boolean;
   }) {
+    const id = 'page-' + (data.slug || Date.now());
+    await queryDb(
+      `
+      INSERT INTO avora_pages (id, slug, title, description, sections, metaTitle, metaDesc, isPublished)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+      ON DUPLICATE KEY UPDATE
+        title = VALUES(title),
+        description = VALUES(description),
+        sections = VALUES(sections),
+        metaTitle = VALUES(metaTitle),
+        metaDesc = VALUES(metaDesc),
+        isPublished = VALUES(isPublished),
+        updatedAt = NOW()
+    `,
+      [
+        id,
+        data.slug,
+        data.title,
+        data.description || '',
+        data.sections,
+        data.metaTitle || '',
+        data.metaDesc || '',
+        data.isPublished !== false ? 1 : 0,
+      ]
+    );
+
     const store = loadLocalStore();
     const existingIdx = store.pages.findIndex((p) => p.slug === data.slug);
     const now = new Date().toISOString();
@@ -224,7 +314,7 @@ export const db = {
       return store.pages[existingIdx];
     } else {
       const newPage = {
-        id: 'page-' + Date.now(),
+        id,
         ...data,
         isPublished: data.isPublished !== undefined ? data.isPublished : true,
         createdAt: now,
@@ -237,6 +327,8 @@ export const db = {
   },
 
   async deletePage(slug: string) {
+    await queryDb('DELETE FROM avora_pages WHERE slug = ?', [slug]);
+
     const store = loadLocalStore();
     store.pages = store.pages.filter((p) => p.slug !== slug);
     saveLocalStore(store);
@@ -245,16 +337,42 @@ export const db = {
 
   // --- Services (CMS Managed) ---
   async getAllServices() {
+    const rows = await queryDb<any>("SELECT data FROM avora_cms_content WHERE type = 'service' ORDER BY updatedAt DESC");
+    if (rows && rows.length > 0) {
+      try {
+        return rows.map((r) => JSON.parse(r.data));
+      } catch (e) {
+        console.error('[DB] Error parsing service data:', e);
+      }
+    }
     const store = loadLocalStore();
     return store.services;
   },
 
   async getServiceBySlug(slug: string) {
+    const rows = await queryDb<any>("SELECT data FROM avora_cms_content WHERE type = 'service' AND slug = ? LIMIT 1", [slug]);
+    if (rows && rows.length > 0) {
+      try {
+        return JSON.parse(rows[0].data);
+      } catch (e) {
+        console.error('[DB] Error parsing service data:', e);
+      }
+    }
     const store = loadLocalStore();
     return store.services.find((s) => s.slug === slug) || null;
   },
 
   async saveService(serviceData: any) {
+    const id = serviceData.id || serviceData.slug || 'srv-' + Date.now();
+    await queryDb(
+      `
+      INSERT INTO avora_cms_content (id, type, slug, data)
+      VALUES (?, 'service', ?, ?)
+      ON DUPLICATE KEY UPDATE data = VALUES(data), updatedAt = NOW()
+    `,
+      [id, serviceData.slug, JSON.stringify(serviceData)]
+    );
+
     const store = loadLocalStore();
     const idx = store.services.findIndex((s) => s.id === serviceData.id || s.slug === serviceData.slug);
     if (idx !== -1) {
@@ -273,6 +391,8 @@ export const db = {
   },
 
   async deleteService(slugOrId: string) {
+    await queryDb("DELETE FROM avora_cms_content WHERE type = 'service' AND (id = ? OR slug = ?)", [slugOrId, slugOrId]);
+
     const store = loadLocalStore();
     store.services = store.services.filter((s) => s.id !== slugOrId && s.slug !== slugOrId);
     saveLocalStore(store);
@@ -281,16 +401,42 @@ export const db = {
 
   // --- Industries (CMS Managed) ---
   async getAllIndustries() {
+    const rows = await queryDb<any>("SELECT data FROM avora_cms_content WHERE type = 'industry' ORDER BY updatedAt DESC");
+    if (rows && rows.length > 0) {
+      try {
+        return rows.map((r) => JSON.parse(r.data));
+      } catch (e) {
+        console.error('[DB] Error parsing industry data:', e);
+      }
+    }
     const store = loadLocalStore();
     return store.industries;
   },
 
   async getIndustryBySlug(slug: string) {
+    const rows = await queryDb<any>("SELECT data FROM avora_cms_content WHERE type = 'industry' AND slug = ? LIMIT 1", [slug]);
+    if (rows && rows.length > 0) {
+      try {
+        return JSON.parse(rows[0].data);
+      } catch (e) {
+        console.error('[DB] Error parsing industry data:', e);
+      }
+    }
     const store = loadLocalStore();
     return store.industries.find((i) => i.slug === slug) || null;
   },
 
   async saveIndustry(industryData: any) {
+    const id = industryData.id || industryData.slug || 'ind-' + Date.now();
+    await queryDb(
+      `
+      INSERT INTO avora_cms_content (id, type, slug, data)
+      VALUES (?, 'industry', ?, ?)
+      ON DUPLICATE KEY UPDATE data = VALUES(data), updatedAt = NOW()
+    `,
+      [id, industryData.slug, JSON.stringify(industryData)]
+    );
+
     const store = loadLocalStore();
     const idx = store.industries.findIndex((i) => i.id === industryData.id || i.slug === industryData.slug);
     if (idx !== -1) {
@@ -309,6 +455,8 @@ export const db = {
   },
 
   async deleteIndustry(slugOrId: string) {
+    await queryDb("DELETE FROM avora_cms_content WHERE type = 'industry' AND (id = ? OR slug = ?)", [slugOrId, slugOrId]);
+
     const store = loadLocalStore();
     store.industries = store.industries.filter((i) => i.id !== slugOrId && i.slug !== slugOrId);
     saveLocalStore(store);
@@ -317,16 +465,42 @@ export const db = {
 
   // --- Case Studies (CMS Managed) ---
   async getAllCaseStudies() {
+    const rows = await queryDb<any>("SELECT data FROM avora_cms_content WHERE type = 'case_study' ORDER BY updatedAt DESC");
+    if (rows && rows.length > 0) {
+      try {
+        return rows.map((r) => JSON.parse(r.data));
+      } catch (e) {
+        console.error('[DB] Error parsing case study data:', e);
+      }
+    }
     const store = loadLocalStore();
     return store.caseStudies;
   },
 
   async getCaseStudyBySlug(slug: string) {
+    const rows = await queryDb<any>("SELECT data FROM avora_cms_content WHERE type = 'case_study' AND slug = ? LIMIT 1", [slug]);
+    if (rows && rows.length > 0) {
+      try {
+        return JSON.parse(rows[0].data);
+      } catch (e) {
+        console.error('[DB] Error parsing case study data:', e);
+      }
+    }
     const store = loadLocalStore();
     return store.caseStudies.find((c) => c.slug === slug) || null;
   },
 
   async saveCaseStudy(caseStudyData: any) {
+    const id = caseStudyData.id || caseStudyData.slug || 'cs-' + Date.now();
+    await queryDb(
+      `
+      INSERT INTO avora_cms_content (id, type, slug, data)
+      VALUES (?, 'case_study', ?, ?)
+      ON DUPLICATE KEY UPDATE data = VALUES(data), updatedAt = NOW()
+    `,
+      [id, caseStudyData.slug, JSON.stringify(caseStudyData)]
+    );
+
     const store = loadLocalStore();
     const idx = store.caseStudies.findIndex((c) => c.id === caseStudyData.id || c.slug === caseStudyData.slug);
     if (idx !== -1) {
@@ -345,6 +519,8 @@ export const db = {
   },
 
   async deleteCaseStudy(slugOrId: string) {
+    await queryDb("DELETE FROM avora_cms_content WHERE type = 'case_study' AND (id = ? OR slug = ?)", [slugOrId, slugOrId]);
+
     const store = loadLocalStore();
     store.caseStudies = store.caseStudies.filter((c) => c.id !== slugOrId && c.slug !== slugOrId);
     saveLocalStore(store);
@@ -353,11 +529,29 @@ export const db = {
 
   // --- Testimonials (CMS Managed) ---
   async getAllTestimonials() {
+    const rows = await queryDb<any>("SELECT data FROM avora_cms_content WHERE type = 'testimonial' ORDER BY updatedAt DESC");
+    if (rows && rows.length > 0) {
+      try {
+        return rows.map((r) => JSON.parse(r.data));
+      } catch (e) {
+        console.error('[DB] Error parsing testimonial data:', e);
+      }
+    }
     const store = loadLocalStore();
     return store.testimonials;
   },
 
   async saveTestimonial(testimonialData: any) {
+    const id = testimonialData.id || 't-' + Date.now();
+    await queryDb(
+      `
+      INSERT INTO avora_cms_content (id, type, slug, data)
+      VALUES (?, 'testimonial', ?, ?)
+      ON DUPLICATE KEY UPDATE data = VALUES(data), updatedAt = NOW()
+    `,
+      [id, id, JSON.stringify(testimonialData)]
+    );
+
     const store = loadLocalStore();
     const idx = store.testimonials.findIndex((t) => t.id === testimonialData.id);
     if (idx !== -1) {
@@ -366,7 +560,7 @@ export const db = {
       return store.testimonials[idx];
     } else {
       const newT = {
-        id: 't-' + Date.now(),
+        id,
         ...testimonialData,
       };
       store.testimonials.push(newT);
@@ -376,6 +570,8 @@ export const db = {
   },
 
   async deleteTestimonial(id: string) {
+    await queryDb("DELETE FROM avora_cms_content WHERE type = 'testimonial' AND id = ?", [id]);
+
     const store = loadLocalStore();
     store.testimonials = store.testimonials.filter((t) => t.id !== id);
     saveLocalStore(store);
@@ -384,11 +580,29 @@ export const db = {
 
   // --- FAQs (CMS Managed) ---
   async getAllFaqs() {
+    const rows = await queryDb<any>("SELECT data FROM avora_cms_content WHERE type = 'faq' ORDER BY updatedAt DESC");
+    if (rows && rows.length > 0) {
+      try {
+        return rows.map((r) => JSON.parse(r.data));
+      } catch (e) {
+        console.error('[DB] Error parsing faq data:', e);
+      }
+    }
     const store = loadLocalStore();
     return store.faqs;
   },
 
   async saveFaq(faqData: { id?: string; question: string; answer: string }) {
+    const id = faqData.id || 'faq-' + Date.now();
+    await queryDb(
+      `
+      INSERT INTO avora_cms_content (id, type, slug, data)
+      VALUES (?, 'faq', ?, ?)
+      ON DUPLICATE KEY UPDATE data = VALUES(data), updatedAt = NOW()
+    `,
+      [id, id, JSON.stringify(faqData)]
+    );
+
     const store = loadLocalStore();
     const idx = store.faqs.findIndex((f, i) => f.id === faqData.id || `faq-${i}` === faqData.id);
     if (idx !== -1) {
@@ -411,6 +625,18 @@ export const db = {
 
   // --- Blogs ---
   async getAllBlogs(options?: { publishedOnly?: boolean }) {
+    const sql = options?.publishedOnly
+      ? 'SELECT * FROM avora_blogs WHERE isPublished = 1 ORDER BY createdAt DESC'
+      : 'SELECT * FROM avora_blogs ORDER BY createdAt DESC';
+    const rows = await queryDb<any>(sql);
+    if (rows && rows.length > 0) {
+      return rows.map((r) => ({
+        ...r,
+        isFeatured: Boolean(r.isFeatured),
+        isPublished: Boolean(r.isPublished),
+      }));
+    }
+
     const store = loadLocalStore();
     if (options?.publishedOnly) {
       return store.blogs.filter((b) => b.isPublished);
@@ -419,11 +645,56 @@ export const db = {
   },
 
   async getBlogBySlug(slug: string) {
+    const rows = await queryDb<any>('SELECT * FROM avora_blogs WHERE slug = ? LIMIT 1', [slug]);
+    if (rows && rows.length > 0) {
+      return {
+        ...rows[0],
+        isFeatured: Boolean(rows[0].isFeatured),
+        isPublished: Boolean(rows[0].isPublished),
+      };
+    }
+
     const store = loadLocalStore();
     return store.blogs.find((b) => b.slug === slug) || null;
   },
 
   async saveBlog(blogData: any) {
+    const id = blogData.id || 'blog-' + Date.now();
+    await queryDb(
+      `
+      INSERT INTO avora_blogs (id, slug, title, excerpt, content, category, tags, coverImage, authorName, authorRole, readTime, isFeatured, isPublished)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      ON DUPLICATE KEY UPDATE
+        title = VALUES(title),
+        excerpt = VALUES(excerpt),
+        content = VALUES(content),
+        category = VALUES(category),
+        tags = VALUES(tags),
+        coverImage = VALUES(coverImage),
+        authorName = VALUES(authorName),
+        authorRole = VALUES(authorRole),
+        readTime = VALUES(readTime),
+        isFeatured = VALUES(isFeatured),
+        isPublished = VALUES(isPublished),
+        updatedAt = NOW()
+    `,
+      [
+        id,
+        blogData.slug,
+        blogData.title,
+        blogData.excerpt || '',
+        blogData.content || '',
+        blogData.category || 'Technology',
+        typeof blogData.tags === 'string' ? blogData.tags : JSON.stringify(blogData.tags || []),
+        blogData.coverImage || '',
+        blogData.authorName || 'Avora Engineering',
+        blogData.authorRole || 'Tech Lead',
+        blogData.readTime || '5 min read',
+        blogData.isFeatured ? 1 : 0,
+        blogData.isPublished !== false ? 1 : 0,
+      ]
+    );
+
     const store = loadLocalStore();
     const now = new Date().toISOString();
     const existingIdx = store.blogs.findIndex((b) => b.id === blogData.id || b.slug === blogData.slug);
@@ -437,7 +708,7 @@ export const db = {
       return store.blogs[existingIdx];
     } else {
       const newBlog = {
-        id: blogData.id || 'blog-' + Date.now(),
+        id,
         ...blogData,
         createdAt: now,
         updatedAt: now,
@@ -449,6 +720,8 @@ export const db = {
   },
 
   async deleteBlog(idOrSlug: string) {
+    await queryDb('DELETE FROM avora_blogs WHERE id = ? OR slug = ?', [idOrSlug, idOrSlug]);
+
     const store = loadLocalStore();
     store.blogs = store.blogs.filter((b) => b.id !== idOrSlug && b.slug !== idOrSlug);
     saveLocalStore(store);
@@ -457,6 +730,9 @@ export const db = {
 
   // --- Inquiries ---
   async getAllInquiries() {
+    const rows = await queryDb<any>('SELECT * FROM avora_inquiries ORDER BY createdAt DESC');
+    if (rows && rows.length > 0) return rows;
+
     const store = loadLocalStore();
     return store.inquiries.sort(
       (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
@@ -473,9 +749,28 @@ export const db = {
     timeline?: string;
     message: string;
   }) {
+    const id = 'inq-' + Date.now();
+    await queryDb(
+      `
+      INSERT INTO avora_inquiries (id, name, email, phone, company, service, budget, timeline, message, status)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 'new')
+    `,
+      [
+        id,
+        data.name,
+        data.email,
+        data.phone || '',
+        data.company || '',
+        data.service || '',
+        data.budget || '',
+        data.timeline || '',
+        data.message,
+      ]
+    );
+
     const store = loadLocalStore();
     const newInq = {
-      id: 'inq-' + Date.now(),
+      id,
       ...data,
       status: 'new',
       createdAt: new Date().toISOString(),
@@ -487,6 +782,8 @@ export const db = {
   },
 
   async updateInquiryStatus(id: string, status: string) {
+    await queryDb('UPDATE avora_inquiries SET status = ?, updatedAt = NOW() WHERE id = ?', [status, id]);
+
     const store = loadLocalStore();
     const idx = store.inquiries.findIndex((i) => i.id === id);
     if (idx !== -1) {
@@ -499,19 +796,55 @@ export const db = {
   },
 
   async deleteInquiry(id: string) {
+    await queryDb('DELETE FROM avora_inquiries WHERE id = ?', [id]);
+
     const store = loadLocalStore();
     store.inquiries = store.inquiries.filter((i) => i.id !== id);
     saveLocalStore(store);
     return true;
   },
 
+  // --- Contact Submissions ---
+  async createContactSubmission(data: {
+    name: string;
+    email: string;
+    subject?: string;
+    message: string;
+    phone?: string;
+  }) {
+    const id = 'contact-' + Date.now();
+    await queryDb(
+      `
+      INSERT INTO avora_contact_submissions (id, name, email, subject, message, phone)
+      VALUES (?, ?, ?, ?, ?, ?)
+    `,
+      [id, data.name, data.email, data.subject || '', data.message, data.phone || '']
+    );
+
+    const store = loadLocalStore();
+    const newContact = {
+      id,
+      ...data,
+      createdAt: new Date().toISOString(),
+    };
+    store.contacts.unshift(newContact);
+    saveLocalStore(store);
+    return newContact;
+  },
+
   // --- Newsletter Subscribers ---
   async addSubscriber(email: string) {
+    const id = 'sub-' + Date.now();
+    await queryDb(
+      'INSERT INTO avora_subscribers (id, email, isActive) VALUES (?, ?, 1) ON DUPLICATE KEY UPDATE isActive = 1',
+      [id, email]
+    );
+
     const store = loadLocalStore();
     const exists = store.subscribers.find((s) => s.email.toLowerCase() === email.toLowerCase());
     if (exists) return exists;
     const newSub = {
-      id: 'sub-' + Date.now(),
+      id,
       email,
       isActive: true,
       createdAt: new Date().toISOString(),
@@ -522,17 +855,35 @@ export const db = {
   },
 
   async getAllSubscribers() {
+    const rows = await queryDb<any>('SELECT * FROM avora_subscribers ORDER BY createdAt DESC');
+    if (rows && rows.length > 0) return rows;
+
     const store = loadLocalStore();
     return store.subscribers;
   },
 
   // --- Global Settings ---
   async getSettings() {
+    const rows = await queryDb<any>('SELECT `key`, `value` FROM avora_settings');
     const store = loadLocalStore();
+    if (rows && rows.length > 0) {
+      const dbSettings: Record<string, string> = {};
+      for (const r of rows) {
+        dbSettings[r.key] = r.value;
+      }
+      return { ...store.settings, ...dbSettings };
+    }
     return store.settings;
   },
 
   async updateSettings(newSettings: Record<string, string>) {
+    for (const [k, v] of Object.entries(newSettings)) {
+      await queryDb(
+        'INSERT INTO avora_settings (id, `key`, `value`) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE `value` = VALUES(`value`), updatedAt = NOW()',
+        ['set-' + k, k, v]
+      );
+    }
+
     const store = loadLocalStore();
     store.settings = { ...store.settings, ...newSettings };
     saveLocalStore(store);
