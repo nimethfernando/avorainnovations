@@ -46,7 +46,7 @@ export default function ContactPage() {
       if (!res.ok) throw new Error('Submission failed');
       setSubmitted(true);
     } catch {
-      setError('Unable to send inquiry. Please try again or email us directly.');
+      setError('Unable to send inquiry. Please try again or email us directly at avorainnovations@gmail.com.');
     } finally {
       setLoading(false);
     }

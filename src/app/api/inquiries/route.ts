@@ -28,13 +28,15 @@ export async function POST(request: Request) {
 
     // Send instant email notification via Nodemailer
     const emailHtml = generateInquiryEmailHtml(inquiry);
-    const notificationTo = process.env.ADMIN_NOTIFICATION_EMAIL || 'leads@avorainnovations.com';
+    const settings = await db.getSettings();
+    const notificationTo = process.env.ADMIN_NOTIFICATION_EMAIL || settings?.contactEmail || 'avorainnovations@gmail.com';
 
     await sendEmail({
       to: notificationTo,
-      subject: `[NEW LEAD] ${name} - ${service || 'General Inquiry'} (${company || 'Enterprise'})`,
+      replyTo: inquiry.email,
+      subject: `[NEW INQUIRY] ${name} - ${service || 'General'} (${company || 'Enterprise'})`,
       html: emailHtml,
-      text: `New consultation lead from ${name} (${email}): ${message}`,
+      text: `New consultation lead from ${name} (${email}):\nPhone: ${phone || 'N/A'}\nCompany: ${company || 'N/A'}\nService: ${service || 'N/A'}\nBudget: ${budget || 'N/A'}\nTimeline: ${timeline || 'N/A'}\n\nMessage:\n${message}`,
     });
 
     return NextResponse.json(

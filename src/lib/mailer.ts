@@ -5,16 +5,17 @@ export interface EmailOptions {
   subject: string;
   html: string;
   text?: string;
+  replyTo?: string;
 }
 
-export async function sendEmail({ to, subject, html, text }: EmailOptions): Promise<boolean> {
+export async function sendEmail({ to, subject, html, text, replyTo }: EmailOptions): Promise<boolean> {
   const host = process.env.SMTP_HOST || 'smtp.gmail.com';
   const port = parseInt(process.env.SMTP_PORT || '587', 10);
-  const user = process.env.EMAIL_USER || process.env.SMTP_USER;
-  const pass = process.env.EMAIL_PASS || process.env.SMTP_PASS;
-  const from = process.env.SMTP_FROM || (user ? `AVORA Innovations <${user}>` : 'AVORA Innovations <notifications@avorainnovations.com>');
+  const user = process.env.EMAIL_USER || process.env.SMTP_USER || 'gnbmailsender@gmail.com';
+  const pass = process.env.EMAIL_PASS || process.env.SMTP_PASS || 'akkjqlnhkgbudmxe';
+  const from = process.env.SMTP_FROM || `AVORA Innovations <${user}>`;
 
-  if (!user || user === 'notifications@avorainnovations.com' || !pass || pass === 'your-app-password') {
+  if (!user || !pass) {
     console.log(`[SMTP MOCK] Email would be sent to: ${to}`);
     console.log(`[SMTP MOCK] Subject: ${subject}`);
     console.log(`[SMTP MOCK] Body:\n${text || html}`);
@@ -35,6 +36,7 @@ export async function sendEmail({ to, subject, html, text }: EmailOptions): Prom
     await transporter.sendMail({
       from,
       to,
+      replyTo: replyTo || from,
       subject,
       text: text || html.replace(/<[^>]*>?/gm, ''),
       html,
