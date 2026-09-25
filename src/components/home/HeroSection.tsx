@@ -46,10 +46,27 @@ export default function HeroSection() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
           {/* Left Column: Headline, Subtitle, CTAs */}
           <div className="lg:col-span-7 space-y-6 text-center lg:text-left">
-            {/* Pill Badge */}
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-500/10 dark:bg-blue-900/30 border border-blue-500/20 text-blue-600 dark:text-blue-400 text-xs font-semibold tracking-wider uppercase animate-in fade-in slide-in-from-bottom-2">
-              <Sparkles className="w-3.5 h-3.5 text-blue-500 animate-pulse" />
-              <span>{t.hero.badge}</span>
+            {/* Signature "STEP INTO AI" Glowing Capsule & Clutch Rating */}
+            <div className="flex flex-wrap items-center justify-center lg:justify-start gap-3">
+              <Link
+                href="/cost-calculator"
+                className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-bold tracking-wider uppercase relative overflow-hidden group shadow-lg shadow-purple-500/15 hover:shadow-purple-500/30 transition-all border border-purple-500/30 bg-gradient-to-r from-blue-950/60 via-purple-950/60 to-indigo-950/60 text-white backdrop-blur-md"
+              >
+                <span className="absolute inset-0 bg-gradient-to-r from-red-500 via-amber-400 to-purple-600 opacity-20 group-hover:opacity-40 transition-opacity blur-sm" />
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75" />
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan-500" />
+                </span>
+                <Sparkles className="w-3.5 h-3.5 text-amber-400 animate-pulse relative z-10" />
+                <span className="relative z-10 bg-gradient-to-r from-white via-blue-100 to-cyan-200 bg-clip-text text-transparent font-extrabold text-[11px]">
+                  STEP INTO AI • LAUNCH AGENT WORKFORCE
+                </span>
+              </Link>
+
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-500/10 dark:bg-blue-900/30 border border-blue-500/20 text-blue-600 dark:text-blue-400 text-xs font-semibold">
+                <ShieldCheck className="w-3.5 h-3.5 text-emerald-500" />
+                <span>Clutch 5.0 ★ Rated Premier Partner</span>
+              </span>
             </div>
 
             {/* Main Headline */}
@@ -66,7 +83,7 @@ export default function HeroSection() {
             </p>
 
             {/* Action Buttons */}
-            <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-2">
+            <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3.5 pt-2">
               <button
                 onClick={() => setModalOpen(true)}
                 className="w-full sm:w-auto px-7 py-4 rounded-xl bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-bold text-sm shadow-xl shadow-blue-500/25 hover:shadow-blue-500/40 transition-all flex items-center justify-center gap-2 group cursor-pointer"
@@ -76,8 +93,15 @@ export default function HeroSection() {
               </button>
 
               <Link
+                href="/cost-calculator"
+                className="w-full sm:w-auto px-6 py-4 rounded-xl border border-blue-500/30 bg-blue-500/10 hover:bg-blue-500/20 text-blue-600 dark:text-blue-400 font-semibold text-sm transition-all flex items-center justify-center gap-2"
+              >
+                <span>Cost &amp; Scope Estimator</span>
+              </Link>
+
+              <Link
                 href="/services"
-                className="w-full sm:w-auto px-7 py-4 rounded-xl border border-slate-300 dark:border-slate-800 bg-white dark:bg-slate-900/80 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-800 dark:text-slate-200 font-semibold text-sm transition-all flex items-center justify-center gap-2"
+                className="w-full sm:w-auto px-6 py-4 rounded-xl border border-slate-300 dark:border-slate-800 bg-white dark:bg-slate-900/80 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-800 dark:text-slate-200 font-semibold text-sm transition-all flex items-center justify-center gap-2"
               >
                 <span>{t.hero.ctaPrimary}</span>
               </Link>

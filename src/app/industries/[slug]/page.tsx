@@ -122,6 +122,47 @@ export default async function IndustryDetailPage({ params }: IndustryPageProps) 
           </div>
         </div>
 
+        {/* 1.5 Compliance & Regulatory Moat Proof Banner */}
+        <section className="py-10 border-b border-slate-200 dark:border-slate-800/80">
+          <div className="p-6 rounded-3xl bg-gradient-to-r from-purple-950/40 via-slate-900/60 to-blue-950/40 border border-purple-500/20 grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="flex items-start gap-3.5">
+              <div className="w-10 h-10 rounded-xl bg-purple-500/10 text-purple-400 flex items-center justify-center flex-shrink-0">
+                <ShieldCheck className="w-5 h-5" />
+              </div>
+              <div>
+                <h4 className="text-sm font-bold text-slate-900 dark:text-white">100% Regulatory Hardened</h4>
+                <p className="text-xs text-slate-600 dark:text-slate-400 mt-1 leading-relaxed">
+                  Engineered in strict compliance with HIPAA, FHIR, SOC2 Type II, ISO 27001 &amp; PCI-DSS standards.
+                </p>
+              </div>
+            </div>
+
+            <div className="flex items-start gap-3.5">
+              <div className="w-10 h-10 rounded-xl bg-blue-500/10 text-blue-400 flex items-center justify-center flex-shrink-0">
+                <Sparkles className="w-5 h-5" />
+              </div>
+              <div>
+                <h4 className="text-sm font-bold text-slate-900 dark:text-white">Domain-Trained AI Agents</h4>
+                <p className="text-xs text-slate-600 dark:text-slate-400 mt-1 leading-relaxed">
+                  Autonomous agents pre-tuned on vertical terminologies, ontology schemas, and deterministic safety guardrails.
+                </p>
+              </div>
+            </div>
+
+            <div className="flex items-start gap-3.5">
+              <div className="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center flex-shrink-0">
+                <CheckCircle2 className="w-5 h-5" />
+              </div>
+              <div>
+                <h4 className="text-sm font-bold text-slate-900 dark:text-white">Zero-Downtime Rollout SLA</h4>
+                <p className="text-xs text-slate-600 dark:text-slate-400 mt-1 leading-relaxed">
+                  Blue-green deployment strategies guaranteeing 99.99% system continuity for mission-critical workloads.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* 2. Solutions Section */}
         <section className="py-16 border-b border-slate-200 dark:border-slate-800/80">
           <div className="mb-12 space-y-2">

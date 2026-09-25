@@ -8,6 +8,7 @@ import ThemeToggle from './ThemeToggle';
 import LanguageSwitcher from './LanguageSwitcher';
 import MegaMenu from './MegaMenu';
 import ConsultationModal from '../common/ConsultationModal';
+import SearchModal from '../common/SearchModal';
 import {
   ChevronDown,
   Menu,
@@ -18,6 +19,7 @@ import {
   ArrowRight,
   Shield,
   Layers,
+  Search,
 } from 'lucide-react';
 
 export default function Header() {
@@ -27,6 +29,7 @@ export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
   const headerRef = useRef<HTMLDivElement>(null);
 
   // Close mega menu on route change
@@ -34,6 +37,18 @@ export default function Header() {
     setActiveMenu(null);
     setMobileOpen(false);
   }, [pathname]);
+
+  // Handle Cmd+K search shortcut
+  useEffect(() => {
+    function handleKeyDown(e: KeyboardEvent) {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        setSearchOpen((prev) => !prev);
+      }
+    }
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
 
   // Handle scroll effect
   useEffect(() => {
@@ -111,28 +126,46 @@ export default function Header() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="flex items-center justify-between h-20">
             {/* Brand Logo */}
-            <Link href="/" className="flex items-center gap-3 group">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 via-indigo-600 to-purple-600 p-0.5 shadow-lg shadow-blue-500/20 group-hover:scale-105 transition-transform">
-                <div className="w-full h-full bg-slate-950 rounded-[10px] flex items-center justify-center">
-                  <span className="text-xl font-black bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
-                    A
+            <div className="flex items-center gap-3">
+              <Link href="/" className="flex items-center gap-3 group">
+                <div className="relative w-10 h-10 sm:w-11 sm:h-11 flex-shrink-0 group-hover:scale-105 transition-transform">
+                  <img
+                    src="/icon.png"
+                    alt="AVORA Innovations"
+                    className="w-full h-full object-contain filter drop-shadow-[0_2px_8px_rgba(59,130,246,0.4)]"
+                  />
+                </div>
+                <div className="flex flex-col">
+                  <div className="flex items-center gap-1.5">
+                    <span className="font-extrabold text-lg sm:text-xl tracking-tight text-slate-900 dark:text-white leading-none">
+                      AVORA
+                    </span>
+                    <span className="font-semibold text-[11px] text-blue-600 dark:text-blue-400 uppercase tracking-widest leading-none">
+                      INNOVATIONS
+                    </span>
+                  </div>
+                  <span className="text-[10px] text-slate-500 dark:text-slate-400 font-medium tracking-tight mt-1">
+                    Enterprise AI & Engineering
                   </span>
                 </div>
-              </div>
-              <div className="flex flex-col">
-                <div className="flex items-center gap-1.5">
-                  <span className="font-extrabold text-lg sm:text-xl tracking-tight text-slate-900 dark:text-white">
-                    AVORA
-                  </span>
-                  <span className="font-medium text-xs text-blue-600 dark:text-blue-400 uppercase tracking-widest">
-                    INNOVATIONS
-                  </span>
-                </div>
-                <span className="text-[10px] text-slate-500 dark:text-slate-400 font-medium tracking-tight">
-                  Enterprise AI & Engineering
+              </Link>
+
+              {/* Signature "EXPLORE AI AGENT LAB" Glowing Capsule (Konstant's "STEP INTO AI" equivalent) */}
+              <Link
+                href="/cost-calculator"
+                className="hidden xl:inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-bold tracking-wide relative overflow-hidden group shadow-lg shadow-purple-500/10 hover:shadow-purple-500/25 transition-all border border-purple-500/30 bg-gradient-to-r from-blue-950/60 via-purple-950/60 to-indigo-950/60 text-white backdrop-blur-md"
+              >
+                <span className="absolute inset-0 bg-gradient-to-r from-red-500 via-amber-400 to-purple-600 opacity-20 group-hover:opacity-40 transition-opacity blur-sm" />
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75" />
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan-500" />
                 </span>
-              </div>
-            </Link>
+                <Sparkles className="w-3.5 h-3.5 text-amber-400 animate-pulse relative z-10" />
+                <span className="relative z-10 bg-gradient-to-r from-white via-blue-100 to-cyan-200 bg-clip-text text-transparent font-extrabold text-[11px]">
+                  EXPLORE AI AGENT LAB
+                </span>
+              </Link>
+            </div>
 
             {/* Desktop Navigation Links */}
             <nav className="hidden lg:flex items-center space-x-1">
@@ -168,16 +201,29 @@ export default function Header() {
               ))}
             </nav>
 
-            {/* Actions: Theme Toggle, Language Switcher, Consultation CTA */}
+            {/* Actions: Search, Theme Toggle, Language Switcher, Consultation CTA */}
             <div className="hidden lg:flex items-center gap-3">
+              <button
+                onClick={() => setSearchOpen(true)}
+                className="flex items-center gap-2 px-3 py-1.5 rounded-xl border border-slate-200 dark:border-slate-800 text-xs font-medium text-slate-500 hover:text-slate-900 dark:hover:text-white bg-slate-50 dark:bg-slate-900 hover:border-slate-300 dark:hover:border-slate-700 transition-colors"
+                title="Search (⌘K)"
+              >
+                <Search className="w-3.5 h-3.5 text-slate-400" />
+                <span className="hidden xl:inline">Search...</span>
+                <kbd className="hidden xl:inline-block px-1.5 py-0.5 text-[10px] font-semibold text-slate-400 bg-white dark:bg-slate-800 rounded border border-slate-200 dark:border-slate-700">
+                  ⌘K
+                </kbd>
+              </button>
+
               <ThemeToggle />
               <LanguageSwitcher />
+
               <button
                 onClick={() => setModalOpen(true)}
-                className="px-4 py-2.5 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold text-xs tracking-wide shadow-md shadow-blue-500/20 hover:shadow-blue-500/40 transition-all flex items-center gap-1.5"
+                className="px-4 py-2.5 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold text-xs tracking-wide shadow-md shadow-blue-500/20 hover:shadow-blue-500/40 transition-all flex items-center gap-1.5 group"
               >
                 <span>{t.nav.getConsultation}</span>
-                <ArrowRight className="w-3.5 h-3.5" />
+                <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
               </button>
             </div>
 
@@ -250,6 +296,12 @@ export default function Header() {
       <ConsultationModal
         isOpen={modalOpen}
         onClose={() => setModalOpen(false)}
+      />
+
+      {/* Global Instant Search Modal (Cmd+K) */}
+      <SearchModal
+        isOpen={searchOpen}
+        onClose={() => setSearchOpen(false)}
       />
     </>
   );
