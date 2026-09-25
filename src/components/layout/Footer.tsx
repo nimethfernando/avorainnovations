@@ -255,31 +255,6 @@ export default function Footer() {
             </ul>
           </div>
         </div>
-
-        {/* Global Locations Bar */}
-        <div className="py-8 border-b border-slate-900 grid grid-cols-2 md:grid-cols-5 gap-4 text-xs">
-          <div>
-            <h6 className="font-semibold text-slate-300">Tbilisi, Georgia</h6>
-            <p className="text-slate-500 text-[11px]">HQ & AI Lab</p>
-          </div>
-          <div>
-            <h6 className="font-semibold text-slate-300">London, UK</h6>
-            <p className="text-slate-500 text-[11px]">European Operations</p>
-          </div>
-          <div>
-            <h6 className="font-semibold text-slate-300">Berlin, Germany</h6>
-            <p className="text-slate-500 text-[11px]">Industrial AI Center</p>
-          </div>
-          <div>
-            <h6 className="font-semibold text-slate-300">Singapore</h6>
-            <p className="text-slate-500 text-[11px]">APAC Engineering Hub</p>
-          </div>
-          <div>
-            <h6 className="font-semibold text-slate-300">Dubai, UAE</h6>
-            <p className="text-slate-500 text-[11px]">Middle East Delivery</p>
-          </div>
-        </div>
-
         {/* Bottom Copyright & Social Icons */}
         <div className="pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-xs">
           <p className="text-slate-500 text-center md:text-left">
