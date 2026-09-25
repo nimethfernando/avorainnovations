@@ -52,8 +52,8 @@ export default function AdminSidebar() {
         {/* Brand Header */}
         <div className="p-6 border-b border-slate-800 flex items-center justify-between">
           <Link href="/admin" className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-lg overflow-hidden bg-white p-1 shadow-sm ring-1 ring-white/10 flex items-center justify-center flex-shrink-0">
-              <img src="/icon.png" alt="AVORA" className="w-full h-full object-contain" />
+            <div className="w-9 h-9 rounded-xl bg-white p-1 shadow-sm ring-1 ring-white/10 flex items-center justify-center flex-shrink-0">
+              <img src="/avora-symbol.png" alt="AVORA" className="w-full h-full object-contain" />
             </div>
             <div>
               <div className="font-extrabold text-sm text-white tracking-tight">AVORA CMS</div>

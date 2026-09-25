@@ -128,9 +128,9 @@ export default function Header() {
             {/* Brand Logo */}
             <div className="flex items-center gap-3">
               <Link href="/" className="flex items-center gap-3 group">
-                <div className="relative w-10 h-10 sm:w-11 sm:h-11 rounded-xl overflow-hidden bg-white shadow-sm ring-1 ring-slate-200/80 dark:ring-slate-700/60 p-1 flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition-all">
+                <div className="relative w-11 h-11 sm:w-12 sm:h-12 rounded-xl bg-white shadow-sm ring-1 ring-slate-200/90 dark:ring-slate-700/60 p-1 flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition-all">
                   <img
-                    src="/icon.png"
+                    src="/avora-symbol.png"
                     alt="AVORA Innovations"
                     className="w-full h-full object-contain"
                   />
