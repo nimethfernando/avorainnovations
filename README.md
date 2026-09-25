@@ -132,10 +132,32 @@ To allow AVORA Innovations to share an enterprise MariaDB database with other ex
 | `avora_contact_submissions`| `ContactSubmission` | Inbound general inquiries and messages |
 | `avora_subscribers` | `Subscriber` | Newsletter email directory |
 | `avora_settings` | `Setting` | Key-value store for global coordinates, social URLs, and brand parameters |
-| `avora_cms_content` | `CMSContent` | Dynamic store for services, industries, case studies, and testimonials |
+| `avora_cms_content` | `CMSContent` | Dynamic store for services, industries, technologies, case studies, testimonials, navigation, CTAs, media, and SEO |
 
 > [!NOTE]
 > `src/lib/db.ts` incorporates a hybrid architecture: it actively queries the live MariaDB instance with low-latency connection pooling, and gracefully falls back to local storage if the database is unreachable or during static page generation in CI/CD.
+
+---
+
+## 🎛️ 100% CMS-Driven Architecture (13 Core Modules)
+
+Every public component, landing page, and navigation item is dynamically connected to the Admin CMS:
+
+| # | CMS Module | Admin Route | Capabilities |
+|:---:|:---|:---|:---|
+| 1 | **Custom Pages** | `/admin/pages` & `/admin/pages/builder` | Visual block arrangement (Hero, Narrative, Services, Case Studies, etc.) rendered live via `/[slug]`. |
+| 2 | **Services** | `/admin/services` | Rich slide-over modal for managing practice titles, badges, descriptions, capabilities, and FAQs. |
+| 3 | **Sub-Services** | `/admin/services` | Interactive nested list editor to define specialized practice offerings and technical scope. |
+| 4 | **Industries** | `/admin/industries` | Visual modal for vertical compliance stats, solutions, tech stacks, and domain use cases. |
+| 5 | **Technologies** | `/admin/technologies` | Domain and framework matrix management (AI/ML, Frontend, Backend, Cloud, Mobile, Databases). |
+| 6 | **Case Studies** | `/admin/case-studies` | Portfolio manager for client challenges, engineering solutions, and quantified ROI percentages. |
+| 7 | **Blogs** | `/admin/blogs` | Full Markdown authoring suite with cover graphics, tags, estimated read times, and author credentials. |
+| 8 | **FAQs** | `/admin/faqs` | Site-wide accordion manager with question categorization and instant answer updates. |
+| 9 | **Testimonials** | `/admin/testimonials` | Executive endorsement cards with verified client 5-star ratings and company roles. |
+| 10 | **Images & Media** | `/admin/media` | Media library supporting direct file uploads (PNG, JPG, WebP, SVG), category tags, and 1-click URL copying. |
+| 11 | **CTAs & Banners** | `/admin/ctas` | Centralized control of global consultation banners, secondary estimator buttons, and floating widgets. |
+| 12 | **SEO & Metadata** | `/admin/seo` | Global OpenGraph image previews, Twitter cards, meta descriptions, and Googlebot indexing toggles. |
+| 13 | **Navigation** | `/admin/navigation` | Header mega menu items, link ordering, badge tags, and footer directory management. |
 
 ---
 
@@ -175,7 +197,7 @@ Visit [http://localhost:3000](http://localhost:3000) to view the application.
 
 ## 🏗️ Production Build & Verification
 
-To verify full static generation and TypeScript type-checking across all 71 routes:
+To verify full static generation and TypeScript type-checking across all 89 routes:
 
 ```bash
 npm run build
