@@ -37,25 +37,6 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning className="dark">
       <head>
         <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              try {
-                var d = document.documentElement;
-                var t = localStorage.getItem('avora_theme');
-                if (t === 'light') {
-                  d.classList.remove('dark');
-                  d.classList.add('light');
-                  d.style.colorScheme = 'light';
-                } else {
-                  d.classList.add('dark');
-                  d.classList.remove('light');
-                  d.style.colorScheme = 'dark';
-                }
-              } catch (e) {}
-            `,
-          }}
-        />
-        <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(orgSchema) }}
         />
