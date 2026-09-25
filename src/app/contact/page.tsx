@@ -53,7 +53,7 @@ export default function ContactPage() {
   };
 
   const offices = [
-    { city: 'San Francisco, USA', role: 'Global HQ & AI Research Lab', address: '100 Innovation Way, Suite 400, CA 94105', phone: '+1 (800) 512-2867' },
+    { city: 'Tbilisi, Georgia', role: 'Global HQ & AI Research Lab', address: '17 Ioane Shavteli St, Tbilisi, Georgia', phone: '+995 555433091' },
     { city: 'London, United Kingdom', role: 'European Delivery Center', address: '25 Bank Street, Canary Wharf, London E14 5JP', phone: '+44 20 7946 0912' },
     { city: 'Berlin, Germany', role: 'Industrial AI & IoT Hub', address: 'Potsdamer Platz 1, 10785 Berlin', phone: '+49 30 2000 8910' },
     { city: 'Singapore', role: 'APAC Operations & Cloud Hub', address: '1 Marina Boulevard, Singapore 018989', phone: '+65 6712 3400' },
@@ -267,14 +267,14 @@ export default function ContactPage() {
             <div className="space-y-3 text-xs sm:text-sm">
               <div className="flex items-center gap-3">
                 <Phone className="w-4 h-4 text-blue-500" />
-                <a href="tel:+18005122867" className="font-semibold text-slate-900 dark:text-white hover:text-blue-500">
-                  +1 (800) 512-AVORA (Toll-Free Global)
+                <a href="tel:+995555433091" className="font-semibold text-slate-900 dark:text-white hover:text-blue-500">
+                  +995 555433091
                 </a>
               </div>
               <div className="flex items-center gap-3">
                 <Mail className="w-4 h-4 text-blue-500" />
-                <a href="mailto:contact@avorainnovations.com" className="font-semibold text-slate-900 dark:text-white hover:text-blue-500">
-                  contact@avorainnovations.com
+                <a href="mailto:avorainnovations@gmail.com" className="font-semibold text-slate-900 dark:text-white hover:text-blue-500">
+                  avorainnovations@gmail.com
                 </a>
               </div>
               <div className="flex items-center gap-3">

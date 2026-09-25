@@ -33,7 +33,7 @@ export default function FloatingContactWidget() {
             </button>
 
             <a
-              href="https://wa.me/18005122867"
+              href="https://wa.me/995555433091"
               target="_blank"
               rel="noreferrer"
               className="flex items-center gap-2.5 p-2 rounded-xl hover:bg-emerald-50 dark:hover:bg-emerald-950/30 text-emerald-600 transition-colors"

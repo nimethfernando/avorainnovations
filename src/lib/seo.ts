@@ -88,10 +88,17 @@ export function generateOrganizationSchema() {
     ],
     contactPoint: {
       '@type': 'ContactPoint',
-      telephone: '+1-800-512-2867',
+      telephone: '+995 555433091',
+      email: 'avorainnovations@gmail.com',
       contactType: 'Sales and Technical Consultation',
       areaServed: 'Worldwide',
-      availableLanguage: ['English', 'German', 'Hindi'],
+      availableLanguage: ['English', 'Georgian', 'German'],
+    },
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: '17 Ioane Shavteli St',
+      addressLocality: 'Tbilisi',
+      addressCountry: 'Georgia',
     },
   };
 }

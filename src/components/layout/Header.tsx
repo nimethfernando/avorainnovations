@@ -128,17 +128,17 @@ export default function Header() {
             </div>
             <div className="flex items-center gap-5">
               <a
-                href="mailto:contact@avorainnovations.com"
+                href="mailto:avorainnovations@gmail.com"
                 className="flex items-center gap-1.5 hover:text-white transition-colors"
               >
-                <Mail className="w-3 h-3 text-blue-400" /> contact@avorainnovations.com
+                <Mail className="w-3 h-3 text-blue-400" /> avorainnovations@gmail.com
               </a>
               <span className="text-slate-700">|</span>
               <a
-                href="tel:+18005122867"
+                href="tel:+995555433091"
                 className="flex items-center gap-1.5 hover:text-white transition-colors"
               >
-                <Phone className="w-3 h-3 text-blue-400" /> +1 (800) 512-AVORA
+                <Phone className="w-3 h-3 text-blue-400" /> +995 555433091
               </a>
               <span className="text-slate-700">|</span>
               <Link href="/admin" className="text-slate-400 hover:text-blue-400 transition-colors">
@@ -300,7 +300,7 @@ export default function Header() {
                 <ArrowRight className="w-4 h-4" />
               </button>
               <div className="flex justify-between text-xs text-slate-500 pt-2">
-                <a href="tel:+18005122867" className="hover:text-blue-500">+1 (800) 512-AVORA</a>
+                <a href="tel:+995555433091" className="hover:text-blue-500">+995 555433091</a>
                 <Link href="/admin" onClick={() => setMobileOpen(false)} className="hover:text-blue-500">
                   Admin CMS
                 </Link>

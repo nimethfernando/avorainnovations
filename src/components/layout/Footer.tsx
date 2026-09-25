@@ -147,18 +147,18 @@ export default function Footer() {
             <div className="space-y-2 pt-2 text-xs">
               <div className="flex items-start gap-2.5">
                 <MapPin className="w-4 h-4 text-blue-400 flex-shrink-0 mt-0.5" />
-                <span>100 Innovation Way, Suite 400, San Francisco, CA 94105</span>
+                <span>17 Ioane Shavteli St, Tbilisi, Georgia</span>
               </div>
               <div className="flex items-center gap-2.5">
                 <Phone className="w-4 h-4 text-blue-400 flex-shrink-0" />
-                <a href="tel:+18005122867" className="hover:text-white transition-colors">
-                  +1 (800) 512-AVORA (Toll-Free Global)
+                <a href="tel:+995555433091" className="hover:text-white transition-colors">
+                  +995 555433091
                 </a>
               </div>
               <div className="flex items-center gap-2.5">
                 <Mail className="w-4 h-4 text-blue-400 flex-shrink-0" />
-                <a href="mailto:contact@avorainnovations.com" className="hover:text-white transition-colors">
-                  contact@avorainnovations.com
+                <a href="mailto:avorainnovations@gmail.com" className="hover:text-white transition-colors">
+                  avorainnovations@gmail.com
                 </a>
               </div>
             </div>
@@ -261,7 +261,7 @@ export default function Footer() {
         {/* Global Locations Bar */}
         <div className="py-8 border-b border-slate-900 grid grid-cols-2 md:grid-cols-5 gap-4 text-xs">
           <div>
-            <h6 className="font-semibold text-slate-300">San Francisco, USA</h6>
+            <h6 className="font-semibold text-slate-300">Tbilisi, Georgia</h6>
             <p className="text-slate-500 text-[11px]">HQ & AI Lab</p>
           </div>
           <div>

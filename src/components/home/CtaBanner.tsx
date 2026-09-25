@@ -25,8 +25,8 @@ export default function CtaBanner() {
     subtitle: 'Book a confidential 45-minute technical discovery session with our senior solutions architects. We will assess your architecture, benchmark your bottlenecks, and outline a concrete roadmap.',
     primaryButtonText: 'Schedule Technical Discovery',
     primaryButtonLink: '/contact',
-    secondaryButtonText: '+1 (800) 512-AVORA',
-    secondaryButtonLink: 'tel:+18005122867',
+    secondaryButtonText: '+995 555433091',
+    secondaryButtonLink: 'tel:+995555433091',
     badgeText: 'Start Your Innovation Journey',
     enabled: true,
   });
