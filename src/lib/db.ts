@@ -16,12 +16,10 @@ export const DEFAULT_NAVIGATION = [
   { id: 'nav-services', label: 'Services', href: '/services', type: 'mega', badge: 'Core', enabled: true, order: 1 },
   { id: 'nav-industries', label: 'Industries', href: '/industries', type: 'mega', badge: 'Verticals', enabled: true, order: 2 },
   { id: 'nav-technologies', label: 'Technologies', href: '/technologies', type: 'mega', badge: '', enabled: true, order: 3 },
-  { id: 'nav-solutions', label: 'Solutions', href: '/solutions', type: 'link', badge: '', enabled: true, order: 4 },
-  { id: 'nav-cases', label: 'Case Studies', href: '/case-studies', type: 'link', badge: 'ROI', enabled: true, order: 5 },
-  { id: 'nav-calculator', label: 'Cost Calculator', href: '/cost-calculator', type: 'link', badge: 'Interactive', enabled: true, order: 6 },
-  { id: 'nav-about', label: 'Company', href: '/about', type: 'link', badge: '', enabled: true, order: 7 },
-  { id: 'nav-blog', label: 'Insights', href: '/blog', type: 'link', badge: '', enabled: true, order: 8 },
-  { id: 'nav-contact', label: 'Contact', href: '/contact', type: 'button', badge: '', enabled: true, order: 9 },
+  { id: 'nav-solutions', label: 'Solutions', href: '/solutions', type: 'mega', badge: '', enabled: true, order: 4 },
+  { id: 'nav-resources', label: 'Resources', href: '/case-studies', type: 'mega', badge: 'Insights', enabled: true, order: 5 },
+  { id: 'nav-about', label: 'About', href: '/about', type: 'link', badge: '', enabled: true, order: 6 },
+  { id: 'nav-contact', label: 'Contact', href: '/contact', type: 'link', badge: '', enabled: true, order: 7 },
 ];
 
 export const DEFAULT_CTAS = [

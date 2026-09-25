@@ -26,6 +26,7 @@ import {
   HelpCircle,
   Users,
   Compass,
+  Calculator,
 } from 'lucide-react';
 
 interface MegaMenuProps {
@@ -405,6 +406,22 @@ export default function MegaMenu({ activeMenu, closeMenu, openConsultation }: Me
                 </div>
                 <p className="text-xs text-slate-500 dark:text-slate-400">
                   Real client challenges, production architectures, and measured business ROI.
+                </p>
+              </Link>
+
+              <Link
+                href="/cost-calculator"
+                onClick={closeMenu}
+                className="group p-3 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-900 border border-transparent hover:border-slate-200 dark:hover:border-slate-800 transition-all"
+              >
+                <div className="flex items-center gap-2 mb-1">
+                  <Calculator className="w-4 h-4 text-cyan-500" />
+                  <span className="text-sm font-semibold text-slate-900 dark:text-white group-hover:text-cyan-500">
+                    Project Cost & Timeline Estimator
+                  </span>
+                </div>
+                <p className="text-xs text-slate-500 dark:text-slate-400">
+                  Interactive real-time scoping, feature line-items, and budget estimates.
                 </p>
               </Link>
 
