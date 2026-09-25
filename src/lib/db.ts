@@ -10,6 +10,8 @@ import {
   TESTIMONIALS_DATA,
   FAQS_HOMEPAGE,
   TECH_CATEGORIES,
+  CompanyLocation,
+  DEFAULT_LOCATIONS,
 } from './content';
 
 export const DEFAULT_NAVIGATION = [
@@ -119,6 +121,7 @@ interface StorageData {
   media: any[];
   seo: Record<string, any>;
   costCalculator?: any;
+  locations?: CompanyLocation[];
 }
 
 const STORAGE_FILE = path.join(process.cwd(), '.local_db.json');
@@ -280,6 +283,7 @@ function getInitialData(): StorageData {
     media: DEFAULT_MEDIA,
     seo: DEFAULT_SEO,
     costCalculator: DEFAULT_COST_CONFIG,
+    locations: DEFAULT_LOCATIONS,
   };
 }
 
@@ -299,6 +303,7 @@ function loadLocalStore(): StorageData {
       if (!parsed.media) parsed.media = DEFAULT_MEDIA;
       if (!parsed.costCalculator) parsed.costCalculator = DEFAULT_COST_CONFIG;
       if (!parsed.seo) parsed.seo = DEFAULT_SEO;
+      if (!parsed.locations) parsed.locations = DEFAULT_LOCATIONS;
       return parsed;
     }
   } catch (err) {
@@ -704,6 +709,89 @@ export const db = {
     const store = loadLocalStore();
     store.testimonials = store.testimonials.filter((t) => t.id !== id);
     saveLocalStore(store);
+    return true;
+  },
+
+  // --- Company Locations (CMS Managed) ---
+  async getAllLocations(): Promise<CompanyLocation[]> {
+    const seedCheck = await queryDb<any>(
+      "SELECT id FROM avora_cms_content WHERE type = 'system_meta' AND id = 'locations_seeded_v1' LIMIT 1"
+    );
+
+    if (seedCheck && seedCheck.length === 0) {
+      for (const loc of DEFAULT_LOCATIONS) {
+        await queryDb(
+          `
+          INSERT INTO avora_cms_content (id, type, slug, data)
+          VALUES (?, 'location', ?, ?)
+          ON DUPLICATE KEY UPDATE id = id
+        `,
+          [loc.id, loc.id, JSON.stringify(loc)]
+        );
+      }
+      await queryDb(
+        `
+        INSERT INTO avora_cms_content (id, type, slug, data)
+        VALUES ('locations_seeded_v1', 'system_meta', 'locations_seeded_v1', '{"seeded": true}')
+        ON DUPLICATE KEY UPDATE id = id
+      `
+      );
+    }
+
+    const rows = await queryDb<any>("SELECT data FROM avora_cms_content WHERE type = 'location' ORDER BY updatedAt DESC");
+    if (rows && rows.length > 0) {
+      try {
+        return rows.map((r) => JSON.parse(r.data));
+      } catch (e) {
+        console.error('[DB] Error parsing location data:', e);
+      }
+    }
+
+    const store = loadLocalStore();
+    return store.locations || DEFAULT_LOCATIONS;
+  },
+
+  async saveLocation(locationData: any): Promise<CompanyLocation> {
+    const id = locationData.id || 'loc-' + Date.now();
+    const record: CompanyLocation = {
+      id,
+      city: locationData.city,
+      role: locationData.role || 'Regional Hub',
+      address: locationData.address,
+      phone: locationData.phone || '',
+      email: locationData.email || '',
+      isPrimary: !!locationData.isPrimary,
+    };
+
+    await queryDb(
+      `
+      INSERT INTO avora_cms_content (id, type, slug, data)
+      VALUES (?, 'location', ?, ?)
+      ON DUPLICATE KEY UPDATE data = VALUES(data), updatedAt = NOW()
+    `,
+      [id, id, JSON.stringify(record)]
+    );
+
+    const store = loadLocalStore();
+    if (!store.locations) store.locations = [...DEFAULT_LOCATIONS];
+    const idx = store.locations.findIndex((l: any) => l.id === id);
+    if (idx !== -1) {
+      store.locations[idx] = record;
+    } else {
+      store.locations.push(record);
+    }
+    saveLocalStore(store);
+    return record;
+  },
+
+  async deleteLocation(id: string): Promise<boolean> {
+    await queryDb("DELETE FROM avora_cms_content WHERE type = 'location' AND id = ?", [id]);
+
+    const store = loadLocalStore();
+    if (store.locations) {
+      store.locations = store.locations.filter((l: any) => l.id !== id);
+      saveLocalStore(store);
+    }
     return true;
   },
 

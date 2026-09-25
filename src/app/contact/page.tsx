@@ -1,8 +1,8 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Breadcrumbs from '@/components/common/Breadcrumbs';
-import { SERVICES_DATA } from '@/lib/content';
+import { SERVICES_DATA, DEFAULT_LOCATIONS, CompanyLocation } from '@/lib/content';
 import {
   Mail,
   Phone,
@@ -52,12 +52,24 @@ export default function ContactPage() {
     }
   };
 
-  const offices = [
-    { city: 'Tbilisi, Georgia', role: 'Global HQ & AI Research Lab', address: '17 Ioane Shavteli St, Tbilisi, Georgia', phone: '+995 555433091' },
-    { city: 'London, United Kingdom', role: 'European Delivery Center', address: '25 Bank Street, Canary Wharf, London E14 5JP', phone: '+44 20 7946 0912' },
-    { city: 'Berlin, Germany', role: 'Industrial AI & IoT Hub', address: 'Potsdamer Platz 1, 10785 Berlin', phone: '+49 30 2000 8910' },
-    { city: 'Singapore', role: 'APAC Operations & Cloud Hub', address: '1 Marina Boulevard, Singapore 018989', phone: '+65 6712 3400' },
-  ];
+  const [offices, setOffices] = useState<CompanyLocation[]>(DEFAULT_LOCATIONS);
+
+  useEffect(() => {
+    async function loadLocations() {
+      try {
+        const res = await fetch('/api/locations');
+        if (res.ok) {
+          const data = await res.json();
+          if (Array.isArray(data) && data.length > 0) {
+            setOffices(data);
+          }
+        }
+      } catch {
+        // Fallback to DEFAULT_LOCATIONS
+      }
+    }
+    loadLocations();
+  }, []);
 
   return (
     <div className="py-8 pb-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -288,19 +300,32 @@ export default function ContactPage() {
 
           <div className="space-y-4">
             <h3 className="text-base font-bold text-slate-900 dark:text-white uppercase tracking-wider text-xs">
-              Global Engineering Hubs
+              Studio &amp; Office Locations
             </h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div className={offices.length === 1 ? 'grid grid-cols-1 gap-3' : 'grid grid-cols-1 sm:grid-cols-2 gap-3'}>
               {offices.map((off) => (
                 <div
-                  key={off.city}
-                  className="p-5 rounded-2xl bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 space-y-1.5"
+                  key={off.id || off.city}
+                  className="p-5 rounded-2xl bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 space-y-2 shadow-sm"
                 >
-                  <h4 className="font-bold text-xs sm:text-sm text-slate-900 dark:text-white">
-                    {off.city}
-                  </h4>
+                  <div className="flex items-center justify-between">
+                    <h4 className="font-bold text-xs sm:text-sm text-slate-900 dark:text-white">
+                      {off.city}
+                    </h4>
+                    {off.isPrimary && (
+                      <span className="text-[10px] font-semibold text-blue-600 dark:text-blue-400 bg-blue-500/10 px-2 py-0.5 rounded-full border border-blue-500/20">
+                        Global HQ
+                      </span>
+                    )}
+                  </div>
                   <div className="text-[11px] text-blue-500 font-medium">{off.role}</div>
                   <p className="text-[11px] text-slate-500">{off.address}</p>
+                  {off.phone && (
+                    <p className="text-[11px] text-slate-400">Tel: {off.phone}</p>
+                  )}
+                  {off.email && (
+                    <p className="text-[11px] text-slate-400">Email: {off.email}</p>
+                  )}
                 </div>
               ))}
             </div>

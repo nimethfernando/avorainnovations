@@ -1219,3 +1219,26 @@ export const FAQS_HOMEPAGE = [
     answer: 'Rapid prototypes and proofs-of-concept (POCs) typically ship in 2 to 4 weeks. Full-scale production-ready enterprise applications or AI platforms generally launch within 10 to 16 weeks, backed by continuous bi-weekly sprint demos and automated staging deployments.',
   },
 ];
+
+export interface CompanyLocation {
+  id: string;
+  city: string;
+  role: string;
+  address: string;
+  phone?: string;
+  email?: string;
+  isPrimary?: boolean;
+}
+
+export const DEFAULT_LOCATIONS: CompanyLocation[] = [
+  {
+    id: 'loc-tbilisi',
+    city: 'Tbilisi, Georgia',
+    role: 'Global HQ & AI Research Lab',
+    address: '17 Ioane Shavteli St, Tbilisi, Georgia',
+    phone: '+995 555433091',
+    email: 'avorainnovations@gmail.com',
+    isPrimary: true,
+  },
+];
+
