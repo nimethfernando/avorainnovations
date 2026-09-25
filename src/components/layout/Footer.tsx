@@ -28,6 +28,30 @@ export default function Footer() {
   const [loading, setLoading] = useState(false);
   const [subscribed, setSubscribed] = useState(false);
   const [error, setError] = useState('');
+  const [services, setServices] = useState<any[]>(SERVICES_DATA);
+  const [industries, setIndustries] = useState<any[]>(INDUSTRIES_DATA);
+
+  React.useEffect(() => {
+    async function loadFooterData() {
+      try {
+        const [srvRes, indRes] = await Promise.all([
+          fetch('/api/services'),
+          fetch('/api/industries'),
+        ]);
+        if (srvRes.ok) {
+          const s = await srvRes.json();
+          if (Array.isArray(s) && s.length > 0) setServices(s);
+        }
+        if (indRes.ok) {
+          const i = await indRes.json();
+          if (Array.isArray(i) && i.length > 0) setIndustries(i);
+        }
+      } catch {
+        // Fallback
+      }
+    }
+    loadFooterData();
+  }, []);
 
   const handleSubscribe = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -157,7 +181,7 @@ export default function Footer() {
           <div className="space-y-3">
             <h4 className="text-xs font-bold text-white uppercase tracking-wider">Services</h4>
             <ul className="space-y-2 text-xs">
-              {SERVICES_DATA.slice(0, 7).map((s) => (
+              {services.slice(0, 7).map((s: any) => (
                 <li key={s.id}>
                   <Link href={`/services/${s.slug}`} className="hover:text-white transition-colors">
                     {s.title}
@@ -176,7 +200,7 @@ export default function Footer() {
           <div className="space-y-3">
             <h4 className="text-xs font-bold text-white uppercase tracking-wider">Industries</h4>
             <ul className="space-y-2 text-xs">
-              {INDUSTRIES_DATA.slice(0, 7).map((i) => (
+              {industries.slice(0, 7).map((i: any) => (
                 <li key={i.id}>
                   <Link href={`/industries/${i.slug}`} className="hover:text-white transition-colors">
                     {i.title}

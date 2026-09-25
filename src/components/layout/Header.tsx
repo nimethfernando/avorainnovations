@@ -70,7 +70,7 @@ export default function Header() {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  const navItems = [
+  const [navItems, setNavItems] = useState([
     { key: 'services', label: t.nav.services, hasMega: true, href: '/services' },
     { key: 'industries', label: t.nav.industries, hasMega: true, href: '/industries' },
     { key: 'technologies', label: t.nav.technologies, hasMega: true, href: '/technologies' },
@@ -78,7 +78,33 @@ export default function Header() {
     { key: 'resources', label: t.nav.resources, hasMega: true, href: '/case-studies' },
     { key: 'about', label: t.nav.about, hasMega: false, href: '/about' },
     { key: 'contact', label: t.nav.contact, hasMega: false, href: '/contact' },
-  ];
+  ]);
+
+  useEffect(() => {
+    async function fetchNav() {
+      try {
+        const res = await fetch('/api/navigation');
+        if (res.ok) {
+          const cmsNav = await res.json();
+          if (Array.isArray(cmsNav) && cmsNav.length > 0) {
+            setNavItems(
+              cmsNav
+                .filter((item: any) => item.enabled !== false)
+                .map((item: any) => ({
+                  key: item.id?.replace(/^nav-/, '') || item.href.replace(/^\//, ''),
+                  label: item.label,
+                  hasMega: item.type === 'mega',
+                  href: item.href,
+                }))
+            );
+          }
+        }
+      } catch {
+        // Fallback to defaults
+      }
+    }
+    fetchNav();
+  }, []);
 
   return (
     <>

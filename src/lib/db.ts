@@ -12,6 +12,92 @@ import {
   TECH_CATEGORIES,
 } from './content';
 
+export const DEFAULT_NAVIGATION = [
+  { id: 'nav-services', label: 'Services', href: '/services', type: 'mega', badge: 'Core', enabled: true, order: 1 },
+  { id: 'nav-industries', label: 'Industries', href: '/industries', type: 'mega', badge: 'Verticals', enabled: true, order: 2 },
+  { id: 'nav-technologies', label: 'Technologies', href: '/technologies', type: 'mega', badge: '', enabled: true, order: 3 },
+  { id: 'nav-solutions', label: 'Solutions', href: '/solutions', type: 'link', badge: '', enabled: true, order: 4 },
+  { id: 'nav-cases', label: 'Case Studies', href: '/case-studies', type: 'link', badge: 'ROI', enabled: true, order: 5 },
+  { id: 'nav-calculator', label: 'Cost Calculator', href: '/cost-calculator', type: 'link', badge: 'Interactive', enabled: true, order: 6 },
+  { id: 'nav-about', label: 'Company', href: '/about', type: 'link', badge: '', enabled: true, order: 7 },
+  { id: 'nav-blog', label: 'Insights', href: '/blog', type: 'link', badge: '', enabled: true, order: 8 },
+  { id: 'nav-contact', label: 'Contact', href: '/contact', type: 'button', badge: '', enabled: true, order: 9 },
+];
+
+export const DEFAULT_CTAS = [
+  {
+    id: 'global-banner',
+    title: 'Ready to Engineer Your Competitive Advantage?',
+    subtitle: 'Collaborate with elite engineers to architect, build, and deploy production-grade software and enterprise AI solutions.',
+    primaryButtonText: 'Schedule Engineering Consultation',
+    primaryButtonLink: '/contact',
+    secondaryButtonText: 'Calculate Project Cost',
+    secondaryButtonLink: '/cost-calculator',
+    badgeText: 'Zero-Risk Discovery • 4-Week PoV',
+    enabled: true,
+  },
+  {
+    id: 'floating-cta',
+    title: 'Consult Engineering Architects',
+    subtitle: 'Schedule an architecture sprint with our senior staff.',
+    primaryButtonText: 'Discuss Your Project',
+    primaryButtonLink: '/contact',
+    enabled: true,
+  },
+];
+
+export const DEFAULT_MEDIA = [
+  {
+    id: 'media-logo-horizontal',
+    name: 'Logo Horizontal (Light Mode)',
+    url: '/logo-horizontal.png',
+    type: 'image/png',
+    dimensions: '1000x250',
+    category: 'Branding',
+    createdAt: new Date().toISOString(),
+  },
+  {
+    id: 'media-logo-dark',
+    name: 'Logo Horizontal (Dark Mode)',
+    url: '/logo-horizontal-dark.png',
+    type: 'image/png',
+    dimensions: '1000x250',
+    category: 'Branding',
+    createdAt: new Date().toISOString(),
+  },
+  {
+    id: 'media-symbol',
+    name: 'Avora Symbol Emblem',
+    url: '/avora-symbol.png',
+    type: 'image/png',
+    dimensions: '512x512',
+    category: 'Branding',
+    createdAt: new Date().toISOString(),
+  },
+  {
+    id: 'media-icon',
+    name: 'Favicon / Web Clip',
+    url: '/icon.png',
+    type: 'image/png',
+    dimensions: '512x512',
+    category: 'Favicon',
+    createdAt: new Date().toISOString(),
+  },
+];
+
+export const DEFAULT_SEO = {
+  metaTitle: 'AVORA Innovations | Enterprise AI, Cloud & Digital Product Engineering',
+  metaDescription: 'Avora Innovations designs and engineers production-grade AI systems, mobile applications, cloud infrastructures, and digital products for forward-thinking enterprises.',
+  siteName: 'AVORA Innovations',
+  ogImage: '/logo-horizontal-dark.png',
+  twitterHandle: '@avorainnovations',
+  twitterCard: 'summary_large_image',
+  keywords: 'AI Engineering, Next.js 16, MariaDB, Enterprise Software, Cloud Architecture, Digital Transformation, Konstant Infosolutions alternative',
+  canonicalBase: 'https://avorainnovations.com',
+  robotsIndex: true,
+  robotsFollow: true,
+};
+
 interface StorageData {
   adminUsers: any[];
   pages: any[];
@@ -26,6 +112,10 @@ interface StorageData {
   contacts: any[];
   subscribers: any[];
   settings: Record<string, string>;
+  navigation: any[];
+  ctas: any[];
+  media: any[];
+  seo: Record<string, any>;
 }
 
 const STORAGE_FILE = path.join(process.cwd(), '.local_db.json');
@@ -182,6 +272,10 @@ function getInitialData(): StorageData {
       linkedin: 'https://linkedin.com/company/avorainnovations',
       github: 'https://github.com/avorainnovations',
     },
+    navigation: DEFAULT_NAVIGATION,
+    ctas: DEFAULT_CTAS,
+    media: DEFAULT_MEDIA,
+    seo: DEFAULT_SEO,
   };
 }
 
@@ -196,6 +290,10 @@ function loadLocalStore(): StorageData {
       if (!parsed.testimonials) parsed.testimonials = TESTIMONIALS_DATA;
       if (!parsed.faqs) parsed.faqs = FAQS_HOMEPAGE;
       if (!parsed.technologies) parsed.technologies = TECH_CATEGORIES;
+      if (!parsed.navigation) parsed.navigation = DEFAULT_NAVIGATION;
+      if (!parsed.ctas) parsed.ctas = DEFAULT_CTAS;
+      if (!parsed.media) parsed.media = DEFAULT_MEDIA;
+      if (!parsed.seo) parsed.seo = DEFAULT_SEO;
       return parsed;
     }
   } catch (err) {
@@ -888,5 +986,228 @@ export const db = {
     store.settings = { ...store.settings, ...newSettings };
     saveLocalStore(store);
     return store.settings;
+  },
+
+  // --- Technologies (CMS Managed) ---
+  async getAllTechnologies() {
+    const rows = await queryDb<any>("SELECT data FROM avora_cms_content WHERE type = 'technology' ORDER BY updatedAt DESC");
+    if (rows && rows.length > 0) {
+      try {
+        return rows.map((r) => JSON.parse(r.data));
+      } catch (e) {
+        console.error('[DB] Error parsing tech data:', e);
+      }
+    }
+    const store = loadLocalStore();
+    return store.technologies || TECH_CATEGORIES;
+  },
+
+  async getTechnologyBySlug(slug: string) {
+    const rows = await queryDb<any>("SELECT data FROM avora_cms_content WHERE type = 'technology' AND slug = ? LIMIT 1", [slug]);
+    if (rows && rows.length > 0) {
+      try {
+        return JSON.parse(rows[0].data);
+      } catch (e) {
+        console.error('[DB] Error parsing tech data:', e);
+      }
+    }
+    const store = loadLocalStore();
+    return (store.technologies || TECH_CATEGORIES).find((t: any) => t.slug === slug) || null;
+  },
+
+  async saveTechnology(techData: any) {
+    const id = techData.id || techData.slug || 'tech-' + Date.now();
+    const slug = techData.slug || id;
+    await queryDb(
+      `
+      INSERT INTO avora_cms_content (id, type, slug, data)
+      VALUES (?, 'technology', ?, ?)
+      ON DUPLICATE KEY UPDATE data = VALUES(data), updatedAt = NOW()
+    `,
+      [id, slug, JSON.stringify(techData)]
+    );
+
+    const store = loadLocalStore();
+    if (!store.technologies) store.technologies = [...TECH_CATEGORIES];
+    const idx = store.technologies.findIndex((t: any) => t.id === techData.id || t.slug === techData.slug);
+    if (idx !== -1) {
+      store.technologies[idx] = { ...store.technologies[idx], ...techData };
+      saveLocalStore(store);
+      return store.technologies[idx];
+    } else {
+      const newTech = { id, ...techData };
+      store.technologies.push(newTech);
+      saveLocalStore(store);
+      return newTech;
+    }
+  },
+
+  async deleteTechnology(slugOrId: string) {
+    await queryDb("DELETE FROM avora_cms_content WHERE type = 'technology' AND (id = ? OR slug = ?)", [slugOrId, slugOrId]);
+
+    const store = loadLocalStore();
+    if (store.technologies) {
+      store.technologies = store.technologies.filter((t: any) => t.id !== slugOrId && t.slug !== slugOrId);
+      saveLocalStore(store);
+    }
+    return true;
+  },
+
+  // --- Navigation (CMS Managed) ---
+  async getNavigation() {
+    const rows = await queryDb<any>("SELECT data FROM avora_cms_content WHERE type = 'navigation' AND slug = 'main_navigation' LIMIT 1");
+    if (rows && rows.length > 0) {
+      try {
+        return JSON.parse(rows[0].data);
+      } catch (e) {
+        console.error('[DB] Error parsing navigation data:', e);
+      }
+    }
+    const store = loadLocalStore();
+    return store.navigation || DEFAULT_NAVIGATION;
+  },
+
+  async saveNavigation(navData: any[]) {
+    await queryDb(
+      `
+      INSERT INTO avora_cms_content (id, type, slug, data)
+      VALUES ('nav-main', 'navigation', 'main_navigation', ?)
+      ON DUPLICATE KEY UPDATE data = VALUES(data), updatedAt = NOW()
+    `,
+      [JSON.stringify(navData)]
+    );
+
+    const store = loadLocalStore();
+    store.navigation = navData;
+    saveLocalStore(store);
+    return navData;
+  },
+
+  // --- CTAs (CMS Managed) ---
+  async getAllCTAs() {
+    const rows = await queryDb<any>("SELECT data FROM avora_cms_content WHERE type = 'cta' ORDER BY updatedAt DESC");
+    if (rows && rows.length > 0) {
+      try {
+        return rows.map((r) => JSON.parse(r.data));
+      } catch (e) {
+        console.error('[DB] Error parsing CTA data:', e);
+      }
+    }
+    const store = loadLocalStore();
+    return store.ctas || DEFAULT_CTAS;
+  },
+
+  async saveCTA(ctaData: any) {
+    const id = ctaData.id || 'cta-' + Date.now();
+    await queryDb(
+      `
+      INSERT INTO avora_cms_content (id, type, slug, data)
+      VALUES (?, 'cta', ?, ?)
+      ON DUPLICATE KEY UPDATE data = VALUES(data), updatedAt = NOW()
+    `,
+      [id, id, JSON.stringify(ctaData)]
+    );
+
+    const store = loadLocalStore();
+    if (!store.ctas) store.ctas = [...DEFAULT_CTAS];
+    const idx = store.ctas.findIndex((c: any) => c.id === ctaData.id);
+    if (idx !== -1) {
+      store.ctas[idx] = { ...store.ctas[idx], ...ctaData };
+      saveLocalStore(store);
+      return store.ctas[idx];
+    } else {
+      store.ctas.push(ctaData);
+      saveLocalStore(store);
+      return ctaData;
+    }
+  },
+
+  async deleteCTA(id: string) {
+    await queryDb("DELETE FROM avora_cms_content WHERE type = 'cta' AND id = ?", [id]);
+    const store = loadLocalStore();
+    if (store.ctas) {
+      store.ctas = store.ctas.filter((c: any) => c.id !== id);
+      saveLocalStore(store);
+    }
+    return true;
+  },
+
+  // --- Media & Images (CMS Managed) ---
+  async getAllMedia() {
+    const rows = await queryDb<any>("SELECT data FROM avora_cms_content WHERE type = 'media' ORDER BY updatedAt DESC");
+    if (rows && rows.length > 0) {
+      try {
+        return rows.map((r) => JSON.parse(r.data));
+      } catch (e) {
+        console.error('[DB] Error parsing media data:', e);
+      }
+    }
+    const store = loadLocalStore();
+    return store.media || DEFAULT_MEDIA;
+  },
+
+  async saveMedia(mediaData: any) {
+    const id = mediaData.id || 'media-' + Date.now();
+    await queryDb(
+      `
+      INSERT INTO avora_cms_content (id, type, slug, data)
+      VALUES (?, 'media', ?, ?)
+      ON DUPLICATE KEY UPDATE data = VALUES(data), updatedAt = NOW()
+    `,
+      [id, id, JSON.stringify(mediaData)]
+    );
+
+    const store = loadLocalStore();
+    if (!store.media) store.media = [...DEFAULT_MEDIA];
+    const idx = store.media.findIndex((m: any) => m.id === mediaData.id);
+    if (idx !== -1) {
+      store.media[idx] = { ...store.media[idx], ...mediaData };
+      saveLocalStore(store);
+      return store.media[idx];
+    } else {
+      store.media.unshift(mediaData);
+      saveLocalStore(store);
+      return mediaData;
+    }
+  },
+
+  async deleteMedia(id: string) {
+    await queryDb("DELETE FROM avora_cms_content WHERE type = 'media' AND id = ?", [id]);
+    const store = loadLocalStore();
+    if (store.media) {
+      store.media = store.media.filter((m: any) => m.id !== id);
+      saveLocalStore(store);
+    }
+    return true;
+  },
+
+  // --- SEO Settings (CMS Managed) ---
+  async getSEOSettings() {
+    const rows = await queryDb<any>("SELECT data FROM avora_cms_content WHERE type = 'seo' AND slug = 'global_seo' LIMIT 1");
+    if (rows && rows.length > 0) {
+      try {
+        return JSON.parse(rows[0].data);
+      } catch (e) {
+        console.error('[DB] Error parsing SEO data:', e);
+      }
+    }
+    const store = loadLocalStore();
+    return store.seo || DEFAULT_SEO;
+  },
+
+  async saveSEOSettings(seoData: any) {
+    await queryDb(
+      `
+      INSERT INTO avora_cms_content (id, type, slug, data)
+      VALUES ('seo-global', 'seo', 'global_seo', ?)
+      ON DUPLICATE KEY UPDATE data = VALUES(data), updatedAt = NOW()
+    `,
+      [JSON.stringify(seoData)]
+    );
+
+    const store = loadLocalStore();
+    store.seo = { ...store.seo, ...seoData };
+    saveLocalStore(store);
+    return store.seo;
   },
 };

@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import {
   SERVICES_DATA,
@@ -48,6 +48,43 @@ const ICON_MAP: Record<string, any> = {
 };
 
 export default function MegaMenu({ activeMenu, closeMenu, openConsultation }: MegaMenuProps) {
+  const [services, setServices] = useState<any[]>(SERVICES_DATA);
+  const [industries, setIndustries] = useState<any[]>(INDUSTRIES_DATA);
+  const [technologies, setTechnologies] = useState<any[]>(TECH_CATEGORIES);
+  const [caseStudies, setCaseStudies] = useState<any[]>(CASE_STUDIES_DATA);
+
+  useEffect(() => {
+    async function loadCMSData() {
+      try {
+        const [srvRes, indRes, techRes, csRes] = await Promise.all([
+          fetch('/api/services'),
+          fetch('/api/industries'),
+          fetch('/api/technologies'),
+          fetch('/api/case-studies'),
+        ]);
+        if (srvRes.ok) {
+          const s = await srvRes.json();
+          if (Array.isArray(s) && s.length > 0) setServices(s);
+        }
+        if (indRes.ok) {
+          const i = await indRes.json();
+          if (Array.isArray(i) && i.length > 0) setIndustries(i);
+        }
+        if (techRes.ok) {
+          const t = await techRes.json();
+          if (Array.isArray(t) && t.length > 0) setTechnologies(t);
+        }
+        if (csRes.ok) {
+          const c = await csRes.json();
+          if (Array.isArray(c) && c.length > 0) setCaseStudies(c);
+        }
+      } catch {
+        // Fallback to static data
+      }
+    }
+    loadCMSData();
+  }, []);
+
   if (!activeMenu) return null;
 
   return (
@@ -78,7 +115,7 @@ export default function MegaMenu({ activeMenu, closeMenu, openConsultation }: Me
                 </Link>
               </div>
 
-              {SERVICES_DATA.slice(0, 8).map((srv) => {
+              {services.slice(0, 8).map((srv: any) => {
                 const IconComponent = ICON_MAP[srv.iconName] || Brain;
                 return (
                   <Link
@@ -170,7 +207,7 @@ export default function MegaMenu({ activeMenu, closeMenu, openConsultation }: Me
                 </Link>
               </div>
 
-              {INDUSTRIES_DATA.map((ind) => (
+              {industries.map((ind: any) => (
                 <Link
                   key={ind.id}
                   href={`/industries/${ind.slug}`}
@@ -244,13 +281,13 @@ export default function MegaMenu({ activeMenu, closeMenu, openConsultation }: Me
             </div>
 
             <div className="grid grid-cols-4 gap-6">
-              {TECH_CATEGORIES.slice(0, 4).map((cat) => (
+              {technologies.slice(0, 4).map((cat: any) => (
                 <div key={cat.slug} className="space-y-3">
                   <h5 className="text-xs font-bold text-slate-900 dark:text-white uppercase tracking-wider border-b border-slate-100 dark:border-slate-800 pb-1.5">
                     {cat.category}
                   </h5>
                   <div className="space-y-2">
-                    {cat.items.slice(0, 4).map((tech) => (
+                    {cat.items?.slice(0, 4).map((tech: any) => (
                       <Link
                         key={tech.name}
                         href="/technologies"

@@ -5,7 +5,7 @@ export async function GET() {
   try {
     const list = await db.getAllTestimonials();
     return NextResponse.json(list);
-  } catch (error) {
+  } catch {
     return NextResponse.json({ error: 'Failed to fetch testimonials' }, { status: 500 });
   }
 }
@@ -18,7 +18,21 @@ export async function POST(request: Request) {
     }
     const saved = await db.saveTestimonial(body);
     return NextResponse.json(saved, { status: 201 });
-  } catch (error) {
+  } catch {
     return NextResponse.json({ error: 'Failed to save testimonial' }, { status: 500 });
+  }
+}
+
+export async function DELETE(request: Request) {
+  try {
+    const { searchParams } = new URL(request.url);
+    const id = searchParams.get('id');
+    if (!id) {
+      return NextResponse.json({ error: 'ID is required' }, { status: 400 });
+    }
+    await db.deleteTestimonial(id);
+    return NextResponse.json({ success: true });
+  } catch {
+    return NextResponse.json({ error: 'Failed to delete testimonial' }, { status: 500 });
   }
 }

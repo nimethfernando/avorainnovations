@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { TESTIMONIALS_DATA } from '@/lib/content';
 import {
   Star,
@@ -8,21 +8,49 @@ import {
   ChevronLeft,
   ChevronRight,
   Sparkles,
-  ShieldCheck,
 } from 'lucide-react';
 
+interface TestimonialItem {
+  id?: string;
+  quote: string;
+  author: string;
+  role: string;
+  company: string;
+  rating?: number;
+  project?: string;
+}
+
 export default function TestimonialsSection() {
+  const [list, setList] = useState<TestimonialItem[]>(TESTIMONIALS_DATA);
   const [currentIndex, setCurrentIndex] = useState(0);
 
+  useEffect(() => {
+    async function loadTestimonials() {
+      try {
+        const res = await fetch('/api/testimonials');
+        if (res.ok) {
+          const data = await res.json();
+          if (Array.isArray(data) && data.length > 0) {
+            setList(data);
+          }
+        }
+      } catch {
+        // Fallback to static list
+      }
+    }
+    loadTestimonials();
+  }, []);
+
   const prev = () => {
-    setCurrentIndex((prev) => (prev === 0 ? TESTIMONIALS_DATA.length - 1 : prev - 1));
+    setCurrentIndex((p) => (p === 0 ? list.length - 1 : p - 1));
   };
 
   const next = () => {
-    setCurrentIndex((prev) => (prev === TESTIMONIALS_DATA.length - 1 ? 0 : prev + 1));
+    setCurrentIndex((p) => (p === list.length - 1 ? 0 : p + 1));
   };
 
-  const current = TESTIMONIALS_DATA[currentIndex];
+  if (list.length === 0) return null;
+  const current = list[currentIndex] || list[0];
 
   return (
     <section className="py-20 lg:py-28 bg-slate-50 dark:bg-slate-900/50 border-y border-slate-200 dark:border-slate-800/80">
@@ -46,7 +74,7 @@ export default function TestimonialsSection() {
           <div className="space-y-6 relative z-10">
             {/* Stars */}
             <div className="flex items-center gap-1 text-amber-400">
-              {[...Array(5)].map((_, i) => (
+              {[...Array(current.rating || 5)].map((_, i) => (
                 <Star key={i} className="w-5 h-5 fill-amber-400" />
               ))}
             </div>
@@ -58,52 +86,34 @@ export default function TestimonialsSection() {
 
             {/* Author details */}
             <div className="pt-4 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between">
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-full bg-gradient-to-tr from-blue-600 to-purple-600 flex items-center justify-center text-white font-bold text-lg">
-                  {current.author[0]}
-                </div>
-                <div>
-                  <h4 className="font-bold text-slate-900 dark:text-white text-base">
-                    {current.author}
-                  </h4>
-                  <p className="text-xs text-slate-500 dark:text-slate-400">
-                    {current.role} • <span className="font-semibold text-blue-500">{current.company}</span>
-                  </p>
-                </div>
+              <div>
+                <h4 className="text-base font-bold text-slate-900 dark:text-white">
+                  {current.author}
+                </h4>
+                <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400">
+                  {current.role}{current.company ? `, ${current.company}` : ''}
+                </p>
               </div>
 
-              {/* Slider Navigation */}
+              {/* Navigation Arrows */}
               <div className="flex items-center gap-2">
                 <button
                   onClick={prev}
+                  className="p-2 rounded-xl border border-slate-200 dark:border-slate-800 hover:bg-slate-100 dark:hover:bg-slate-900 transition-colors text-slate-700 dark:text-slate-300"
                   aria-label="Previous testimonial"
-                  className="p-2.5 rounded-full border border-slate-200 dark:border-slate-800 hover:bg-slate-100 dark:hover:bg-slate-900 text-slate-700 dark:text-slate-300 transition-colors"
                 >
-                  <ChevronLeft className="w-4 h-4" />
+                  <ChevronLeft className="w-5 h-5" />
                 </button>
                 <button
                   onClick={next}
+                  className="p-2 rounded-xl border border-slate-200 dark:border-slate-800 hover:bg-slate-100 dark:hover:bg-slate-900 transition-colors text-slate-700 dark:text-slate-300"
                   aria-label="Next testimonial"
-                  className="p-2.5 rounded-full border border-slate-200 dark:border-slate-800 hover:bg-slate-100 dark:hover:bg-slate-900 text-slate-700 dark:text-slate-300 transition-colors"
                 >
-                  <ChevronRight className="w-4 h-4" />
+                  <ChevronRight className="w-5 h-5" />
                 </button>
               </div>
             </div>
           </div>
-        </div>
-
-        {/* Indicator dots */}
-        <div className="flex justify-center gap-2 mt-6">
-          {TESTIMONIALS_DATA.map((_, idx) => (
-            <button
-              key={idx}
-              onClick={() => setCurrentIndex(idx)}
-              className={`h-2 rounded-full transition-all ${
-                currentIndex === idx ? 'w-8 bg-blue-600' : 'w-2 bg-slate-300 dark:bg-slate-800'
-              }`}
-            />
-          ))}
         </div>
       </div>
     </section>
