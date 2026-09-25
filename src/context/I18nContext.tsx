@@ -2,7 +2,19 @@
 
 import React, { createContext, useContext, useEffect, useState } from 'react';
 
-export type SupportedLanguage = 'en' | 'hi' | 'de';
+export type SupportedLanguage =
+  | 'en'
+  | 'de'
+  | 'ka'
+  | 'es'
+  | 'fr'
+  | 'hi'
+  | 'ar'
+  | 'zh-CN'
+  | 'ja'
+  | 'it'
+  | 'pt'
+  | 'ru';
 
 export interface Translations {
   nav: {
@@ -40,113 +52,70 @@ export interface Translations {
   };
 }
 
-const TRANSLATIONS: Record<SupportedLanguage, Translations> = {
-  en: {
-    nav: {
-      services: 'Services',
-      industries: 'Industries',
-      technologies: 'Technologies',
-      solutions: 'Solutions',
-      resources: 'Resources',
-      about: 'About',
-      contact: 'Contact',
-      getConsultation: 'Book Consultation',
-    },
-    hero: {
-      badge: 'ENTERPRISE AI & DIGITAL ENGINEERING STUDIO',
-      titleLine1: 'Engineering Next-Gen',
-      titleHighlight: 'AI & Digital Products',
-      subtitle: 'Avora Innovations designs, builds, and scales mission-critical software, custom AI systems, and cloud platforms for forward-thinking enterprises worldwide.',
-      ctaPrimary: 'Explore Capabilities',
-      ctaSecondary: 'Schedule Free Technical Discovery',
-      statsYears: 'Years Engineering Excellence',
-      statsProjects: 'Enterprise Deliveries',
-      statsExperts: 'Staff Engineers & Researchers',
-      statsSatisfaction: 'Client Retention Rate',
-    },
-    common: {
-      readMore: 'Read More',
-      exploreService: 'Explore Capabilities',
-      viewCaseStudy: 'View Case Study',
-      scheduleCall: 'Schedule a Call',
-      newsletterTitle: 'Stay Ahead of Technology Waves',
-      newsletterDesc: 'Join 15,000+ technology leaders receiving our bi-weekly insights on AI architectures, cloud performance, and software engineering.',
-      subscribe: 'Subscribe',
-      contactUs: 'Contact Us',
-      allRightsReserved: 'All rights reserved.',
-    },
+const BASE_EN_TRANSLATIONS: Translations = {
+  nav: {
+    services: 'Services',
+    industries: 'Industries',
+    technologies: 'Technologies',
+    solutions: 'Solutions',
+    resources: 'Resources',
+    about: 'About',
+    contact: 'Contact',
+    getConsultation: 'Book Consultation',
   },
-  hi: {
-    nav: {
-      services: 'सेवाएं (Services)',
-      industries: 'उद्योग (Industries)',
-      technologies: 'तकनीक (Technologies)',
-      solutions: 'समाधान (Solutions)',
-      resources: 'संसाधन (Resources)',
-      about: 'परिचय (About)',
-      contact: 'संपर्क करें (Contact)',
-      getConsultation: 'परामर्श बुक करें',
-    },
-    hero: {
-      badge: 'एंटरप्राइज एआई और डिजिटल इंजीनियरिंग स्टूडियो',
-      titleLine1: 'नेक्स्ट-जेन का निर्माण',
-      titleHighlight: 'एआई और डिजिटल उत्पाद',
-      subtitle: 'एवोरा इनोवेशन दुनिया भर के अग्रणी उद्यमों के लिए मिशन-महत्वपूर्ण सॉफ्टवेयर, कस्टम एआई सिस्टम और क्लाउड प्लेटफॉर्म डिजाइन और स्केल करता है।',
-      ctaPrimary: 'क्षमताएं देखें',
-      ctaSecondary: 'तकनीकी परामर्श बुक करें',
-      statsYears: 'वर्षों की इंजीनियरिंग उत्कृष्टता',
-      statsProjects: 'सफल एंटरप्राइज प्रोजेक्ट्स',
-      statsExperts: 'वरिष्ठ इंजीनियर और शोधकर्ता',
-      statsSatisfaction: 'क्लाइंट संतुष्टि दर',
-    },
-    common: {
-      readMore: 'अधिक पढ़ें',
-      exploreService: 'विस्तार से जानें',
-      viewCaseStudy: 'केस स्टडी देखें',
-      scheduleCall: 'कॉल शेड्यूल करें',
-      newsletterTitle: 'तकनीकी नवाचारों से आगे रहें',
-      newsletterDesc: 'एआई आर्किटेक्चर और सॉफ्टवेयर इंजीनियरिंग पर हमारे द्वि-साप्ताहिक इनसाइट्स प्राप्त करने वाले 15,000+ तकनीकी लीडर्स से जुड़ें।',
-      subscribe: 'सदस्यता लें',
-      contactUs: 'संपर्क करें',
-      allRightsReserved: 'सर्वाधिकार सुरक्षित।',
-    },
+  hero: {
+    badge: 'ENTERPRISE AI & DIGITAL ENGINEERING STUDIO',
+    titleLine1: 'Engineering Next-Gen',
+    titleHighlight: 'AI & Digital Products',
+    subtitle: 'Avora Innovations designs, builds, and scales mission-critical software, custom AI systems, and cloud platforms for forward-thinking enterprises worldwide.',
+    ctaPrimary: 'Explore Capabilities',
+    ctaSecondary: 'Schedule Free Technical Discovery',
+    statsYears: 'Years Engineering Excellence',
+    statsProjects: 'Enterprise Deliveries',
+    statsExperts: 'Staff Engineers & Researchers',
+    statsSatisfaction: 'Client Retention Rate',
   },
-  de: {
-    nav: {
-      services: 'Dienstleistungen',
-      industries: 'Branchen',
-      technologies: 'Technologien',
-      solutions: 'Lösungen',
-      resources: 'Ressourcen',
-      about: 'Über Uns',
-      contact: 'Kontakt',
-      getConsultation: 'Beratung buchen',
-    },
-    hero: {
-      badge: 'ENTERPRISE KI & DIGITAL ENGINEERING STUDIO',
-      titleLine1: 'Entwicklung von Next-Gen',
-      titleHighlight: 'KI & Digitalen Produkten',
-      subtitle: 'Avora Innovations entwickelt und skaliert unternehmenskritische Software, maßgeschneiderte KI-Systeme und Cloud-Plattformen für visionäre Unternehmen weltweit.',
-      ctaPrimary: 'Fähigkeiten erkunden',
-      ctaSecondary: 'Technisches Erstgespräch vereinbaren',
-      statsYears: 'Jahre technische Exzellenz',
-      statsProjects: 'Erfolgreiche Unternehmensprojekte',
-      statsExperts: 'Senior Ingenieure & Forscher',
-      statsSatisfaction: 'Kundenbindungsrate',
-    },
-    common: {
-      readMore: 'Mehr erfahren',
-      exploreService: 'Fähigkeiten ansehen',
-      viewCaseStudy: 'Fallstudie ansehen',
-      scheduleCall: 'Gespräch vereinbaren',
-      newsletterTitle: 'Technologischem Wandel voraus sein',
-      newsletterDesc: 'Abonnieren Sie wertvolle Einblicke in KI-Architektur, Cloud-Performance und modernste Softwareentwicklung.',
-      subscribe: 'Abonnieren',
-      contactUs: 'Kontaktieren Sie uns',
-      allRightsReserved: 'Alle Rechte vorbehalten.',
-    },
+  common: {
+    readMore: 'Read More',
+    exploreService: 'Explore Capabilities',
+    viewCaseStudy: 'View Case Study',
+    scheduleCall: 'Schedule a Call',
+    newsletterTitle: 'Stay Ahead of Technology Waves',
+    newsletterDesc: 'Join 15,000+ technology leaders receiving our bi-weekly insights on AI architectures, cloud performance, and software engineering.',
+    subscribe: 'Subscribe',
+    contactUs: 'Contact Us',
+    allRightsReserved: 'All rights reserved.',
   },
 };
+
+const TRANSLATIONS: Partial<Record<SupportedLanguage, Translations>> = {
+  en: BASE_EN_TRANSLATIONS,
+};
+
+export function syncGoogleTranslateCookie(lang: SupportedLanguage) {
+  if (typeof window === 'undefined') return;
+  const hostname = window.location.hostname;
+  if (lang === 'en') {
+    document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+    document.cookie = `googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=${hostname};`;
+    document.cookie = `googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=.${hostname};`;
+    const parts = hostname.split('.');
+    if (parts.length > 2) {
+      const rootDomain = parts.slice(-2).join('.');
+      document.cookie = `googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=.${rootDomain};`;
+    }
+  } else {
+    const val = `/en/${lang}`;
+    document.cookie = `googtrans=${val}; path=/;`;
+    document.cookie = `googtrans=${val}; path=/; domain=${hostname};`;
+    document.cookie = `googtrans=${val}; path=/; domain=.${hostname};`;
+    const parts = hostname.split('.');
+    if (parts.length > 2) {
+      const rootDomain = parts.slice(-2).join('.');
+      document.cookie = `googtrans=${val}; path=/; domain=.${rootDomain};`;
+    }
+  }
+}
 
 interface I18nContextType {
   language: SupportedLanguage;
@@ -162,8 +131,12 @@ export function I18nProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     try {
       const stored = localStorage.getItem('avora_lang') as SupportedLanguage | null;
-      if (stored && ['en', 'hi', 'de'].includes(stored)) {
+      const validLangs: SupportedLanguage[] = [
+        'en', 'de', 'ka', 'es', 'fr', 'hi', 'ar', 'zh-CN', 'ja', 'it', 'pt', 'ru'
+      ];
+      if (stored && validLangs.includes(stored)) {
         setLanguageState(stored);
+        syncGoogleTranslateCookie(stored);
       }
     } catch (e) {
       console.warn('Could not read stored language:', e);
@@ -177,10 +150,26 @@ export function I18nProvider({ children }: { children: React.ReactNode }) {
     } catch (e) {
       console.warn('Could not store language preference:', e);
     }
+
+    syncGoogleTranslateCookie(lang);
+
+    const select = document.querySelector<HTMLSelectElement>('.goog-te-combo');
+    if (select) {
+      select.value = lang === 'en' ? '' : lang;
+      select.dispatchEvent(new Event('change'));
+    }
+
+    // A smooth reload guarantees 100% of all static, server, and dynamic content
+    // across the entire website is fully translated or cleanly reverted to original English
+    if (lang === 'en' || !select) {
+      window.location.reload();
+    }
   };
 
+  const currentTranslations = TRANSLATIONS[language] || BASE_EN_TRANSLATIONS;
+
   return (
-    <I18nContext.Provider value={{ language, setLanguage, t: TRANSLATIONS[language] }}>
+    <I18nContext.Provider value={{ language, setLanguage, t: currentTranslations }}>
       {children}
     </I18nContext.Provider>
   );

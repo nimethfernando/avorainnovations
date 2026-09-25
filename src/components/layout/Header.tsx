@@ -129,14 +129,14 @@ export default function Header() {
             <div className="flex items-center gap-5">
               <a
                 href="mailto:avorainnovations@gmail.com"
-                className="flex items-center gap-1.5 hover:text-white transition-colors"
+                className="flex items-center gap-1.5 hover:text-white transition-colors notranslate"
               >
                 <Mail className="w-3 h-3 text-blue-400" /> avorainnovations@gmail.com
               </a>
               <span className="text-slate-700">|</span>
               <a
                 href="tel:+995555433091"
-                className="flex items-center gap-1.5 hover:text-white transition-colors"
+                className="flex items-center gap-1.5 hover:text-white transition-colors notranslate"
               >
                 <Phone className="w-3 h-3 text-blue-400" /> +995 555433091
               </a>
@@ -153,7 +153,7 @@ export default function Header() {
           <div className="flex items-center justify-between h-20">
             {/* Brand Logo */}
             <div className="flex items-center gap-3">
-              <Link href="/" className="flex items-center group py-1">
+              <Link href="/" className="flex items-center group py-1 notranslate">
                 {/* Light Mode Logo */}
                 <img
                   src="/logo-horizontal.png"
@@ -246,7 +246,8 @@ export default function Header() {
             </div>
 
             {/* Mobile Menu Button */}
-            <div className="flex items-center gap-2 lg:hidden">
+            <div className="flex items-center gap-1.5 sm:gap-2 lg:hidden">
+              <LanguageSwitcher />
               <ThemeToggle />
               <button
                 onClick={() => setMobileOpen(!mobileOpen)}

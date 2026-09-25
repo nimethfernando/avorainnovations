@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { useI18n } from '@/context/I18nContext';
+import LanguageSwitcher from './LanguageSwitcher';
 import { SERVICES_DATA, INDUSTRIES_DATA } from '@/lib/content';
 import {
   Mail,
@@ -133,7 +134,7 @@ export default function Footer() {
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8 pb-16 border-b border-slate-900 text-sm">
           {/* Col 1: Brand & Contact Info */}
           <div className="col-span-2 lg:col-span-2 space-y-4">
-            <Link href="/" className="inline-block group mb-1">
+            <Link href="/" className="inline-block group mb-1 notranslate">
               <img
                 src="/logo-horizontal-dark.png"
                 alt="AVORA Innovations"
@@ -151,13 +152,13 @@ export default function Footer() {
               </div>
               <div className="flex items-center gap-2.5">
                 <Phone className="w-4 h-4 text-blue-400 flex-shrink-0" />
-                <a href="tel:+995555433091" className="hover:text-white transition-colors">
+                <a href="tel:+995555433091" className="hover:text-white transition-colors notranslate">
                   +995 555433091
                 </a>
               </div>
               <div className="flex items-center gap-2.5">
                 <Mail className="w-4 h-4 text-blue-400 flex-shrink-0" />
-                <a href="mailto:avorainnovations@gmail.com" className="hover:text-white transition-colors">
+                <a href="mailto:avorainnovations@gmail.com" className="hover:text-white transition-colors notranslate">
                   avorainnovations@gmail.com
                 </a>
               </div>
@@ -280,12 +281,14 @@ export default function Footer() {
         </div>
 
         {/* Bottom Copyright & Social Icons */}
-        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs">
-          <p className="text-slate-500 text-center sm:text-left">
-            © {new Date().getFullYear()} AVORA Innovations Inc. {t.common.allRightsReserved} Built with Next.js 16, React 19, MariaDB & TypeScript.
+        <div className="pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-xs">
+          <p className="text-slate-500 text-center md:text-left">
+            © {new Date().getFullYear()} <span className="notranslate font-semibold text-slate-400">AVORA Innovations Inc.</span> {t.common.allRightsReserved} Built with Next.js 16, React 19, MariaDB & TypeScript.
           </p>
 
-          <div className="flex items-center gap-4 text-slate-400">
+          <div className="flex items-center gap-4 sm:gap-6 flex-wrap justify-center">
+            <LanguageSwitcher />
+            <div className="flex items-center gap-4 text-slate-400">
             <a
               href="https://linkedin.com"
               target="_blank"
@@ -332,6 +335,7 @@ export default function Footer() {
               <FaWhatsapp className="w-4 h-4" />
             </a>
           </div>
+        </div>
         </div>
       </div>
     </footer>
