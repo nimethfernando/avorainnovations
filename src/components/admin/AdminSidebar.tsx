@@ -22,6 +22,7 @@ import {
   Megaphone,
   Terminal,
   HelpCircle,
+  Calculator,
 } from 'lucide-react';
 
 export default function AdminSidebar() {
@@ -51,6 +52,7 @@ export default function AdminSidebar() {
     { label: 'Site FAQs', href: '/admin/faqs', icon: HelpCircle },
     { label: 'Navigation Menus', href: '/admin/navigation', icon: Menu },
     { label: 'CTAs & Banners', href: '/admin/ctas', icon: Megaphone },
+    { label: 'Cost Calculator', href: '/admin/calculator', icon: Calculator },
     { label: 'Media & Images', href: '/admin/media', icon: ImageIcon },
     { label: 'SEO & Metadata', href: '/admin/seo', icon: Search },
     { label: 'Leads & Inquiries', href: '/admin/inquiries', icon: Inbox },

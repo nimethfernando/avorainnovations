@@ -98,6 +98,10 @@ export const DEFAULT_SEO = {
   robotsFollow: true,
 };
 
+import { CostCalculatorConfig, DEFAULT_COST_CONFIG } from './calculator-types';
+export type { CostCalculatorConfig, CostPlatformConfig, CostScaleConfig, CostFeatureConfig } from './calculator-types';
+export { DEFAULT_COST_CONFIG } from './calculator-types';
+
 interface StorageData {
   adminUsers: any[];
   pages: any[];
@@ -116,6 +120,7 @@ interface StorageData {
   ctas: any[];
   media: any[];
   seo: Record<string, any>;
+  costCalculator?: any;
 }
 
 const STORAGE_FILE = path.join(process.cwd(), '.local_db.json');
@@ -276,6 +281,7 @@ function getInitialData(): StorageData {
     ctas: DEFAULT_CTAS,
     media: DEFAULT_MEDIA,
     seo: DEFAULT_SEO,
+    costCalculator: DEFAULT_COST_CONFIG,
   };
 }
 
@@ -293,6 +299,7 @@ function loadLocalStore(): StorageData {
       if (!parsed.navigation) parsed.navigation = DEFAULT_NAVIGATION;
       if (!parsed.ctas) parsed.ctas = DEFAULT_CTAS;
       if (!parsed.media) parsed.media = DEFAULT_MEDIA;
+      if (!parsed.costCalculator) parsed.costCalculator = DEFAULT_COST_CONFIG;
       if (!parsed.seo) parsed.seo = DEFAULT_SEO;
       return parsed;
     }
@@ -1210,4 +1217,35 @@ export const db = {
     saveLocalStore(store);
     return store.seo;
   },
+
+  // --- Cost Calculator Settings (CMS Managed) ---
+  async getCostCalculatorSettings(): Promise<CostCalculatorConfig> {
+    const rows = await queryDb<any>("SELECT data FROM avora_cms_content WHERE type = 'calculator' AND slug = 'pricing_config' LIMIT 1");
+    if (rows && rows.length > 0) {
+      try {
+        return JSON.parse(rows[0].data);
+      } catch (e) {
+        console.error('[DB] Error parsing calculator data:', e);
+      }
+    }
+    const store = loadLocalStore();
+    return store.costCalculator || DEFAULT_COST_CONFIG;
+  },
+
+  async saveCostCalculatorSettings(configData: any): Promise<CostCalculatorConfig> {
+    await queryDb(
+      `
+      INSERT INTO avora_cms_content (id, type, slug, data)
+      VALUES ('calc-pricing', 'calculator', 'pricing_config', ?)
+      ON DUPLICATE KEY UPDATE data = VALUES(data), updatedAt = NOW()
+    `,
+      [JSON.stringify(configData)]
+    );
+
+    const store = loadLocalStore();
+    store.costCalculator = configData;
+    saveLocalStore(store);
+    return store.costCalculator;
+  },
 };
+

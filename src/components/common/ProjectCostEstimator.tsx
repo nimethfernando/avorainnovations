@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Calculator,
   Smartphone,
@@ -13,10 +13,23 @@ import {
   Loader2,
   DollarSign,
   Clock,
+  Layers,
 } from 'lucide-react';
+import { CostCalculatorConfig, DEFAULT_COST_CONFIG } from '@/lib/calculator-types';
+
+const ICON_MAP: Record<string, any> = {
+  Brain,
+  Globe,
+  Smartphone,
+  Cloud,
+  Layers,
+  Sparkles,
+  Calculator,
+};
 
 export default function ProjectCostEstimator() {
-  const [platform, setPlatform] = useState<'ai' | 'web' | 'mobile' | 'cloud'>('ai');
+  const [config, setConfig] = useState<CostCalculatorConfig>(DEFAULT_COST_CONFIG);
+  const [platform, setPlatform] = useState<string>('ai');
   const [scale, setScale] = useState<'mvp' | 'growth' | 'enterprise'>('growth');
   const [features, setFeatures] = useState<string[]>([
     'Custom Neural Inference',
@@ -27,29 +40,27 @@ export default function ProjectCostEstimator() {
   const [submitting, setSubmitting] = useState(false);
   const [contactData, setContactData] = useState({ name: '', email: '', phone: '' });
 
-  const platforms = [
-    { id: 'ai', label: 'AI & Machine Learning', icon: Brain, base: 35000 },
-    { id: 'web', label: 'Enterprise Web Application', icon: Globe, base: 25000 },
-    { id: 'mobile', label: 'iOS & Android Mobile App', icon: Smartphone, base: 30000 },
-    { id: 'cloud', label: 'SaaS, Cloud & DevOps', icon: Cloud, base: 28000 },
-  ];
+  useEffect(() => {
+    async function fetchPricing() {
+      try {
+        const res = await fetch('/api/cost-calculator');
+        if (res.ok) {
+          const data = await res.json();
+          if (data && data.platforms && data.scaleMultipliers && data.features) {
+            setConfig(data);
+          }
+        }
+      } catch (err) {
+        console.warn('Could not fetch dynamic pricing, using defaults:', err);
+      }
+    }
+    fetchPricing();
+  }, []);
 
-  const scaleMultipliers = {
-    mvp: { label: 'Prototype / Fast MVP (4 Weeks)', mult: 0.8 },
-    growth: { label: 'Mid-Market Enterprise System', mult: 1.3 },
-    enterprise: { label: 'Hyperscale Mission-Critical', mult: 2.2 },
-  };
-
-  const featureList = [
-    { label: 'Custom Neural Inference', cost: 12000 },
-    { label: 'Enterprise Authentication & RBAC', cost: 4000 },
-    { label: 'Real-time WebSocket Streaming', cost: 6000 },
-    { label: 'Payment Gateway & Multi-Currency', cost: 5000 },
-    { label: 'Bespoke RAG / Vector Database', cost: 14000 },
-    { label: 'IoT Telemetry & MQTT Broker', cost: 10000 },
-    { label: 'Automated CI/CD & Kubernetes IaC', cost: 8000 },
-    { label: 'Enterprise Security & Regulatory Hardening', cost: 9000 },
-  ];
+  const platforms = config.platforms;
+  const scaleMultipliers = config.scaleMultipliers;
+  const featureList = config.features.filter((f) => f.enabled !== false);
+  const currency = config.currency || '$';
 
   const toggleFeature = (feat: string) => {
     if (features.includes(feat)) {
@@ -61,13 +72,16 @@ export default function ProjectCostEstimator() {
 
   // Calculate dynamic price estimate
   const currentPlatform = platforms.find((p) => p.id === platform) || platforms[0];
+  const scaleObj = scaleMultipliers[scale] || scaleMultipliers.growth;
   const featureSum = features.reduce((acc, fName) => {
     const f = featureList.find((item) => item.label === fName);
     return acc + (f ? f.cost : 0);
   }, 0);
-  const totalBase = (currentPlatform.base + featureSum) * scaleMultipliers[scale].mult;
-  const lowRange = Math.round(totalBase * 0.9 / 1000) * 1000;
-  const highRange = Math.round(totalBase * 1.2 / 1000) * 1000;
+  const totalBase = (currentPlatform.base + featureSum) * scaleObj.mult;
+  const lowMultiplier = config.lowMultiplier ?? 0.9;
+  const highMultiplier = config.highMultiplier ?? 1.2;
+  const lowRange = Math.round((totalBase * lowMultiplier) / 1000) * 1000;
+  const highRange = Math.round((totalBase * highMultiplier) / 1000) * 1000;
 
   const handleSubmitEstimate = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -82,9 +96,9 @@ export default function ProjectCostEstimator() {
           email: contactData.email,
           phone: contactData.phone,
           service: currentPlatform.label,
-          budget: `$${lowRange.toLocaleString()} - $${highRange.toLocaleString()}`,
+          budget: `${currency}${lowRange.toLocaleString()} - ${currency}${highRange.toLocaleString()}`,
           timeline,
-          message: `[Interactive Cost Estimator Result]\nPlatform: ${currentPlatform.label}\nScale: ${scaleMultipliers[scale].label}\nSelected Features: ${features.join(', ')}\nEstimated Budget: $${lowRange.toLocaleString()} - $${highRange.toLocaleString()}`,
+          message: `[Interactive Cost Estimator Result]\nPlatform: ${currentPlatform.label}\nScale: ${scaleObj.label}\nSelected Features: ${features.join(', ')}\nEstimated Budget: ${currency}${lowRange.toLocaleString()} - ${currency}${highRange.toLocaleString()}`,
         }),
       });
       setSubmitted(true);
@@ -118,13 +132,13 @@ export default function ProjectCostEstimator() {
         </label>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
           {platforms.map((p) => {
-            const Icon = p.icon;
+            const Icon = (p.icon && ICON_MAP[p.icon]) || Globe;
             const isSelected = platform === p.id;
             return (
               <button
                 key={p.id}
                 type="button"
-                onClick={() => setPlatform(p.id as any)}
+                onClick={() => setPlatform(p.id)}
                 className={`p-4 rounded-2xl border text-left transition-all flex items-start gap-3 ${
                   isSelected
                     ? 'border-blue-500 bg-blue-50 dark:bg-blue-950/30 text-blue-600 dark:text-blue-400 shadow-md'
@@ -134,6 +148,9 @@ export default function ProjectCostEstimator() {
                 <Icon className="w-5 h-5 flex-shrink-0 mt-0.5" />
                 <div>
                   <div className="text-xs font-bold">{p.label}</div>
+                  <div className="text-[11px] text-slate-400 mt-0.5">
+                    From {currency}{p.base.toLocaleString()}
+                  </div>
                 </div>
               </button>
             );
@@ -149,6 +166,7 @@ export default function ProjectCostEstimator() {
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
           {(Object.keys(scaleMultipliers) as (keyof typeof scaleMultipliers)[]).map((key) => {
             const item = scaleMultipliers[key];
+            if (!item) return null;
             const isSelected = scale === key;
             return (
               <button
@@ -178,7 +196,7 @@ export default function ProjectCostEstimator() {
             const isChecked = features.includes(f.label);
             return (
               <button
-                key={f.label}
+                key={f.id || f.label}
                 type="button"
                 onClick={() => toggleFeature(f.label)}
                 className={`p-3 rounded-xl border text-left text-xs transition-all flex items-center justify-between ${
@@ -202,7 +220,7 @@ export default function ProjectCostEstimator() {
             Estimated Engineering Scope
           </div>
           <div className="text-3xl sm:text-4xl font-black text-white">
-            ${lowRange.toLocaleString()} – ${highRange.toLocaleString()}
+            {currency}{lowRange.toLocaleString()} – {currency}{highRange.toLocaleString()}
           </div>
           <p className="text-xs text-slate-300">
             Estimated Delivery Timeline: <strong>{timeline}</strong> • Includes full IP ownership, automated testing, and CI/CD pipelines.
