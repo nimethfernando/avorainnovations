@@ -34,10 +34,6 @@ export interface Translations {
     subtitle: string;
     ctaPrimary: string;
     ctaSecondary: string;
-    statsYears: string;
-    statsProjects: string;
-    statsExperts: string;
-    statsSatisfaction: string;
   };
   common: {
     readMore: string;
@@ -70,10 +66,6 @@ const BASE_EN_TRANSLATIONS: Translations = {
     subtitle: 'Avora Innovations designs, builds, and scales mission-critical software, custom AI systems, and cloud platforms for forward-thinking enterprises worldwide.',
     ctaPrimary: 'Explore Capabilities',
     ctaSecondary: 'Schedule Free Technical Discovery',
-    statsYears: 'Years Engineering Excellence',
-    statsProjects: 'Enterprise Deliveries',
-    statsExperts: 'Staff Engineers & Researchers',
-    statsSatisfaction: 'Client Retention Rate',
   },
   common: {
     readMore: 'Read More',

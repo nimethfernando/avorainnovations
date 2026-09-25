@@ -20,24 +20,8 @@ export default function HeroSection() {
   const [modalOpen, setModalOpen] = useState(false);
   const [activeTab, setActiveTab] = useState<'architecture' | 'benchmark' | 'pipeline'>('architecture');
 
-  const stats = [
-    { value: '14+', label: t.hero.statsYears },
-    { value: '450+', label: t.hero.statsProjects },
-    { value: '180+', label: t.hero.statsExperts },
-    { value: '99.4%', label: t.hero.statsSatisfaction },
-  ];
-
-  const clientLogos = [
-    'CarePulse Health',
-    'Apex Financial',
-    'TransGlobal Logistics',
-    'Velour Luxury',
-    'Novatech Global',
-    'Solargen Dynamics',
-  ];
-
   return (
-    <section className="relative overflow-hidden pt-8 pb-20 lg:pt-16 lg:pb-32 bg-grid-pattern">
+    <section className="relative overflow-hidden pt-8 pb-16 lg:pt-16 lg:pb-24 bg-grid-pattern">
       {/* Background Glows */}
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-tr from-blue-600/15 via-indigo-600/10 to-purple-600/15 rounded-full blur-[120px] pointer-events-none" />
       <div className="absolute top-10 right-10 w-96 h-96 bg-cyan-500/10 rounded-full blur-[100px] pointer-events-none" />
@@ -261,37 +245,6 @@ export default function HeroSection() {
                 </div>
               )}
             </div>
-          </div>
-        </div>
-
-        {/* Global Impact Numbers */}
-        <div className="mt-16 pt-12 border-t border-slate-200 dark:border-slate-800/80 grid grid-cols-2 md:grid-cols-4 gap-6">
-          {stats.map((stat, idx) => (
-            <div key={idx} className="space-y-1 text-center md:text-left">
-              <div className="text-3xl sm:text-4xl lg:text-5xl font-extrabold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                {stat.value}
-              </div>
-              <div className="text-xs sm:text-sm font-semibold text-slate-600 dark:text-slate-400">
-                {stat.label}
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* Enterprise Logos Bar */}
-        <div className="mt-12 pt-8 border-t border-slate-100 dark:border-slate-800/40 text-center">
-          <p className="text-xs font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-6">
-            Trusted by Engineering Leaders & Innovative Enterprises Worldwide
-          </p>
-          <div className="flex flex-wrap items-center justify-center gap-8 sm:gap-12 opacity-60 hover:opacity-100 transition-opacity">
-            {clientLogos.map((client) => (
-              <span
-                key={client}
-                className="font-extrabold text-sm sm:text-base tracking-tight text-slate-700 dark:text-slate-300"
-              >
-                {client}
-              </span>
-            ))}
           </div>
         </div>
       </div>

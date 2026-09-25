@@ -107,25 +107,6 @@ export default function AboutPage() {
           </p>
         </div>
 
-        {/* Global Numbers */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 pt-8 border-t border-slate-100 dark:border-slate-800">
-          <div>
-            <div className="text-3xl sm:text-4xl font-black text-blue-600">14+</div>
-            <div className="text-xs text-slate-500 mt-1">Years Continuous Excellence</div>
-          </div>
-          <div>
-            <div className="text-3xl sm:text-4xl font-black text-purple-600">450+</div>
-            <div className="text-xs text-slate-500 mt-1">Enterprise Deliveries</div>
-          </div>
-          <div>
-            <div className="text-3xl sm:text-4xl font-black text-emerald-600">180+</div>
-            <div className="text-xs text-slate-500 mt-1">Senior Engineers & Researchers</div>
-          </div>
-          <div>
-            <div className="text-3xl sm:text-4xl font-black text-cyan-600">99.4%</div>
-            <div className="text-xs text-slate-500 mt-1">Client Retention Rate</div>
-          </div>
-        </div>
       </div>
 
       {/* Delivery Methodology */}

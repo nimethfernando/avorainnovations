@@ -74,7 +74,7 @@ export default function ProcessSection() {
             Our 6-Stage Agile Engineering Lifecycle
           </h2>
           <p className="text-sm sm:text-base text-slate-600 dark:text-slate-400 leading-relaxed">
-            The proven development lifecycle that powers our 99.4% client retention rate and zero-surprise delivery guarantee.
+            The proven development lifecycle that powers our deterministic execution and zero-surprise delivery guarantee.
           </p>
         </div>
 
