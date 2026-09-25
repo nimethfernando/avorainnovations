@@ -495,7 +495,7 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
                 <tr>
                   <td className="p-4 font-semibold text-slate-900 dark:text-white">Air-Gapped Security & Compliance</td>
                   <td className="p-4 text-emerald-600 dark:text-emerald-400 font-bold bg-blue-50/30 dark:bg-blue-950/20">
-                    ISO 27001 & GDPR aligned architecture. Deployable in private VPC, air-gapped, or on-prem.
+                    Zero-trust & air-gapped secure architecture. Deployable in private VPC, air-gapped, or on-prem.
                   </td>
                   <td className="p-4 text-slate-500">
                     Multi-tenant shared cloud with public API vulnerabilities and third-party data access risks.

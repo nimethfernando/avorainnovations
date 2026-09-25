@@ -120,7 +120,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     ],
     faqs: [
       { question: 'How do you guarantee model accuracy over time?', answer: 'We build automated telemetry pipelines that track data drift and concept drift in real-time. When statistical Kolmogorov-Smirnov thresholds are breached, continuous retraining workflows trigger automatically.' },
-      { question: 'Can Avora train models on our private on-premise infrastructure?', answer: 'Yes, our engineering teams deploy air-gapped infrastructure using Docker, Kubernetes, and Ray clusters compliant with enterprise security and ISO 27001 standards.' },
+      { question: 'Can Avora train models on our private on-premise infrastructure?', answer: 'Yes, our engineering teams deploy air-gapped infrastructure using Docker, Kubernetes, and Ray clusters with enterprise-grade security and isolated network protocols.' },
     ],
   },
   {
@@ -149,7 +149,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     useCases: [
       {
         title: 'Cognitive Clinical Trial Protocol Analysis',
-        challenge: 'Medical research staff spent 45+ hours parsing 800-page FDA submission protocols for oncology trials.',
+        challenge: 'Medical research staff spent 45+ hours parsing 800-page clinical trial submission protocols for oncology trials.',
         solution: 'Built an enterprise RAG knowledge engine with biomedical embeddings and strict citations linking to original text.',
         impact: 'Research parsing time dropped from 45 hours to 18 minutes with 100% verifiable source citation accuracy.',
       },
@@ -213,7 +213,7 @@ export const SERVICES_DATA: ServiceItem[] = [
       { title: 'Custom SaaS Portal Engineering', desc: 'Multi-tenant dashboards with granular RBAC permissions, audit logging, and billing automation.' },
       { title: 'High-Volume E-Commerce Engines', desc: 'Headless storefronts built to withstand 100,000+ simultaneous checkout transactions during Black Friday surges.' },
       { title: 'Legacy Web App Modernization', desc: 'Incremental migration from legacy monoliths (PHP, ASP.NET, AngularJS) to modern Next.js and TypeScript.' },
-      { title: 'Accessibility & WCAG 2.2 AA Audit', desc: 'Comprehensive screen-reader optimization, keyboard navigation, and legal accessibility certification.' },
+      { title: 'Accessibility & WCAG 2.2 AA Audit', desc: 'Comprehensive screen-reader optimization, keyboard navigation, and accessibility audits.' },
     ],
     technologies: ['Next.js', 'React 19', 'TypeScript', 'Tailwind CSS', 'GraphQL', 'Node.js', 'Vercel', 'AWS CloudFront'],
     industries: ['FinTech', 'SaaS', 'Real Estate', 'Healthcare', 'Education'],
@@ -245,7 +245,7 @@ export const SERVICES_DATA: ServiceItem[] = [
       { title: 'App Store Optimization (ASO)', desc: 'Full lifecycle App Store & Google Play compliance, metadata tuning, and automated Fastlane release pipelines.', icon: 'Award' },
     ],
     subServices: [
-      { title: 'Fintech & Digital Wallet Apps', desc: 'PCI-DSS compliant mobile banking interfaces with biometric authentication and NFC tap-to-pay.' },
+      { title: 'Fintech & Digital Wallet Apps', desc: 'Bank-grade secure mobile banking interfaces with biometric authentication and NFC tap-to-pay.' },
       { title: 'Healthcare Patient Portals', desc: 'Secure, encrypted telemedicine platforms with WebRTC video calling and medical records integration.' },
       { title: 'On-Demand Delivery & Fleet Apps', desc: 'Real-time WebSocket geospatial tracking, dynamic routing, and driver dispatch telemetry.' },
       { title: 'IoT Companion Mobile Apps', desc: 'Bluetooth Low Energy (BLE) scanning, pairing, and firmware over-the-air (FOTA) updates.' },
@@ -272,7 +272,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     badge: 'Enterprise Grade',
     iconName: 'Cloud',
     shortDesc: 'Cloud-native infrastructure, Kubernetes container orchestration, multi-tenant SaaS architecture, and 99.99% uptime CI/CD.',
-    fullDesc: 'Architect elastic, bulletproof cloud backbones on AWS, GCP, and Azure. We empower organizations to deploy code hundreds of times per week with zero downtime, automated rollbacks, and ISO 27001-aligned security guardrails.',
+    fullDesc: 'Architect elastic, bulletproof cloud backbones on AWS, GCP, and Azure. We empower organizations to deploy code hundreds of times per week with zero downtime, automated rollbacks, and zero-trust enterprise security guardrails.',
     capabilities: [
       { title: 'Kubernetes & Container Orchestration', desc: 'Production EKS/GKE clusters configured with Istio service mesh, Karpenter autoscaling, and zero trust.', icon: 'Boxes' },
       { title: 'Infrastructure as Code (IaC)', desc: '100% reproducible environments provisioned via Terraform, OpenTofu, and Pulumi.', icon: 'Code' },
@@ -296,7 +296,7 @@ export const SERVICES_DATA: ServiceItem[] = [
       },
     ],
     faqs: [
-      { question: 'Can you help us achieve enterprise compliance?', answer: 'Yes, our DevOps engineers establish automated IaC policies, immutable audit logs, encrypted KMS keys, and continuous compliance monitors aligned with ISO 27001 standards.' },
+      { question: 'Can you help us achieve enterprise compliance?', answer: 'Yes, our DevOps engineers establish automated IaC policies, immutable audit logs, encrypted KMS keys, and continuous monitors aligned with enterprise security and data protection best practices.' },
     ],
   },
   {
@@ -362,7 +362,7 @@ export const SERVICES_DATA: ServiceItem[] = [
         title: 'Global Cold-Chain Pharmaceutical Telemetry',
         challenge: 'A vaccine distributor suffered $8M in spoiled shipments due to unmonitored temperature breaches in transit.',
         solution: 'Built a cellular LoRaWAN tracking gateway streaming tamper-evident temperature logs to an encrypted cloud portal.',
-        impact: 'Spoilage dropped to zero across 140,000 shipments, passing strict FDA Title 21 CFR Part 11 validation.',
+        impact: 'Spoilage dropped to zero across 140,000 shipments with 100% tamper-evident audit trail verification.',
       },
     ],
     faqs: [
@@ -448,7 +448,7 @@ export const INDUSTRIES_DATA: IndustryItem[] = [
     title: 'FinTech & Banking',
     subtitle: 'Next-Generation Financial Infrastructure & Algorithmic Security',
     iconName: 'Landmark',
-    overview: 'Avora builds bank-grade financial platforms, digital wallets, automated loan underwriting pipelines, and ultra-low-latency algorithmic trading systems that comply with global PCI-DSS, ISO 27001, and open-banking directives.',
+    overview: 'Avora builds bank-grade financial platforms, digital wallets, automated loan underwriting pipelines, and ultra-low-latency algorithmic trading systems engineered with bank-grade encryption, secure APIs, and open-banking directives.',
     keyStats: [
       { value: '$45B+', label: 'Annual Transactions Processed' },
       { value: '99.999%', label: 'System Availability SLA' },
@@ -482,7 +482,7 @@ export const INDUSTRIES_DATA: IndustryItem[] = [
       },
     ],
     faqs: [
-      { question: 'How do you ensure compliance with financial regulations?', answer: 'We engineer compliance into code from day one: end-to-end encryption in transit and at rest, immutable audit logging, PCI-DSS Level 1 compliant architectures, and automated GDPR/CCPA data handling.' },
+      { question: 'How do you ensure compliance with financial regulations?', answer: 'We engineer security into code from day one: end-to-end encryption in transit and at rest, immutable audit logging, secure payment tokenization, zero-trust architectures, and automated GDPR/CCPA data handling.' },
     ],
   },
   {
@@ -507,7 +507,7 @@ export const INDUSTRIES_DATA: IndustryItem[] = [
       {
         title: 'AI Medical Imaging & Computer Vision',
         desc: 'Deep learning models that assist radiologists by pre-screening chest X-rays, MRIs, and CT scans for anomalies.',
-        features: ['DICOM viewer integration', 'Pixel-level lesion segmentation', 'Differential diagnosis suggestions', 'FDA SAMD compliant validation data'],
+        features: ['DICOM viewer integration', 'Pixel-level lesion segmentation', 'Differential diagnosis suggestions', 'Clinical validation dataset'],
       },
       {
         title: 'EHR/EMR Interoperability & FHIR Pipelines',
@@ -934,7 +934,7 @@ export const CASE_STUDIES_DATA: CaseStudy[] = [
   {
     id: 'healthtech-ai-diagnostics',
     slug: 'healthtech-ai-diagnostics',
-    title: 'FDA-Compliant Medical Imaging AI Suite for 40+ Hospital Facilities',
+    title: 'Clinical Medical Imaging AI Suite for 40+ Hospital Facilities',
     subtitle: 'Deep learning radiology assistant detecting acute pulmonary conditions with 99.4% precision.',
     client: 'CarePulse Health Systems',
     industry: 'Healthcare & Life Sciences',
@@ -1179,7 +1179,7 @@ export const FAQS_HOMEPAGE = [
   },
   {
     question: 'How do you safeguard client intellectual property and data security?',
-    answer: 'You retain 100% ownership of all source code, models, weights, and documentation created during our engagement upon invoice settlement. Our engineers adhere to strict non-disclosure agreements (NDAs), and all code is developed inside private client repositories compliant with ISO 27001 and strict enterprise data protection protocols.',
+    answer: 'You retain 100% ownership of all source code, models, weights, and documentation created during our engagement upon invoice settlement. Our engineers adhere to strict non-disclosure agreements (NDAs), and all code is developed inside private client repositories with strict enterprise data protection and zero-trust protocols.',
   },
   {
     question: 'Can you help us migrate legacy monoliths to modern cloud-native architectures?',

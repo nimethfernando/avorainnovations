@@ -167,7 +167,7 @@ export default function Footer() {
             {/* Trust and IP Guarantee Badges */}
             <div className="pt-3 flex flex-wrap gap-2">
               <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md bg-slate-900 border border-slate-800 text-[11px] text-slate-300">
-                <ShieldCheck className="w-3.5 h-3.5 text-blue-400" /> ISO 27001 Certified
+                <ShieldCheck className="w-3.5 h-3.5 text-blue-400" /> End-to-End Encryption
               </span>
               <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md bg-slate-900 border border-slate-800 text-[11px] text-slate-300">
                 <CheckCircle className="w-3.5 h-3.5 text-emerald-400" /> 100% Code & IP Ownership

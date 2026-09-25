@@ -130,9 +130,9 @@ export default async function IndustryDetailPage({ params }: IndustryPageProps) 
                 <ShieldCheck className="w-5 h-5" />
               </div>
               <div>
-                <h4 className="text-sm font-bold text-slate-900 dark:text-white">100% Regulatory Hardened</h4>
+                <h4 className="text-sm font-bold text-slate-900 dark:text-white">Enterprise Security Hardened</h4>
                 <p className="text-xs text-slate-600 dark:text-slate-400 mt-1 leading-relaxed">
-                  Engineered in strict compliance with ISO 27001, end-to-end data encryption, and GDPR standards.
+                  Engineered with zero-trust security architecture, end-to-end data encryption, and strict data privacy standards.
                 </p>
               </div>
             </div>

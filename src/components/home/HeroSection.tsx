@@ -46,7 +46,7 @@ export default function HeroSection() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
           {/* Left Column: Headline, Subtitle, CTAs */}
           <div className="lg:col-span-7 space-y-6 text-center lg:text-left">
-            {/* Signature AVORA Innovations Glowing AI Capsule & Clutch Rating */}
+            {/* Signature AVORA Innovations Glowing AI Capsule & Trust Badge */}
             <div className="flex flex-wrap items-center justify-center lg:justify-start gap-3">
               <Link
                 href="/cost-calculator"
@@ -65,7 +65,7 @@ export default function HeroSection() {
 
               <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-500/10 dark:bg-blue-900/30 border border-blue-500/20 text-blue-600 dark:text-blue-400 text-xs font-semibold">
                 <ShieldCheck className="w-3.5 h-3.5 text-emerald-500" />
-                <span>Clutch 5.0 ★ Rated Premier Partner</span>
+                <span>100% Client Code & IP Ownership</span>
               </span>
             </div>
 

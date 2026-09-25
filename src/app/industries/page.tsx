@@ -48,7 +48,7 @@ export default function IndustriesPage() {
           Specialized Industry Solutions
         </h1>
         <p className="text-base text-slate-600 dark:text-slate-400 leading-relaxed">
-          From strict banking compliance and FDA-regulated medical vision to high-throughput omnichannel retail, we engineer mission-critical systems designed for your industry&apos;s unique challenges.
+          From resilient banking security and clinical medical imaging to high-throughput omnichannel retail, we engineer mission-critical systems designed for your industry&apos;s unique challenges.
         </p>
       </div>
 
