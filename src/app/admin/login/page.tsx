@@ -45,10 +45,8 @@ function LoginForm() {
       <div className="rounded-3xl border border-slate-800 bg-slate-900/90 p-8 sm:p-10 shadow-2xl space-y-6 backdrop-blur-xl">
         {/* Brand header */}
         <div className="text-center space-y-2">
-          <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-blue-600 via-indigo-600 to-purple-600 p-0.5 mx-auto shadow-lg shadow-blue-500/20">
-            <div className="w-full h-full bg-slate-950 rounded-[14px] flex items-center justify-center font-black text-2xl text-white">
-              A
-            </div>
+          <div className="w-14 h-14 rounded-2xl overflow-hidden bg-white p-2 mx-auto shadow-xl shadow-blue-500/10 ring-1 ring-white/20 flex items-center justify-center">
+            <img src="/icon.png" alt="AVORA Innovations" className="w-full h-full object-contain" />
           </div>
           <h1 className="text-2xl font-black tracking-tight text-white">
             AVORA Executive Portal

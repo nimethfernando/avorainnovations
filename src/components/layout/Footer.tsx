@@ -109,11 +109,9 @@ export default function Footer() {
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8 pb-16 border-b border-slate-900 text-sm">
           {/* Col 1: Brand & Contact Info */}
           <div className="col-span-2 lg:col-span-2 space-y-4">
-            <Link href="/" className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 via-indigo-600 to-purple-600 p-0.5">
-                <div className="w-full h-full bg-slate-950 rounded-[10px] flex items-center justify-center">
-                  <span className="text-xl font-black text-white">A</span>
-                </div>
+            <Link href="/" className="flex items-center gap-3 group">
+              <div className="w-10 h-10 rounded-xl overflow-hidden bg-white p-1 shadow-md ring-1 ring-white/20 flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition-all">
+                <img src="/icon.png" alt="AVORA Innovations" className="w-full h-full object-contain" />
               </div>
               <div>
                 <span className="font-extrabold text-xl tracking-tight text-white">AVORA</span>
