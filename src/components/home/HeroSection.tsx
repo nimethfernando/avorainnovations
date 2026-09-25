@@ -46,7 +46,7 @@ export default function HeroSection() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
           {/* Left Column: Headline, Subtitle, CTAs */}
           <div className="lg:col-span-7 space-y-6 text-center lg:text-left">
-            {/* Signature "STEP INTO AI" Glowing Capsule & Clutch Rating */}
+            {/* Signature AVORA Innovations Glowing AI Capsule & Clutch Rating */}
             <div className="flex flex-wrap items-center justify-center lg:justify-start gap-3">
               <Link
                 href="/cost-calculator"
@@ -59,7 +59,7 @@ export default function HeroSection() {
                 </span>
                 <Sparkles className="w-3.5 h-3.5 text-amber-400 animate-pulse relative z-10" />
                 <span className="relative z-10 bg-gradient-to-r from-white via-blue-100 to-cyan-200 bg-clip-text text-transparent font-extrabold text-[11px]">
-                  STEP INTO AI • LAUNCH AGENT WORKFORCE
+                  ENTERPRISE AI LABS • DEPLOY AGENT WORKFORCE
                 </span>
               </Link>
 

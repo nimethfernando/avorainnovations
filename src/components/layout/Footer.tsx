@@ -163,16 +163,13 @@ export default function Footer() {
               </div>
             </div>
 
-            {/* Compliance badges */}
+            {/* Trust and IP Guarantee Badges */}
             <div className="pt-3 flex flex-wrap gap-2">
               <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md bg-slate-900 border border-slate-800 text-[11px] text-slate-300">
                 <ShieldCheck className="w-3.5 h-3.5 text-blue-400" /> ISO 27001 Certified
               </span>
               <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md bg-slate-900 border border-slate-800 text-[11px] text-slate-300">
-                <ShieldCheck className="w-3.5 h-3.5 text-purple-400" /> SOC2 Type II
-              </span>
-              <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md bg-slate-900 border border-slate-800 text-[11px] text-slate-300">
-                <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" /> HIPAA Compliant
+                <CheckCircle className="w-3.5 h-3.5 text-emerald-400" /> 100% Code & IP Ownership
               </span>
             </div>
           </div>

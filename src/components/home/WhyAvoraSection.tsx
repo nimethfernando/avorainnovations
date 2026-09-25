@@ -32,7 +32,7 @@ export default function WhyAvoraSection() {
     {
       icon: ShieldCheck,
       title: 'Air-Gapped & Regulatory Compliance',
-      desc: 'Every system is engineered from the first commit to pass SOC2 Type II, HIPAA, PCI-DSS Level 1, and GDPR data-isolation requirements.',
+      desc: 'Every system is engineered from the first commit with zero-trust architecture, ISO 27001 standards, and strict GDPR data-isolation guarantees.',
     },
     {
       icon: Layers,

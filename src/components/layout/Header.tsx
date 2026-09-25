@@ -121,10 +121,10 @@ export default function Header() {
           <div className="max-w-7xl mx-auto flex items-center justify-between">
             <div className="flex items-center gap-4">
               <span className="inline-flex items-center gap-1.5 text-blue-400 font-medium">
-                <Sparkles className="w-3 h-3" /> ISO 27001 & SOC2 Type II Certified Global Delivery
+                <Sparkles className="w-3 h-3" /> ISO 27001 Certified Enterprise AI & Digital Engineering Studio
               </span>
               <span className="text-slate-600">|</span>
-              <span className="text-slate-400">Primary Reference Standard: Enterprise-Grade Architecture</span>
+              <span className="text-slate-400">Enterprise AI • Cloud Platforms • Digital Products</span>
             </div>
             <div className="flex items-center gap-5">
               <a
@@ -168,7 +168,7 @@ export default function Header() {
                 />
               </Link>
 
-              {/* Signature "EXPLORE AI AGENT LAB" Glowing Capsule (Konstant's "STEP INTO AI" equivalent) */}
+              {/* Signature "EXPLORE AI AGENT LAB" Glowing Capsule */}
               <Link
                 href="/cost-calculator"
                 className="hidden xl:inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-bold tracking-wide relative overflow-hidden group shadow-lg shadow-purple-500/10 hover:shadow-purple-500/25 transition-all border border-purple-500/30 bg-gradient-to-r from-blue-950/60 via-purple-950/60 to-indigo-950/60 text-white backdrop-blur-md"

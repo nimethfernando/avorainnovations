@@ -92,7 +92,7 @@ export const DEFAULT_SEO = {
   ogImage: '/logo-horizontal-dark.png',
   twitterHandle: '@avorainnovations',
   twitterCard: 'summary_large_image',
-  keywords: 'AI Engineering, Next.js 16, MariaDB, Enterprise Software, Cloud Architecture, Digital Transformation, Konstant Infosolutions alternative',
+  keywords: 'AI Engineering, Next.js 16, MariaDB, Enterprise Software, Cloud Architecture, Digital Transformation, Global AI Studio',
   canonicalBase: 'https://avorainnovations.com',
   robotsIndex: true,
   robotsFollow: true,

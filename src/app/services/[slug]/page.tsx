@@ -222,7 +222,7 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
                 </div>
                 <div className="flex items-center gap-2">
                   <CheckCircle2 className="w-4 h-4 text-emerald-500" />
-                  <span>SOC2 & HIPAA compliant infrastructure</span>
+                  <span>Enterprise-grade security & governance</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <CheckCircle2 className="w-4 h-4 text-emerald-500" />
@@ -495,7 +495,7 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
                 <tr>
                   <td className="p-4 font-semibold text-slate-900 dark:text-white">Air-Gapped Security & Compliance</td>
                   <td className="p-4 text-emerald-600 dark:text-emerald-400 font-bold bg-blue-50/30 dark:bg-blue-950/20">
-                    HIPAA, SOC2 Type II, and PCI-DSS compliant. Deployable in private VPC or on-prem.
+                    ISO 27001 & GDPR aligned architecture. Deployable in private VPC, air-gapped, or on-prem.
                   </td>
                   <td className="p-4 text-slate-500">
                     Multi-tenant shared cloud with public API vulnerabilities and third-party data access risks.

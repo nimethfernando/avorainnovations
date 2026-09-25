@@ -48,7 +48,7 @@ export default function ProjectCostEstimator() {
     { label: 'Bespoke RAG / Vector Database', cost: 14000 },
     { label: 'IoT Telemetry & MQTT Broker', cost: 10000 },
     { label: 'Automated CI/CD & Kubernetes IaC', cost: 8000 },
-    { label: 'HIPAA / SOC2 Regulatory Hardening', cost: 9000 },
+    { label: 'Enterprise Security & Regulatory Hardening', cost: 9000 },
   ];
 
   const toggleFeature = (feat: string) => {

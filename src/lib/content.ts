@@ -120,7 +120,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     ],
     faqs: [
       { question: 'How do you guarantee model accuracy over time?', answer: 'We build automated telemetry pipelines that track data drift and concept drift in real-time. When statistical Kolmogorov-Smirnov thresholds are breached, continuous retraining workflows trigger automatically.' },
-      { question: 'Can Avora train models on our private on-premise infrastructure?', answer: 'Yes, our engineering teams deploy air-gapped infrastructure using Docker, Kubernetes, and Ray clusters compliant with HIPAA, SOC2 Type II, and ISO 27001 requirements.' },
+      { question: 'Can Avora train models on our private on-premise infrastructure?', answer: 'Yes, our engineering teams deploy air-gapped infrastructure using Docker, Kubernetes, and Ray clusters compliant with enterprise security and ISO 27001 standards.' },
     ],
   },
   {
@@ -246,7 +246,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     ],
     subServices: [
       { title: 'Fintech & Digital Wallet Apps', desc: 'PCI-DSS compliant mobile banking interfaces with biometric authentication and NFC tap-to-pay.' },
-      { title: 'Healthcare Patient Portals', desc: 'HIPAA-compliant telemedicine platforms with WebRTC video calling and medical records encryption.' },
+      { title: 'Healthcare Patient Portals', desc: 'Secure, encrypted telemedicine platforms with WebRTC video calling and medical records integration.' },
       { title: 'On-Demand Delivery & Fleet Apps', desc: 'Real-time WebSocket geospatial tracking, dynamic routing, and driver dispatch telemetry.' },
       { title: 'IoT Companion Mobile Apps', desc: 'Bluetooth Low Energy (BLE) scanning, pairing, and firmware over-the-air (FOTA) updates.' },
     ],
@@ -272,7 +272,7 @@ export const SERVICES_DATA: ServiceItem[] = [
     badge: 'Enterprise Grade',
     iconName: 'Cloud',
     shortDesc: 'Cloud-native infrastructure, Kubernetes container orchestration, multi-tenant SaaS architecture, and 99.99% uptime CI/CD.',
-    fullDesc: 'Architect elastic, bulletproof cloud backbones on AWS, GCP, and Azure. We empower organizations to deploy code hundreds of times per week with zero downtime, automated rollbacks, and SOC2-compliant security guardrails.',
+    fullDesc: 'Architect elastic, bulletproof cloud backbones on AWS, GCP, and Azure. We empower organizations to deploy code hundreds of times per week with zero downtime, automated rollbacks, and ISO 27001-aligned security guardrails.',
     capabilities: [
       { title: 'Kubernetes & Container Orchestration', desc: 'Production EKS/GKE clusters configured with Istio service mesh, Karpenter autoscaling, and zero trust.', icon: 'Boxes' },
       { title: 'Infrastructure as Code (IaC)', desc: '100% reproducible environments provisioned via Terraform, OpenTofu, and Pulumi.', icon: 'Code' },
@@ -296,7 +296,7 @@ export const SERVICES_DATA: ServiceItem[] = [
       },
     ],
     faqs: [
-      { question: 'Can you help us achieve SOC2 and ISO compliance?', answer: 'Yes, our DevOps engineers establish automated IaC policies, immutable audit logs, encrypted KMS keys, and continuous compliance monitors required for SOC2 Type II.' },
+      { question: 'Can you help us achieve enterprise compliance?', answer: 'Yes, our DevOps engineers establish automated IaC policies, immutable audit logs, encrypted KMS keys, and continuous compliance monitors aligned with ISO 27001 standards.' },
     ],
   },
   {
@@ -448,7 +448,7 @@ export const INDUSTRIES_DATA: IndustryItem[] = [
     title: 'FinTech & Banking',
     subtitle: 'Next-Generation Financial Infrastructure & Algorithmic Security',
     iconName: 'Landmark',
-    overview: 'Avora builds bank-grade financial platforms, digital wallets, automated loan underwriting pipelines, and ultra-low-latency algorithmic trading systems that comply with global PCI-DSS, SOC2, and open-banking directives.',
+    overview: 'Avora builds bank-grade financial platforms, digital wallets, automated loan underwriting pipelines, and ultra-low-latency algorithmic trading systems that comply with global PCI-DSS, ISO 27001, and open-banking directives.',
     keyStats: [
       { value: '$45B+', label: 'Annual Transactions Processed' },
       { value: '99.999%', label: 'System Availability SLA' },
@@ -489,11 +489,11 @@ export const INDUSTRIES_DATA: IndustryItem[] = [
     id: 'healthcare',
     slug: 'healthcare',
     title: 'Healthcare & Life Sciences',
-    subtitle: 'HIPAA-Compliant Digital Health, AI Diagnostics & Telemedicine',
+    subtitle: 'Enterprise Digital Health, AI Diagnostics & Telemedicine',
     iconName: 'HeartPulse',
     overview: 'Empowering health systems, biotech innovators, and medical device manufacturers with patient-centric digital portals, clinical trial software, and deep learning diagnostic imaging engines.',
     keyStats: [
-      { value: '100%', label: 'HIPAA & HL7/FHIR Compliance' },
+      { value: '100%', label: 'HL7 & FHIR Standards Alignment' },
       { value: '12M+', label: 'Patient Encounters Streamlined' },
       { value: '99.4%', label: 'AI Diagnostic Precision' },
       { value: '65%', label: 'Clinical Documentation Time Saved' },
@@ -502,7 +502,7 @@ export const INDUSTRIES_DATA: IndustryItem[] = [
       {
         title: 'Telemedicine & Remote Patient Monitoring (RPM)',
         desc: 'Encrypted WebRTC telehealth platforms connected to wearable vital monitors with automated triage alerting.',
-        features: ['HIPAA-compliant video & messaging', 'Continuous vitals Bluetooth ingestion', 'Automated physician scheduling', 'EHR electronic prescription integration'],
+        features: ['Encrypted, secure video & messaging', 'Continuous vitals Bluetooth ingestion', 'Automated physician scheduling', 'EHR electronic prescription integration'],
       },
       {
         title: 'AI Medical Imaging & Computer Vision',
@@ -525,7 +525,7 @@ export const INDUSTRIES_DATA: IndustryItem[] = [
       },
     ],
     faqs: [
-      { question: 'Are your healthcare solutions HIPAA and GDPR certified?', answer: 'Yes, our infrastructure patterns feature BAA signing capabilities, dedicated encrypted databases, role-based access control, and comprehensive audit logs.' },
+      { question: 'How do you protect patient and clinical data privacy?', answer: 'Our infrastructure architectures incorporate dedicated encrypted databases, zero-trust role-based access control, end-to-end data isolation, and comprehensive audit logs.' },
     ],
   },
   {
@@ -939,13 +939,13 @@ export const CASE_STUDIES_DATA: CaseStudy[] = [
     client: 'CarePulse Health Systems',
     industry: 'Healthcare & Life Sciences',
     heroImage: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=1200&q=80',
-    challenge: 'Radiology departments across 40 hospital locations faced a severe backlog of emergency chest radiographs. Clinicians required an automated triaging system to instantly flag life-threatening anomalies such as pneumothorax and pulmonary embolism while adhering strictly to HIPAA guidelines.',
+    challenge: 'Radiology departments across 40 hospital locations faced a severe backlog of emergency chest radiographs. Clinicians required an automated triaging system to instantly flag life-threatening anomalies such as pneumothorax and pulmonary embolism while adhering strictly to medical data privacy guidelines.',
     solution: 'Engineered an edge-integrated computer vision pipeline that automatically ingests DICOM images from hospital PACS, runs vision transformers for anomaly segmentation, and generates preliminary diagnostic heatmaps directly inside the physician workflow.',
     implementation: [
       'Built a DICOM listener microservice that securely ingests scans via TLS 1.3 encryption.',
       'Trained an ensemble Vision Transformer model on 350,000 anonymized multi-institutional clinical scans.',
       'Engineered an interactive WebGL DICOM viewer compatible with desktop and iPad Pro hospital terminals.',
-      'Passed rigorous third-party HIPAA, SOC2 Type II, and FDA 510(k) software-as-medical-device validations.',
+      'Passed rigorous third-party medical software validation, penetration testing, and clinical safety audits.',
     ],
     results: [
       { metric: '99.4%', label: 'Diagnostic Sensitivity' },
@@ -1179,7 +1179,7 @@ export const FAQS_HOMEPAGE = [
   },
   {
     question: 'How do you safeguard client intellectual property and data security?',
-    answer: 'You retain 100% ownership of all source code, models, weights, and documentation created during our engagement upon invoice settlement. Our engineers adhere to strict non-disclosure agreements (NDAs), and all code is developed inside private client repositories compliant with SOC2 Type II, ISO 27001, and HIPAA protocols.',
+    answer: 'You retain 100% ownership of all source code, models, weights, and documentation created during our engagement upon invoice settlement. Our engineers adhere to strict non-disclosure agreements (NDAs), and all code is developed inside private client repositories compliant with ISO 27001 and strict enterprise data protection protocols.',
   },
   {
     question: 'Can you help us migrate legacy monoliths to modern cloud-native architectures?',

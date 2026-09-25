@@ -64,7 +64,7 @@ export default function AboutPage() {
     {
       step: '04',
       title: 'Compliance, Security & Performance Hardening',
-      desc: 'Formal third-party penetration testing, SOC2 audit validation, and Core Web Vitals optimization guaranteeing sub-second LCP.',
+      desc: 'Formal third-party penetration testing, automated security vulnerability scanning, and Core Web Vitals optimization guaranteeing sub-second LCP.',
     },
     {
       step: '05',

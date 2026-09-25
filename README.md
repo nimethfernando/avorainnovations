@@ -7,7 +7,7 @@
 [![MariaDB](https://img.shields.io/badge/MariaDB-3.5+-003545?style=for-the-badge&logo=mariadb)](https://mariadb.org/)
 [![Prisma ORM](https://img.shields.io/badge/Prisma-v7.10-2D3748?style=for-the-badge&logo=prisma)](https://www.prisma.io/)
 
-AVORA Innovations is a premier, enterprise-grade digital engineering and artificial intelligence company platform. Benchmarked against global technology leaders (such as **Konstant Infosolutions**), AVORA Innovations provides a deeply interactive, scalable browsing experience designed for Fortune 500 enterprises, high-growth scale-ups, and innovators worldwide.
+AVORA Innovations is a premier, enterprise-grade digital engineering and artificial intelligence company platform. Built with modern enterprise architectural standards, AVORA Innovations provides a deeply interactive, scalable browsing experience designed for Fortune 500 enterprises, high-growth scale-ups, and innovators worldwide.
 
 ---
 

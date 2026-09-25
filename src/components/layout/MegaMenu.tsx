@@ -231,7 +231,7 @@ export default function MegaMenu({ activeMenu, closeMenu, openConsultation }: Me
                 </span>
                 <h5 className="text-base font-bold text-white mt-1 mb-2">Enterprise Grade Compliance</h5>
                 <p className="text-xs text-slate-300 leading-relaxed mb-4">
-                  All solutions adhere to strict industry protocols including HIPAA, PCI-DSS Level 1, SOC2 Type II, and GDPR.
+                  All solutions adhere to strict enterprise protocols including ISO 27001, end-to-end encryption, and GDPR standards.
                 </p>
                 <div className="space-y-2 text-xs text-slate-300">
                   <div className="flex items-center gap-2">

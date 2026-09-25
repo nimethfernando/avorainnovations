@@ -132,7 +132,7 @@ export default async function IndustryDetailPage({ params }: IndustryPageProps) 
               <div>
                 <h4 className="text-sm font-bold text-slate-900 dark:text-white">100% Regulatory Hardened</h4>
                 <p className="text-xs text-slate-600 dark:text-slate-400 mt-1 leading-relaxed">
-                  Engineered in strict compliance with HIPAA, FHIR, SOC2 Type II, ISO 27001 &amp; PCI-DSS standards.
+                  Engineered in strict compliance with ISO 27001, end-to-end data encryption, and GDPR standards.
                 </p>
               </div>
             </div>

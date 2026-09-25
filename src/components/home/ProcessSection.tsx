@@ -42,7 +42,7 @@ export default function ProcessSection() {
       title: 'QA & Security Hardening',
       icon: ShieldCheck,
       desc: 'Automated fuzzing, security penetration tests, database stress testing, and Core Web Vitals optimization guaranteeing sub-0.7s LCP.',
-      deliverables: ['SOC2 / HIPAA Compliance Audit', 'Penetration Test Report', 'Load Testing Telemetry', 'Lighthouse 95+ Score'],
+      deliverables: ['Security & Quality Audit', 'Penetration Test Report', 'Load Testing Telemetry', 'Lighthouse 95+ Score'],
     },
     {
       step: '05',

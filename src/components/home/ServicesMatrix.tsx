@@ -82,7 +82,7 @@ export default function ServicesMatrix() {
           ))}
         </div>
 
-        {/* Services Grid (Konstant Infosolutions Style Depth) */}
+        {/* Services Grid (Enterprise Architecture Cards) */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredServices.map((service) => {
             const Icon = ICON_MAP[service.iconName] || Brain;
