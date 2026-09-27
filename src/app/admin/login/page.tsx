@@ -3,7 +3,7 @@
 import React, { useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
-import { Lock, Mail, ArrowRight, Loader2, ShieldCheck } from 'lucide-react';
+import { Lock, Mail, ArrowRight, Loader2 } from 'lucide-react';
 
 function LoginForm() {
   const router = useRouter();
@@ -11,7 +11,7 @@ function LoginForm() {
   const from = searchParams.get('from') || '/admin';
 
   const [email, setEmail] = useState('avorainnovations@gmail.com');
-  const [password, setPassword] = useState('AvoraAdmin2026!Secure');
+  const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
@@ -57,15 +57,6 @@ function LoginForm() {
           </p>
         </div>
 
-        {/* Demo credentials helper pill */}
-        <div className="p-3.5 rounded-2xl bg-blue-500/10 border border-blue-500/20 text-xs text-blue-300 space-y-1">
-          <div className="font-bold flex items-center gap-1.5 text-blue-400">
-            <ShieldCheck className="w-3.5 h-3.5" /> Initial Admin Credentials Preloaded:
-          </div>
-          <div>Email: <span className="font-mono text-white">avorainnovations@gmail.com</span></div>
-          <div>Password: <span className="font-mono text-white">AvoraAdmin2026!Secure</span></div>
-        </div>
-
         {error && (
           <div className="p-3 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-400 text-xs">
             {error}
@@ -84,6 +75,7 @@ function LoginForm() {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                placeholder="avorainnovations@gmail.com"
                 className="w-full pl-10 pr-4 py-3 rounded-xl bg-slate-950 border border-slate-800 text-white text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"
               />
             </div>
@@ -108,6 +100,7 @@ function LoginForm() {
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                placeholder="Enter master password"
                 className="w-full pl-10 pr-4 py-3 rounded-xl bg-slate-950 border border-slate-800 text-white text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"
               />
             </div>
