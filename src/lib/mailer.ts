@@ -155,3 +155,61 @@ export function generatePasswordResetEmailHtml({
     </div>
   `;
 }
+
+export function generatePasswordResetOtpEmailHtml({
+  otp,
+  email,
+}: {
+  otp: string;
+  email: string;
+}): string {
+  const formattedOtp = otp.split('').join(' ');
+  return `
+    <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: 0 auto; background: #0b1120; color: #f8fafc; border-radius: 16px; overflow: hidden; border: 1px solid #1e293b;">
+      <div style="background: linear-gradient(135deg, #1d4ed8, #4338ca); padding: 32px 24px; text-align: center;">
+        <h1 style="margin: 0; color: #ffffff; font-size: 24px; font-weight: 800; letter-spacing: -0.5px;">AVORA INNOVATIONS</h1>
+        <p style="margin: 8px 0 0 0; color: #cbd5e1; font-size: 13px; text-transform: uppercase; letter-spacing: 1px;">Executive Portal • Security Verification</p>
+      </div>
+
+      <div style="padding: 32px 28px;">
+        <h2 style="margin: 0 0 12px 0; color: #ffffff; font-size: 18px; font-weight: 700;">Password Reset Verification Code</h2>
+        <p style="margin: 0 0 20px 0; color: #94a3b8; font-size: 14px; line-height: 1.6;">
+          You requested to reset the master password for the executive account: <strong style="color: #38bdf8;">${email}</strong>.
+        </p>
+
+        <p style="margin: 0 0 24px 0; color: #94a3b8; font-size: 14px; line-height: 1.6;">
+          Use the 6-digit One-Time Passcode (OTP) below to authenticate your password change request:
+        </p>
+
+        <!-- Large OTP Display Card -->
+        <div style="text-align: center; margin: 32px 0;">
+          <div style="display: inline-block; background: #0f172a; border: 2px solid #3b82f6; border-radius: 16px; padding: 20px 36px; box-shadow: 0 0 24px rgba(59, 130, 246, 0.25);">
+            <div style="font-size: 11px; text-transform: uppercase; font-weight: 700; color: #60a5fa; letter-spacing: 2px; margin-bottom: 8px;">
+              Your 6-Digit Security Code
+            </div>
+            <div style="font-size: 38px; font-weight: 900; color: #ffffff; letter-spacing: 10px; font-family: monospace;">
+              ${formattedOtp}
+            </div>
+          </div>
+        </div>
+
+        <div style="background: #0f172a; padding: 16px; border-radius: 10px; border: 1px solid #1e293b; margin-bottom: 24px; font-size: 13px; color: #cbd5e1; line-height: 1.6;">
+          <strong style="color: #f59e0b;">Important Security Notice:</strong>
+          <ul style="margin: 8px 0 0 0; padding-left: 20px; color: #94a3b8;">
+            <li>This OTP code expires in <strong>15 minutes</strong>.</li>
+            <li>It can only be used once.</li>
+            <li>Never share this code with anyone. AVORA staff will never ask for it.</li>
+          </ul>
+        </div>
+
+        <p style="margin: 0; color: #64748b; font-size: 12px; line-height: 1.5;">
+          If you did not request this password reset, please ignore this email. Your current administrator credentials remain secure.
+        </p>
+      </div>
+
+      <div style="background: #020617; padding: 18px; text-align: center; font-size: 11px; color: #475569; border-top: 1px solid #1e293b;">
+        © ${new Date().getFullYear()} AVORA Innovations Inc. • One-Time Passcode Security
+      </div>
+    </div>
+  `;
+}

@@ -1,7 +1,6 @@
 import { NextResponse } from 'next/server';
-import crypto from 'crypto';
 import { db } from '@/lib/db';
-import { sendEmail, generatePasswordResetEmailHtml } from '@/lib/mailer';
+import { sendEmail, generatePasswordResetOtpEmailHtml } from '@/lib/mailer';
 
 export async function POST(request: Request) {
   try {
@@ -21,36 +20,30 @@ export async function POST(request: Request) {
       );
     }
 
-    // Generate cryptographically secure reset token
-    const token = crypto.randomBytes(32).toString('hex');
-    const expiresAt = Date.now() + 60 * 60 * 1000; // 1 hour
+    // Generate 6-digit numeric OTP code
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    const expiresAt = Date.now() + 15 * 60 * 1000; // 15 minutes
 
-    await db.savePasswordResetToken(cleanEmail, token, expiresAt);
+    // Save OTP to database and local store
+    await db.savePasswordResetOtp(cleanEmail, otp, expiresAt);
+    await db.savePasswordResetToken(cleanEmail, otp, expiresAt);
 
-    // Build base URL
-    const forwardedHost = request.headers.get('x-forwarded-host') || request.headers.get('host');
-    const forwardedProto = request.headers.get('x-forwarded-proto') || 'http';
-    const baseUrl = forwardedHost
-      ? `${forwardedProto}://${forwardedHost}`
-      : process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
-
-    const resetUrl = `${baseUrl}/admin/reset-password?token=${token}`;
-
-    // Send email via configured SMTP
-    const emailHtml = generatePasswordResetEmailHtml({ resetUrl, email: cleanEmail });
+    // Send styled verification email with large OTP
+    const emailHtml = generatePasswordResetOtpEmailHtml({ otp, email: cleanEmail });
     await sendEmail({
       to: cleanEmail,
-      subject: 'AVORA Executive Portal — Reset Your Admin Password',
+      subject: `AVORA Security: ${otp} is your Master Password Reset Code`,
       html: emailHtml,
     });
 
     return NextResponse.json({
       success: true,
-      message: `Password reset link has been dispatched to ${cleanEmail}. Check your inbox.`,
-      resetUrl, // Provided for direct convenience
+      message: `A 6-digit verification code has been sent to ${cleanEmail}. Valid for 15 minutes.`,
+      email: cleanEmail,
+      otp, // Provided for instant direct convenience
     });
   } catch (error) {
-    console.error('[FORGOT PASSWORD ERROR]:', error);
+    console.error('[FORGOT PASSWORD OTP ERROR]:', error);
     return NextResponse.json({ error: 'Failed to process password reset request.' }, { status: 500 });
   }
 }

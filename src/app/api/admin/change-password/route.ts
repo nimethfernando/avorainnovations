@@ -19,7 +19,14 @@ export async function POST(request: Request) {
 
     const { currentPassword, newPassword } = await request.json();
 
-    if (!currentPassword || !newPassword || newPassword.length < 8) {
+    if (!currentPassword) {
+      return NextResponse.json(
+        { error: 'Please enter your current (old) password.' },
+        { status: 400 }
+      );
+    }
+
+    if (!newPassword || newPassword.length < 8) {
       return NextResponse.json(
         { error: 'New password must be at least 8 characters.' },
         { status: 400 }
@@ -28,12 +35,15 @@ export async function POST(request: Request) {
 
     const admin = await db.findAdminByEmail(payload.email);
     if (!admin) {
-      return NextResponse.json({ error: 'Admin not found.' }, { status: 404 });
+      return NextResponse.json({ error: 'Administrator account not found.' }, { status: 404 });
     }
 
     const isMatch = verifyPassword(currentPassword, admin.password);
     if (!isMatch) {
-      return NextResponse.json({ error: 'Current password does not match.' }, { status: 400 });
+      return NextResponse.json(
+        { error: 'Current (old) password does not match. Please enter your correct old password.' },
+        { status: 400 }
+      );
     }
 
     const hashed = hashPassword(newPassword);

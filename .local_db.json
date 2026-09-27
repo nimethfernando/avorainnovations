@@ -2579,10 +2579,9 @@
   "resetTokens": [
     {
       "email": "avorainnovations@gmail.com",
-      "token": "test-token-1790513114129",
-      "expiresAt": 1790513174129,
-      "used": true,
-      "createdAt": "2026-09-27T12:45:14.129Z"
+      "token": "987654",
+      "expiresAt": 1790514748978,
+      "used": true
     }
   ]
 }

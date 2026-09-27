@@ -24,6 +24,7 @@ import {
   HelpCircle,
   Calculator,
   MapPin,
+  Key,
 } from 'lucide-react';
 
 export default function AdminSidebar() {
@@ -60,6 +61,7 @@ export default function AdminSidebar() {
     { label: 'Office Locations', href: '/admin/locations', icon: MapPin },
     { label: 'Global Branding', href: '/admin/settings', icon: Sliders },
     { label: 'Admin Profile', href: '/admin/profile', icon: User },
+    { label: 'Change Password', href: '/admin/change-password', icon: Key },
   ];
 
   return (

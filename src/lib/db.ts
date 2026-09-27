@@ -486,6 +486,113 @@ export const db = {
     return true;
   },
 
+  async savePasswordResetOtp(email: string, otp: string, expiresAt: number) {
+    const cleanEmail = email.toLowerCase().trim();
+    const cleanOtp = otp.trim();
+    const tokenRecord = {
+      email: cleanEmail,
+      otp: cleanOtp,
+      expiresAt,
+      used: false,
+      createdAt: new Date().toISOString(),
+    };
+
+    await queryDb(
+      `
+      INSERT INTO avora_cms_content (id, type, slug, data)
+      VALUES (?, 'reset_otp', ?, ?)
+      ON DUPLICATE KEY UPDATE data = VALUES(data), updatedAt = NOW()
+    `,
+      ['otp-' + cleanEmail, cleanOtp, JSON.stringify(tokenRecord)]
+    );
+
+    const store = loadLocalStore();
+    if (!store.resetTokens) store.resetTokens = [];
+    store.resetTokens = store.resetTokens.filter((t) => t.email !== cleanEmail);
+    store.resetTokens.push({
+      email: cleanEmail,
+      token: cleanOtp,
+      expiresAt,
+      used: false,
+    });
+    saveLocalStore(store);
+    return true;
+  },
+
+  async verifyPasswordResetOtp(email: string, otp: string) {
+    const cleanEmail = email.toLowerCase().trim();
+    const cleanOtp = otp.trim();
+
+    // 1. Check in DB
+    const rows = await queryDb<any>(
+      "SELECT data FROM avora_cms_content WHERE type = 'reset_otp' AND id = ? LIMIT 1",
+      ['otp-' + cleanEmail]
+    );
+    if (rows && rows.length > 0) {
+      try {
+        const record = JSON.parse(rows[0].data);
+        if (record.otp !== cleanOtp) {
+          return { valid: false, error: 'Incorrect 6-digit OTP verification code. Please check your email.' };
+        }
+        if (record.used) {
+          return { valid: false, error: 'This verification code has already been used. Please request a new code.' };
+        }
+        if (Date.now() > record.expiresAt) {
+          return { valid: false, error: 'This verification code has expired (valid for 15 minutes). Please request a new code.' };
+        }
+        return { valid: true, email: record.email };
+      } catch (err) {
+        console.error('[DB] Error parsing reset OTP:', err);
+      }
+    }
+
+    // 2. Fallback to local store
+    const store = loadLocalStore();
+    const record = (store.resetTokens || []).find(
+      (t) => t.email.toLowerCase() === cleanEmail && t.token === cleanOtp
+    );
+    if (!record) {
+      return { valid: false, error: 'Incorrect or expired verification code.' };
+    }
+    if (record.used) {
+      return { valid: false, error: 'This verification code has already been used. Please request a new code.' };
+    }
+    if (Date.now() > record.expiresAt) {
+      return { valid: false, error: 'This verification code has expired. Please request a new code.' };
+    }
+    return { valid: true, email: record.email };
+  },
+
+  async markResetOtpUsed(email: string) {
+    const cleanEmail = email.toLowerCase().trim();
+    const rows = await queryDb<any>(
+      "SELECT data FROM avora_cms_content WHERE type = 'reset_otp' AND id = ? LIMIT 1",
+      ['otp-' + cleanEmail]
+    );
+    if (rows && rows.length > 0) {
+      try {
+        const record = JSON.parse(rows[0].data);
+        record.used = true;
+        await queryDb(
+          "UPDATE avora_cms_content SET data = ?, updatedAt = NOW() WHERE type = 'reset_otp' AND id = ?",
+          [JSON.stringify(record), 'otp-' + cleanEmail]
+        );
+      } catch (e) {
+        console.error('[DB] Error marking OTP used in DB:', e);
+      }
+    }
+
+    const store = loadLocalStore();
+    if (store.resetTokens) {
+      const idx = store.resetTokens.findIndex((t) => t.email.toLowerCase() === cleanEmail);
+      if (idx !== -1) {
+        store.resetTokens[idx].used = true;
+        saveLocalStore(store);
+      }
+    }
+    return true;
+  },
+
   // --- Dynamic Pages ---
   async getPage(slug: string) {
     const rows = await queryDb<any>('SELECT * FROM avora_pages WHERE slug = ? LIMIT 1', [slug]);
