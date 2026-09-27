@@ -108,3 +108,50 @@ export function generateInquiryEmailHtml(inquiry: {
     </div>
   `;
 }
+
+export function generatePasswordResetEmailHtml({
+  resetUrl,
+  email,
+}: {
+  resetUrl: string;
+  email: string;
+}): string {
+  return `
+    <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: 0 auto; background: #0b1120; color: #f8fafc; border-radius: 16px; overflow: hidden; border: 1px solid #1e293b;">
+      <div style="background: linear-gradient(135deg, #1d4ed8, #4338ca); padding: 32px 24px; text-align: center;">
+        <h1 style="margin: 0; color: #ffffff; font-size: 24px; font-weight: 800; letter-spacing: -0.5px;">AVORA INNOVATIONS</h1>
+        <p style="margin: 8px 0 0 0; color: #cbd5e1; font-size: 13px; text-transform: uppercase; letter-spacing: 1px;">Executive Portal • Security Alert</p>
+      </div>
+
+      <div style="padding: 32px 28px;">
+        <h2 style="margin: 0 0 12px 0; color: #ffffff; font-size: 18px; font-weight: 700;">Admin Password Reset Request</h2>
+        <p style="margin: 0 0 20px 0; color: #94a3b8; font-size: 14px; line-height: 1.6;">
+          A password reset request was initiated for your administrator account: <strong style="color: #38bdf8;">${email}</strong>.
+        </p>
+
+        <p style="margin: 0 0 24px 0; color: #94a3b8; font-size: 14px; line-height: 1.6;">
+          Click the button below to establish a new master password. This secure link is valid for <strong>60 minutes</strong>.
+        </p>
+
+        <div style="text-align: center; margin: 32px 0;">
+          <a href="${resetUrl}" style="display: inline-block; background: linear-gradient(135deg, #2563eb, #6366f1); color: #ffffff; text-decoration: none; padding: 14px 32px; border-radius: 12px; font-weight: 700; font-size: 14px; box-shadow: 0 4px 14px rgba(37, 99, 235, 0.4);">
+            Reset Master Password
+          </a>
+        </div>
+
+        <div style="background: #0f172a; padding: 16px; border-radius: 10px; border: 1px solid #1e293b; margin-bottom: 24px;">
+          <p style="margin: 0 0 8px 0; color: #64748b; font-size: 12px;">Button not working? Copy and paste this URL into your browser:</p>
+          <p style="margin: 0; word-break: break-all; font-family: monospace; font-size: 12px; color: #38bdf8;">${resetUrl}</p>
+        </div>
+
+        <p style="margin: 0; color: #64748b; font-size: 12px; line-height: 1.5;">
+          If you did not request this password reset, please disregard this email. Your current administrator credentials remain secure.
+        </p>
+      </div>
+
+      <div style="background: #020617; padding: 18px; text-align: center; font-size: 11px; color: #475569; border-top: 1px solid #1e293b;">
+        © ${new Date().getFullYear()} AVORA Innovations Inc. • High-Security Cryptographic Token
+      </div>
+    </div>
+  `;
+}

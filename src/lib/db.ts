@@ -122,6 +122,7 @@ interface StorageData {
   seo: Record<string, any>;
   costCalculator?: any;
   locations?: CompanyLocation[];
+  resetTokens?: Array<{ email: string; token: string; expiresAt: number; used: boolean }>;
 }
 
 const STORAGE_FILE = path.join(process.cwd(), '.local_db.json');
@@ -177,7 +178,7 @@ function getInitialData(): StorageData {
     adminUsers: [
       {
         id: 'admin-1',
-        email: process.env.ADMIN_DEFAULT_EMAIL || 'admin@avorainnovations.com',
+        email: process.env.ADMIN_DEFAULT_EMAIL || 'avorainnovations@gmail.com',
         name: 'Avora Executive Admin',
         password: defaultAdmin.hash,
         role: 'superadmin',
@@ -284,6 +285,7 @@ function getInitialData(): StorageData {
     seo: DEFAULT_SEO,
     costCalculator: DEFAULT_COST_CONFIG,
     locations: DEFAULT_LOCATIONS,
+    resetTokens: [],
   };
 }
 
@@ -304,6 +306,7 @@ function loadLocalStore(): StorageData {
       if (!parsed.costCalculator) parsed.costCalculator = DEFAULT_COST_CONFIG;
       if (!parsed.seo) parsed.seo = DEFAULT_SEO;
       if (!parsed.locations) parsed.locations = DEFAULT_LOCATIONS;
+      if (!parsed.resetTokens) parsed.resetTokens = [];
       return parsed;
     }
   } catch (err) {
@@ -325,7 +328,57 @@ function saveLocalStore(data: StorageData) {
 // Resilient Unified Database Layer with MariaDB and Fallback
 export const db = {
   // --- Admin User ---
+  async ensureAdminUser() {
+    const targetEmail = (process.env.ADMIN_DEFAULT_EMAIL || 'avorainnovations@gmail.com').toLowerCase();
+    const defaultPass = process.env.ADMIN_DEFAULT_PASSWORD || 'AvoraAdmin2026!Secure';
+    const defaultHash = hashPassword(defaultPass).hash;
+
+    try {
+      const rows = await queryDb<any>('SELECT * FROM avora_admin_users WHERE LOWER(email) = ? LIMIT 1', [targetEmail]);
+      if (!rows || rows.length === 0) {
+        const existingUsers = await queryDb<any>('SELECT * FROM avora_admin_users LIMIT 1');
+        if (existingUsers && existingUsers.length > 0) {
+          await queryDb('UPDATE avora_admin_users SET email = ?, name = "Avora Executive Admin", updatedAt = NOW() WHERE id = ?', [
+            targetEmail,
+            existingUsers[0].id,
+          ]);
+        } else {
+          await queryDb(
+            'INSERT INTO avora_admin_users (id, email, name, password, role, createdAt, updatedAt) VALUES (?, ?, ?, ?, ?, NOW(), NOW())',
+            ['admin-1', targetEmail, 'Avora Executive Admin', defaultHash, 'superadmin']
+          );
+        }
+      }
+    } catch (e) {
+      console.warn('[DB] Could not ensure admin user in DB, falling back to local store:', e);
+    }
+
+    try {
+      const store = loadLocalStore();
+      const adminIdx = store.adminUsers.findIndex((u) => u.email.toLowerCase() === targetEmail);
+      if (adminIdx === -1) {
+        if (store.adminUsers.length > 0) {
+          store.adminUsers[0].email = targetEmail;
+        } else {
+          store.adminUsers.push({
+            id: 'admin-1',
+            email: targetEmail,
+            name: 'Avora Executive Admin',
+            password: defaultHash,
+            role: 'superadmin',
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString(),
+          });
+        }
+        saveLocalStore(store);
+      }
+    } catch (e) {
+      console.error('[DB] Error syncing local store admin user:', e);
+    }
+  },
+
   async findAdminByEmail(email: string) {
+    await this.ensureAdminUser();
     const rows = await queryDb<any>('SELECT * FROM avora_admin_users WHERE LOWER(email) = LOWER(?) LIMIT 1', [email]);
     if (rows && rows.length > 0) return rows[0];
 
@@ -345,6 +398,92 @@ export const db = {
       return store.adminUsers[idx];
     }
     return { email, password: passwordHash };
+  },
+
+  // --- Password Reset Tokens ---
+  async savePasswordResetToken(email: string, token: string, expiresAt: number) {
+    const tokenRecord = {
+      email: email.toLowerCase(),
+      token,
+      expiresAt,
+      used: false,
+      createdAt: new Date().toISOString(),
+    };
+
+    await queryDb(
+      `
+      INSERT INTO avora_cms_content (id, type, slug, data)
+      VALUES (?, 'reset_token', ?, ?)
+      ON DUPLICATE KEY UPDATE data = VALUES(data), updatedAt = NOW()
+    `,
+      [token, token, JSON.stringify(tokenRecord)]
+    );
+
+    const store = loadLocalStore();
+    if (!store.resetTokens) store.resetTokens = [];
+    store.resetTokens = store.resetTokens.filter((t) => t.token !== token);
+    store.resetTokens.push(tokenRecord);
+    saveLocalStore(store);
+    return true;
+  },
+
+  async verifyPasswordResetToken(token: string) {
+    // 1. Try DB
+    const rows = await queryDb<any>("SELECT data FROM avora_cms_content WHERE type = 'reset_token' AND id = ? LIMIT 1", [token]);
+    if (rows && rows.length > 0) {
+      try {
+        const record = JSON.parse(rows[0].data);
+        if (record.used) {
+          return { valid: false, error: 'This password reset link has already been used.' };
+        }
+        if (Date.now() > record.expiresAt) {
+          return { valid: false, error: 'This password reset link has expired. Please request a new one.' };
+        }
+        return { valid: true, email: record.email };
+      } catch (err) {
+        console.error('[DB] Error parsing reset token data:', err);
+      }
+    }
+
+    // 2. Try local store
+    const store = loadLocalStore();
+    const record = (store.resetTokens || []).find((t) => t.token === token);
+    if (!record) {
+      return { valid: false, error: 'Invalid or unknown reset link.' };
+    }
+    if (record.used) {
+      return { valid: false, error: 'This password reset link has already been used.' };
+    }
+    if (Date.now() > record.expiresAt) {
+      return { valid: false, error: 'This password reset link has expired. Please request a new one.' };
+    }
+    return { valid: true, email: record.email };
+  },
+
+  async markResetTokenUsed(token: string) {
+    const rows = await queryDb<any>("SELECT data FROM avora_cms_content WHERE type = 'reset_token' AND id = ? LIMIT 1", [token]);
+    if (rows && rows.length > 0) {
+      try {
+        const record = JSON.parse(rows[0].data);
+        record.used = true;
+        await queryDb("UPDATE avora_cms_content SET data = ?, updatedAt = NOW() WHERE type = 'reset_token' AND id = ?", [
+          JSON.stringify(record),
+          token,
+        ]);
+      } catch (e) {
+        console.error('[DB] Error marking token used in DB:', e);
+      }
+    }
+
+    const store = loadLocalStore();
+    if (store.resetTokens) {
+      const idx = store.resetTokens.findIndex((t) => t.token === token);
+      if (idx !== -1) {
+        store.resetTokens[idx].used = true;
+        saveLocalStore(store);
+      }
+    }
+    return true;
   },
 
   // --- Dynamic Pages ---

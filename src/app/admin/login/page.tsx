@@ -2,6 +2,7 @@
 
 import React, { useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
+import Link from 'next/link';
 import { Lock, Mail, ArrowRight, Loader2, ShieldCheck } from 'lucide-react';
 
 function LoginForm() {
@@ -9,7 +10,7 @@ function LoginForm() {
   const searchParams = useSearchParams();
   const from = searchParams.get('from') || '/admin';
 
-  const [email, setEmail] = useState('admin@avorainnovations.com');
+  const [email, setEmail] = useState('avorainnovations@gmail.com');
   const [password, setPassword] = useState('AvoraAdmin2026!Secure');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -61,7 +62,7 @@ function LoginForm() {
           <div className="font-bold flex items-center gap-1.5 text-blue-400">
             <ShieldCheck className="w-3.5 h-3.5" /> Initial Admin Credentials Preloaded:
           </div>
-          <div>Email: <span className="font-mono text-white">admin@avorainnovations.com</span></div>
+          <div>Email: <span className="font-mono text-white">avorainnovations@gmail.com</span></div>
           <div>Password: <span className="font-mono text-white">AvoraAdmin2026!Secure</span></div>
         </div>
 
@@ -89,9 +90,17 @@ function LoginForm() {
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-slate-300 mb-1.5">
-              Master Password
-            </label>
+            <div className="flex items-center justify-between mb-1.5">
+              <label className="block text-xs font-semibold text-slate-300">
+                Master Password
+              </label>
+              <Link
+                href="/admin/forgot-password"
+                className="text-xs font-semibold text-blue-400 hover:text-blue-300 transition-colors"
+              >
+                Forgot Password?
+              </Link>
+            </div>
             <div className="relative">
               <Lock className="w-4 h-4 text-slate-500 absolute left-3.5 top-3.5" />
               <input

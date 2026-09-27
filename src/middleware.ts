@@ -8,8 +8,13 @@ const key = new TextEncoder().encode(JWT_SECRET);
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  // Only protect /admin routes, excluding /admin/login
-  if (pathname.startsWith('/admin') && pathname !== '/admin/login') {
+  // Only protect /admin routes, excluding login and password reset pages
+  const isPublicAdminRoute =
+    pathname === '/admin/login' ||
+    pathname === '/admin/forgot-password' ||
+    pathname === '/admin/reset-password';
+
+  if (pathname.startsWith('/admin') && !isPublicAdminRoute) {
     const token = request.cookies.get('avora_admin_token')?.value;
 
     if (!token) {

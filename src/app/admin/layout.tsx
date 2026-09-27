@@ -10,9 +10,12 @@ export default function AdminRootLayout({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
-  const isLoginPage = pathname === '/admin/login';
+  const isAuthPage =
+    pathname === '/admin/login' ||
+    pathname === '/admin/forgot-password' ||
+    pathname === '/admin/reset-password';
 
-  if (isLoginPage) {
+  if (isAuthPage) {
     return (
       <div className="min-h-screen bg-slate-950 text-white flex items-center justify-center p-4">
         {children}
