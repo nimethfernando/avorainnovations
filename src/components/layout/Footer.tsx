@@ -138,7 +138,7 @@ export default function Footer() {
               <img
                 src="/logo-horizontal-dark.png"
                 alt="AVORA Innovations"
-                className="h-10 sm:h-11 w-auto object-contain group-hover:scale-105 transition-transform"
+                className="h-11 sm:h-12 w-auto object-contain group-hover:scale-105 transition-transform"
               />
             </Link>
             <p className="text-xs text-slate-400 leading-relaxed max-w-sm">
@@ -258,7 +258,7 @@ export default function Footer() {
         {/* Bottom Copyright & Social Icons */}
         <div className="pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-xs">
           <p className="text-slate-500 text-center md:text-left">
-            © {new Date().getFullYear()} <span className="notranslate font-semibold text-slate-400">AVORA Innovations Inc.</span> {t.common.allRightsReserved} Built with Next.js 16, React 19, MariaDB & TypeScript.
+            © {new Date().getFullYear()} <span className="notranslate font-semibold text-slate-400">AVORA Innovations Inc.</span> {t.common.allRightsReserved}
           </p>
 
           <div className="flex items-center gap-4 sm:gap-6 flex-wrap justify-center">

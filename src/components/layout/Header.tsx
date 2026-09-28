@@ -163,13 +163,13 @@ export default function Header() {
               <img
                 src="/logo-horizontal.png"
                 alt="AVORA Innovations"
-                className="h-10 sm:h-11 w-auto object-contain dark:hidden group-hover:scale-105 transition-transform"
+                className="h-11 sm:h-12 w-auto object-contain dark:hidden group-hover:scale-105 transition-transform"
               />
               {/* Dark Mode Logo */}
               <img
                 src="/logo-horizontal-dark.png"
                 alt="AVORA Innovations"
-                className="h-10 sm:h-11 w-auto object-contain hidden dark:block group-hover:scale-105 transition-transform"
+                className="h-11 sm:h-12 w-auto object-contain hidden dark:block group-hover:scale-105 transition-transform"
               />
             </Link>
 

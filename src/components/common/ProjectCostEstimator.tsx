@@ -214,22 +214,22 @@ export default function ProjectCostEstimator() {
       </div>
 
       {/* Live Calculation Output Card */}
-      <div className="p-6 sm:p-8 rounded-3xl bg-gradient-to-r from-blue-900/30 via-indigo-900/20 to-purple-900/30 border border-blue-500/20 grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+      <div className="p-6 sm:p-8 rounded-3xl bg-gradient-to-r from-blue-50/90 via-indigo-50/60 to-purple-50/90 dark:from-slate-900 dark:via-indigo-950/40 dark:to-slate-900 border border-blue-200 dark:border-blue-500/20 shadow-lg grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
         <div className="lg:col-span-7 space-y-2">
-          <div className="text-[10px] font-bold uppercase tracking-wider text-blue-400">
+          <div className="text-[10px] font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400">
             Estimated Engineering Scope
           </div>
-          <div className="text-3xl sm:text-4xl font-black text-white">
+          <div className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white tracking-tight">
             {currency}{lowRange.toLocaleString()} – {currency}{highRange.toLocaleString()}
           </div>
-          <p className="text-xs text-slate-300">
-            Estimated Delivery Timeline: <strong>{timeline}</strong> • Includes full IP ownership, automated testing, and CI/CD pipelines.
+          <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+            Estimated Delivery Timeline: <strong className="text-slate-900 dark:text-white font-bold">{timeline}</strong> • Includes full IP ownership, automated testing, and CI/CD pipelines.
           </p>
         </div>
 
         <div className="lg:col-span-5">
           {submitted ? (
-            <div className="p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs text-center space-y-1">
+            <div className="p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-600 dark:text-emerald-400 text-xs text-center space-y-1">
               <div className="font-bold">✓ Scope Breakdown Sent!</div>
               <p>Our solutions architect will email you a formal line-item breakdown.</p>
             </div>
@@ -241,7 +241,7 @@ export default function ProjectCostEstimator() {
                 placeholder="Your Name"
                 value={contactData.name}
                 onChange={(e) => setContactData({ ...contactData, name: e.target.value })}
-                className="w-full px-3.5 py-2 rounded-xl bg-slate-900 border border-slate-700 text-white text-xs"
+                className="w-full px-3.5 py-2.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 text-xs focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all"
               />
               <div className="flex gap-2">
                 <input
@@ -250,12 +250,12 @@ export default function ProjectCostEstimator() {
                   placeholder="Corporate Email"
                   value={contactData.email}
                   onChange={(e) => setContactData({ ...contactData, email: e.target.value })}
-                  className="w-full px-3.5 py-2 rounded-xl bg-slate-900 border border-slate-700 text-white text-xs"
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 text-xs focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all"
                 />
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs whitespace-nowrap shadow-md flex items-center gap-1 disabled:opacity-50"
+                  className="px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs whitespace-nowrap shadow-md flex items-center gap-1 disabled:opacity-50 transition-all"
                 >
                   {submitting ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <span>Lock Estimate</span>}
                 </button>
