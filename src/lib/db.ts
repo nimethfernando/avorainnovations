@@ -14,6 +14,10 @@ import {
   DEFAULT_LOCATIONS,
   LeadershipMember,
   DEFAULT_LEADERSHIP,
+  DEFAULT_TECH_PAGES,
+  TechnologyDetailPage,
+  buildDefaultTechPage,
+  getTechSlug,
 } from './content';
 
 export const DEFAULT_NAVIGATION = [
@@ -114,6 +118,7 @@ interface StorageData {
   testimonials: any[];
   faqs: any[];
   technologies: any[];
+  technologyPages?: any[];
   inquiries: any[];
   contacts: any[];
   subscribers: any[];
@@ -238,6 +243,7 @@ function getInitialData(): StorageData {
     testimonials: TESTIMONIALS_DATA,
     faqs: FAQS_HOMEPAGE,
     technologies: TECH_CATEGORIES,
+    technologyPages: DEFAULT_TECH_PAGES,
     inquiries: [
       {
         id: 'inq-1',
@@ -1461,6 +1467,136 @@ export const db = {
     store.settings = { ...store.settings, ...newSettings };
     saveLocalStore(store);
     return store.settings;
+  },
+
+  
+  // --- Technology Landing Pages (CMS Managed) ---
+  async getAllTechnologyPages(): Promise<TechnologyDetailPage[]> {
+    const seedCheck = await queryDb<any>(
+      "SELECT id FROM avora_cms_content WHERE type = 'system_meta' AND id = 'tech_pages_seeded_v1' LIMIT 1"
+    );
+
+    if (seedCheck && seedCheck.length === 0) {
+      for (const p of DEFAULT_TECH_PAGES) {
+        await queryDb(
+          `
+          INSERT INTO avora_cms_content (id, type, slug, data)
+          VALUES (?, 'tech_page', ?, ?)
+          ON DUPLICATE KEY UPDATE data = VALUES(data), updatedAt = NOW()
+        `,
+          [p.id || `tech-${p.slug}`, p.slug, JSON.stringify(p)]
+        );
+      }
+      await queryDb(
+        `
+        INSERT INTO avora_cms_content (id, type, slug, data)
+        VALUES ('tech_pages_seeded_v1', 'system_meta', 'tech_pages_seeded_v1', '{"seeded": true}')
+        ON DUPLICATE KEY UPDATE id = id
+      `
+      );
+    }
+
+    const rows = await queryDb<any>("SELECT data FROM avora_cms_content WHERE type = 'tech_page' ORDER BY updatedAt DESC");
+    if (rows && rows.length > 0) {
+      try {
+        return rows.map((r) => JSON.parse(r.data));
+      } catch (e) {
+        console.error('[DB] Error parsing tech page data:', e);
+      }
+    }
+    const store = loadLocalStore();
+    return store.technologyPages || DEFAULT_TECH_PAGES;
+  },
+
+  async getTechnologyPageBySlug(slug: string): Promise<TechnologyDetailPage | null> {
+    const cleanSlug = slug.toLowerCase().trim();
+    const rows = await queryDb<any>("SELECT data FROM avora_cms_content WHERE type = 'tech_page' AND slug = ? LIMIT 1", [cleanSlug]);
+    if (rows && rows.length > 0) {
+      try {
+        return JSON.parse(rows[0].data);
+      } catch (e) {
+        console.error('[DB] Error parsing tech page data:', e);
+      }
+    }
+    const store = loadLocalStore();
+    const existing = (store.technologyPages || DEFAULT_TECH_PAGES).find(
+      (p: TechnologyDetailPage) => p.slug === cleanSlug || p.id === cleanSlug
+    );
+    if (existing) return existing;
+
+    const inDefault = DEFAULT_TECH_PAGES.find((p) => p.slug === cleanSlug);
+    if (inDefault) return inDefault;
+
+    for (const cat of TECH_CATEGORIES) {
+      for (const item of cat.items) {
+        if (getTechSlug(item.name) === cleanSlug || item.name.toLowerCase() === cleanSlug) {
+          return buildDefaultTechPage(cleanSlug, item, cat.category);
+        }
+      }
+    }
+
+    return null;
+  },
+
+  async saveTechnologyPage(pageData: Partial<TechnologyDetailPage>): Promise<TechnologyDetailPage> {
+    const slug = pageData.slug || getTechSlug(pageData.name || 'tech-' + Date.now());
+    const id = pageData.id || `tech-${slug}`;
+    const completeData: TechnologyDetailPage = {
+      id,
+      slug,
+      name: pageData.name || slug,
+      title: pageData.title || `Enterprise ${pageData.name || slug} Development`,
+      subtitle: pageData.subtitle || 'High-Performance Scalable Software Engineering',
+      category: pageData.category || 'Backend',
+      badge: pageData.badge || 'Enterprise Stack',
+      iconName: pageData.iconName || 'Terminal',
+      heroDescription: pageData.heroDescription || '',
+      fullOverview: pageData.fullOverview || '',
+      keyStats: pageData.keyStats || [
+        { value: '99.99%', label: 'Uptime Reliability' },
+        { value: '<15ms', label: 'Response SLA' },
+      ],
+      capabilities: pageData.capabilities || [],
+      whyChoose: pageData.whyChoose || [],
+      developmentProcess: pageData.developmentProcess || [],
+      techStackPairings: pageData.techStackPairings || [],
+      useCases: pageData.useCases || [],
+      faqs: pageData.faqs || [],
+      metaTitle: pageData.metaTitle,
+      metaDesc: pageData.metaDesc,
+      ...pageData,
+    };
+
+    await queryDb(
+      `
+      INSERT INTO avora_cms_content (id, type, slug, data)
+      VALUES (?, 'tech_page', ?, ?)
+      ON DUPLICATE KEY UPDATE data = VALUES(data), updatedAt = NOW()
+    `,
+      [id, slug, JSON.stringify(completeData)]
+    );
+
+    const store = loadLocalStore();
+    if (!store.technologyPages) store.technologyPages = [...DEFAULT_TECH_PAGES];
+    const idx = store.technologyPages.findIndex((p: any) => p.id === id || p.slug === slug);
+    if (idx !== -1) {
+      store.technologyPages[idx] = completeData;
+    } else {
+      store.technologyPages.push(completeData);
+    }
+    saveLocalStore(store);
+    return completeData;
+  },
+
+  async deleteTechnologyPage(slugOrId: string): Promise<boolean> {
+    await queryDb("DELETE FROM avora_cms_content WHERE type = 'tech_page' AND (id = ? OR slug = ?)", [slugOrId, slugOrId]);
+
+    const store = loadLocalStore();
+    if (store.technologyPages) {
+      store.technologyPages = store.technologyPages.filter((p: any) => p.id !== slugOrId && p.slug !== slugOrId);
+      saveLocalStore(store);
+    }
+    return true;
   },
 
   // --- Technologies (CMS Managed) ---

@@ -3,7 +3,8 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Search, X, ArrowRight, Brain, Building, Cpu, FileText, Terminal } from 'lucide-react';
-import { SERVICES_DATA, INDUSTRIES_DATA, TECH_CATEGORIES, BLOG_POSTS_DATA } from '@/lib/content';
+import { SERVICES_DATA, INDUSTRIES_DATA, TECH_CATEGORIES,
+  getTechSlug, BLOG_POSTS_DATA } from '@/lib/content';
 
 interface SearchModalProps {
   isOpen: boolean;

@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { TECH_CATEGORIES, TechCategory } from '@/lib/content';
+import { TECH_CATEGORIES, TechCategory, getTechSlug } from '@/lib/content';
 import {
   Code2,
   Server,
@@ -122,24 +122,31 @@ export default function TechStackSection() {
             {/* Frameworks Grid */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
               {(activeCategory.items || []).map((item, idx) => (
-                <div
+                <Link
                   key={idx}
-                  className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200/80 dark:border-slate-800 hover:border-blue-500/40 transition-colors space-y-2"
+                  href={`/technologies/${getTechSlug(item.name)}`}
+                  className="group p-4 rounded-2xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200/80 dark:border-slate-800 hover:border-blue-500/50 hover:bg-white dark:hover:bg-slate-900 transition-all space-y-2 flex flex-col justify-between shadow-xs hover:shadow-md cursor-pointer"
                 >
-                  <div className="flex items-center justify-between">
-                    <span className="font-bold text-sm text-slate-900 dark:text-white">
-                      {item.name}
-                    </span>
-                    {item.badge && (
-                      <span className="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-blue-500/10 text-blue-600 dark:text-blue-400">
-                        {item.badge}
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between">
+                      <span className="font-bold text-sm text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                        {item.name}
                       </span>
-                    )}
+                      {item.badge && (
+                        <span className="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-blue-500/10 text-blue-600 dark:text-blue-400">
+                          {item.badge}
+                        </span>
+                      )}
+                    </div>
+                    <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+                      {item.description}
+                    </p>
                   </div>
-                  <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
-                    {item.description}
-                  </p>
-                </div>
+                  <div className="pt-2 flex items-center gap-1 text-[11px] font-semibold text-blue-600 dark:text-blue-400 opacity-80 group-hover:opacity-100 transition-opacity">
+                    <span>Explore Services</span>
+                    <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
+                  </div>
+                </Link>
               ))}
             </div>
           </div>

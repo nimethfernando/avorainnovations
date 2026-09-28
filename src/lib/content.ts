@@ -1316,3 +1316,10 @@ export const DEFAULT_LEADERSHIP: LeadershipMember[] = [
 ];
 
 
+
+export {
+  type TechnologyDetailPage,
+  getTechSlug,
+  DEFAULT_TECH_PAGES,
+  buildDefaultTechPage,
+} from './tech-pages-content';

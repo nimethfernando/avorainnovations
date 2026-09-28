@@ -6,6 +6,7 @@ import {
   SERVICES_DATA,
   INDUSTRIES_DATA,
   TECH_CATEGORIES,
+  getTechSlug,
   CASE_STUDIES_DATA,
 } from '@/lib/content';
 import {

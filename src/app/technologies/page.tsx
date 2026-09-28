@@ -1,7 +1,8 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { TECH_CATEGORIES, TechCategory } from '@/lib/content';
+import Link from 'next/link';
+import { TECH_CATEGORIES, TechCategory, getTechSlug } from '@/lib/content';
 import Breadcrumbs from '@/components/common/Breadcrumbs';
 import CtaBanner from '@/components/home/CtaBanner';
 import {
@@ -129,22 +130,29 @@ export default function TechnologiesPage() {
 
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {cat.items.map((tech) => (
-                  <div
+                  <Link
                     key={tech.name}
-                    className="p-6 rounded-2xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 space-y-3"
+                    href={`/technologies/${getTechSlug(tech.name)}`}
+                    className="group p-6 rounded-2xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 hover:border-blue-500/50 hover:bg-white dark:hover:bg-slate-900 transition-all space-y-3 flex flex-col justify-between shadow-xs hover:shadow-md cursor-pointer"
                   >
-                    <div className="flex items-center justify-between">
-                      <h3 className="text-base font-bold text-slate-900 dark:text-white">
-                        {tech.name}
-                      </h3>
-                      <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-500/20">
-                        {tech.badge}
-                      </span>
+                    <div className="space-y-3">
+                      <div className="flex items-center justify-between">
+                        <h3 className="text-base font-bold text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                          {tech.name}
+                        </h3>
+                        <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-500/20">
+                          {tech.badge}
+                        </span>
+                      </div>
+                      <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                        {tech.description}
+                      </p>
                     </div>
-                    <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
-                      {tech.description}
-                    </p>
-                  </div>
+                    <div className="pt-2 flex items-center gap-1.5 text-xs font-semibold text-blue-600 dark:text-blue-400">
+                      <span>View {tech.name} Capabilities</span>
+                      <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                    </div>
+                  </Link>
                 ))}
               </div>
             </div>
