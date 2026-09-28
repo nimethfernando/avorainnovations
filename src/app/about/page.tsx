@@ -93,7 +93,7 @@ export default async function AboutPage() {
       {/* Delivery Methodology */}
       <section className="my-20" id="methodology">
         <div className="text-center max-w-2xl mx-auto mb-16 space-y-3">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-purple-500/10 text-purple-600 dark:text-purple-400 text-xs font-semibold uppercase tracking-wider">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-500/10 text-blue-600 dark:text-blue-400 text-xs font-semibold uppercase tracking-wider">
             <Compass className="w-3.5 h-3.5" /> Engineering Framework
           </div>
           <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white">

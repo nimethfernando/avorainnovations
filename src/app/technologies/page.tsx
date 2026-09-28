@@ -60,7 +60,7 @@ export default function TechnologiesPage() {
       <Breadcrumbs items={[{ name: 'Technologies', url: '/technologies' }]} />
 
       <div className="text-center max-w-3xl mx-auto my-12 space-y-4">
-        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 text-xs font-semibold uppercase tracking-wider">
+        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-500/10 text-blue-600 dark:text-blue-400 text-xs font-semibold uppercase tracking-wider">
           <Sparkles className="w-3.5 h-3.5" /> High-Performance Stacks
         </div>
         <h1 className="text-4xl sm:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight">
@@ -77,7 +77,7 @@ export default function TechnologiesPage() {
           onClick={() => setSelectedCat('all')}
           className={`px-5 py-3 rounded-xl text-xs sm:text-sm font-semibold transition-all cursor-pointer ${
             selectedCat === 'all'
-              ? 'bg-cyan-600 text-white shadow-lg shadow-cyan-500/25'
+              ? 'bg-blue-600 text-white shadow-lg shadow-blue-500/25'
               : 'bg-slate-100 dark:bg-slate-900 text-slate-700 dark:text-slate-300'
           }`}
         >
@@ -93,7 +93,7 @@ export default function TechnologiesPage() {
               onClick={() => setSelectedCat(cat.slug)}
               className={`flex items-center gap-2 px-5 py-3 rounded-xl text-xs sm:text-sm font-semibold transition-all cursor-pointer ${
                 isActive
-                  ? 'bg-cyan-600 text-white shadow-lg shadow-cyan-500/25'
+                  ? 'bg-blue-600 text-white shadow-lg shadow-blue-500/25'
                   : 'bg-white dark:bg-slate-950 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-800'
               }`}
             >
@@ -114,7 +114,7 @@ export default function TechnologiesPage() {
               className="rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 p-8 sm:p-12 shadow-xl space-y-8"
             >
               <div className="flex items-center gap-4 pb-6 border-b border-slate-100 dark:border-slate-800">
-                <div className="w-12 h-12 rounded-2xl bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 flex items-center justify-center">
+                <div className="w-12 h-12 rounded-2xl bg-blue-500/10 text-blue-600 dark:text-blue-400 flex items-center justify-center">
                   <Icon className="w-6 h-6" />
                 </div>
                 <div>
@@ -137,7 +137,7 @@ export default function TechnologiesPage() {
                       <h3 className="text-base font-bold text-slate-900 dark:text-white">
                         {tech.name}
                       </h3>
-                      <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 border border-cyan-500/20">
+                      <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-500/20">
                         {tech.badge}
                       </span>
                     </div>

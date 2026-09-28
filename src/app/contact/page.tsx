@@ -92,7 +92,7 @@ export default function ContactPage() {
         <div className="lg:col-span-7 rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 p-8 sm:p-12 shadow-xl">
           {submitted ? (
             <div className="py-16 text-center space-y-4">
-              <div className="w-16 h-16 mx-auto rounded-full bg-emerald-500/10 flex items-center justify-center text-emerald-500">
+              <div className="w-16 h-16 mx-auto rounded-full bg-blue-500/10 text-blue-600 dark:text-blue-400 flex items-center justify-center">
                 <CheckCircle className="w-10 h-10" />
               </div>
               <h2 className="text-2xl font-bold text-slate-900 dark:text-white">
@@ -252,7 +252,7 @@ export default function ContactPage() {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full sm:w-auto px-8 py-3.5 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold text-sm shadow-xl shadow-blue-500/20 transition-all flex items-center justify-center gap-2 disabled:opacity-50"
+                  className="w-full sm:w-auto px-8 py-3.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm shadow-xl shadow-blue-500/20 transition-all flex items-center justify-center gap-2 disabled:opacity-50"
                 >
                   {loading ? (
                     <>

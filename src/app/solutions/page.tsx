@@ -71,7 +71,7 @@ export default function SolutionsPage() {
       <Breadcrumbs items={[{ name: 'Solutions', url: '/solutions' }]} />
 
       <div className="text-center max-w-3xl mx-auto my-12 space-y-4">
-        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-xs font-semibold uppercase tracking-wider">
+        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-500/10 text-blue-600 dark:text-blue-400 text-xs font-semibold uppercase tracking-wider">
           <Sparkles className="w-3.5 h-3.5" /> Outcome-Focused Delivery
         </div>
         <h1 className="text-4xl sm:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight">
@@ -88,13 +88,13 @@ export default function SolutionsPage() {
           return (
             <div
               key={sol.slug}
-              className="rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 p-8 flex flex-col justify-between hover:shadow-2xl hover:border-emerald-500/40 transition-all duration-300 group"
+              className="rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 p-8 flex flex-col justify-between hover:shadow-2xl hover:border-blue-500/40 transition-all duration-300 group"
             >
               <div className="space-y-4">
-                <div className="w-12 h-12 rounded-2xl bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-200/80 dark:border-emerald-500/20 group-hover:bg-emerald-600 group-hover:text-white group-hover:border-transparent flex items-center justify-center transition-all shadow-xs">
+                <div className="w-12 h-12 rounded-2xl bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-200/80 dark:border-blue-500/20 group-hover:bg-blue-600 group-hover:text-white group-hover:border-transparent flex items-center justify-center transition-all shadow-xs">
                   <Icon className="w-6 h-6" />
                 </div>
-                <h2 className="text-xl font-bold text-slate-900 dark:text-white group-hover:text-emerald-500 transition-colors">
+                <h2 className="text-xl font-bold text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
                   {sol.title}
                 </h2>
                 <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
@@ -103,8 +103,8 @@ export default function SolutionsPage() {
 
                 <div className="pt-4 border-t border-slate-100 dark:border-slate-800 space-y-1.5">
                   {sol.metrics.map((m) => (
-                    <div key={m} className="text-xs font-semibold text-emerald-600 dark:text-emerald-400 flex items-center gap-1.5">
-                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                    <div key={m} className="text-xs font-semibold text-blue-600 dark:text-blue-400 flex items-center gap-1.5">
+                      <span className="w-1.5 h-1.5 rounded-full bg-blue-500" />
                       <span>{m}</span>
                     </div>
                   ))}
@@ -114,7 +114,7 @@ export default function SolutionsPage() {
               <div className="pt-6 mt-6 border-t border-slate-100 dark:border-slate-800">
                 <Link
                   href={`/solutions/${sol.slug}`}
-                  className="w-full py-3 px-4 rounded-xl bg-slate-50 dark:bg-slate-900 group-hover:bg-emerald-600 group-hover:text-white text-slate-800 dark:text-slate-200 font-bold text-xs transition-all flex items-center justify-center gap-2"
+                  className="w-full py-3 px-4 rounded-xl bg-slate-50 dark:bg-slate-900 group-hover:bg-blue-600 group-hover:text-white text-slate-800 dark:text-slate-200 font-bold text-xs transition-all flex items-center justify-center gap-2"
                 >
                   <span>Explore Solution Framework</span>
                   <ArrowRight className="w-3.5 h-3.5" />

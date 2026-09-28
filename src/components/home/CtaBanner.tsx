@@ -52,7 +52,7 @@ export default function CtaBanner() {
   return (
     <section className="py-20 lg:py-28 bg-white dark:bg-[#090d16] relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="rounded-3xl bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 p-8 sm:p-16 text-white text-center relative overflow-hidden shadow-2xl shadow-blue-500/20">
+        <div className="rounded-3xl bg-gradient-to-r from-blue-700 via-blue-600 to-blue-800 p-8 sm:p-16 text-white text-center relative overflow-hidden shadow-2xl shadow-blue-500/20">
           <div className="absolute top-0 right-0 w-96 h-96 bg-white/10 rounded-full blur-3xl pointer-events-none" />
           <div className="absolute bottom-0 left-0 w-96 h-96 bg-black/20 rounded-full blur-3xl pointer-events-none" />
 

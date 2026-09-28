@@ -80,7 +80,7 @@ export default function Footer() {
     <footer className="bg-slate-950 text-slate-400 border-t border-slate-900 pt-16 pb-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Newsletter & Executive Callout Banner */}
-        <div className="rounded-3xl bg-gradient-to-r from-blue-900/40 via-indigo-900/30 to-purple-900/40 border border-blue-500/20 p-8 sm:p-12 mb-16 relative overflow-hidden">
+        <div className="rounded-3xl bg-gradient-to-r from-blue-950/60 via-blue-900/40 to-blue-950/60 border border-blue-500/20 p-8 sm:p-12 mb-16 relative overflow-hidden">
           <div className="absolute -right-10 -bottom-10 w-72 h-72 bg-blue-500/10 rounded-full blur-3xl pointer-events-none" />
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative z-10">
             <div className="lg:col-span-7 space-y-2">
@@ -115,7 +115,7 @@ export default function Footer() {
                     <button
                       type="submit"
                       disabled={loading}
-                      className="px-6 py-3 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold text-sm shadow-lg flex items-center gap-1.5 flex-shrink-0 transition-all disabled:opacity-50"
+                      className="px-6 py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm shadow-lg flex items-center gap-1.5 flex-shrink-0 transition-all disabled:opacity-50"
                     >
                       {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <span>{t.common.subscribe}</span>}
                     </button>
@@ -206,7 +206,7 @@ export default function Footer() {
                 </li>
               ))}
               <li>
-                <Link href="/industries" className="text-purple-400 hover:underline inline-flex items-center gap-1">
+                <Link href="/industries" className="text-blue-400 hover:underline inline-flex items-center gap-1">
                   View All Industries <ArrowRight className="w-3 h-3" />
                 </Link>
               </li>

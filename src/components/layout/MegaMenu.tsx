@@ -160,15 +160,15 @@ export default function MegaMenu({ activeMenu, closeMenu, openConsultation }: Me
                 </p>
                 <div className="space-y-2 mb-6">
                   <div className="flex items-center gap-2 text-xs text-slate-200">
-                    <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+                    <CheckCircle2 className="w-4 h-4 text-blue-400" />
                     <span>Sub-second tool execution</span>
                   </div>
                   <div className="flex items-center gap-2 text-xs text-slate-200">
-                    <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+                    <CheckCircle2 className="w-4 h-4 text-blue-400" />
                     <span>Air-gapped enterprise privacy</span>
                   </div>
                   <div className="flex items-center gap-2 text-xs text-slate-200">
-                    <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+                    <CheckCircle2 className="w-4 h-4 text-blue-400" />
                     <span>Human-in-the-loop approval gates</span>
                   </div>
                 </div>
@@ -192,7 +192,7 @@ export default function MegaMenu({ activeMenu, closeMenu, openConsultation }: Me
             <div className="col-span-9 grid grid-cols-3 gap-4">
               <div className="col-span-3 pb-2 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between">
                 <div>
-                  <h4 className="text-xs font-bold uppercase tracking-wider text-purple-600 dark:text-purple-400">
+                  <h4 className="text-xs font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400">
                     Vertical Industry Solutions
                   </h4>
                   <p className="text-xs text-slate-500 dark:text-slate-400">
@@ -202,7 +202,7 @@ export default function MegaMenu({ activeMenu, closeMenu, openConsultation }: Me
                 <Link
                   href="/industries"
                   onClick={closeMenu}
-                  className="text-xs font-semibold text-slate-900 dark:text-white hover:text-purple-600 dark:hover:text-purple-400 inline-flex items-center gap-1"
+                  className="text-xs font-semibold text-slate-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 inline-flex items-center gap-1"
                 >
                   View All Industries <ArrowRight className="w-3.5 h-3.5" />
                 </Link>
@@ -215,7 +215,7 @@ export default function MegaMenu({ activeMenu, closeMenu, openConsultation }: Me
                   onClick={closeMenu}
                   className="group p-3 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-900 border border-transparent hover:border-slate-200 dark:hover:border-slate-800 transition-all"
                 >
-                  <div className="text-sm font-semibold text-slate-900 dark:text-slate-100 group-hover:text-purple-600 dark:group-hover:text-purple-400">
+                  <div className="text-sm font-semibold text-slate-900 dark:text-slate-100 group-hover:text-blue-600 dark:group-hover:text-blue-400">
                     {ind.title}
                   </div>
                   <p className="text-xs text-slate-500 dark:text-slate-400 line-clamp-1 mt-0.5">
@@ -225,9 +225,9 @@ export default function MegaMenu({ activeMenu, closeMenu, openConsultation }: Me
               ))}
             </div>
 
-            <div className="col-span-3 rounded-2xl bg-slate-950 bg-gradient-to-br from-purple-950/90 via-slate-900 to-slate-950 p-6 border border-purple-500/30 flex flex-col justify-between shadow-xl">
+            <div className="col-span-3 rounded-2xl bg-slate-950 bg-gradient-to-br from-blue-950/90 via-slate-900 to-slate-950 p-6 border border-blue-500/30 flex flex-col justify-between shadow-xl">
               <div>
-                <span className="text-[10px] font-bold uppercase tracking-wider text-purple-400">
+                <span className="text-[10px] font-bold uppercase tracking-wider text-blue-400">
                   Compliance &amp; Security
                 </span>
                 <h5 className="text-base font-bold text-white mt-1 mb-2">Enterprise Grade Compliance</h5>
@@ -236,15 +236,15 @@ export default function MegaMenu({ activeMenu, closeMenu, openConsultation }: Me
                 </p>
                 <div className="space-y-2 text-xs text-slate-300">
                   <div className="flex items-center gap-2">
-                    <ShieldCheck className="w-4 h-4 text-purple-400" />
+                    <ShieldCheck className="w-4 h-4 text-blue-400" />
                     <span>Zero Data Leakage Guarantees</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <ShieldCheck className="w-4 h-4 text-purple-400" />
+                    <ShieldCheck className="w-4 h-4 text-blue-400" />
                     <span>Immutable Audit Logging</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <ShieldCheck className="w-4 h-4 text-purple-400" />
+                    <ShieldCheck className="w-4 h-4 text-blue-400" />
                     <span>KMS Hardware-Backed Encryption</span>
                   </div>
                 </div>
@@ -252,7 +252,7 @@ export default function MegaMenu({ activeMenu, closeMenu, openConsultation }: Me
               <Link
                 href="/about"
                 onClick={closeMenu}
-                className="mt-6 inline-flex items-center justify-center gap-1.5 text-xs font-semibold text-purple-400 hover:text-purple-300"
+                className="mt-6 inline-flex items-center justify-center gap-1.5 text-xs font-semibold text-blue-400 hover:text-blue-300"
               >
                 Learn About Our Standards <ArrowRight className="w-3.5 h-3.5" />
               </Link>
@@ -265,7 +265,7 @@ export default function MegaMenu({ activeMenu, closeMenu, openConsultation }: Me
           <div>
             <div className="pb-3 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between mb-6">
               <div>
-                <h4 className="text-xs font-bold uppercase tracking-wider text-cyan-600 dark:text-cyan-400">
+                <h4 className="text-xs font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400">
                   Technology Stack & Frameworks
                 </h4>
                 <p className="text-xs text-slate-500 dark:text-slate-400">
@@ -275,7 +275,7 @@ export default function MegaMenu({ activeMenu, closeMenu, openConsultation }: Me
               <Link
                 href="/technologies"
                 onClick={closeMenu}
-                className="text-xs font-semibold text-slate-900 dark:text-white hover:text-cyan-600 dark:hover:text-cyan-400 inline-flex items-center gap-1"
+                className="text-xs font-semibold text-slate-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 inline-flex items-center gap-1"
               >
                 Explore Full Tech Matrix <ArrowRight className="w-3.5 h-3.5" />
               </Link>
@@ -296,7 +296,7 @@ export default function MegaMenu({ activeMenu, closeMenu, openConsultation }: Me
                         onClick={closeMenu}
                         className="group flex items-center justify-between p-2 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 text-xs transition-colors"
                       >
-                        <span className="font-medium text-slate-700 dark:text-slate-300 group-hover:text-cyan-600 dark:group-hover:text-cyan-400 truncate max-w-[130px]">
+                        <span className="font-medium text-slate-700 dark:text-slate-300 group-hover:text-blue-600 dark:group-hover:text-blue-400 truncate max-w-[130px]">
                           {tech.name}
                         </span>
                         <span className="text-[10px] px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-500 flex-shrink-0">
@@ -316,7 +316,7 @@ export default function MegaMenu({ activeMenu, closeMenu, openConsultation }: Me
           <div className="grid grid-cols-12 gap-8">
             <div className="col-span-8 grid grid-cols-2 gap-4">
               <div className="col-span-2 pb-2 border-b border-slate-100 dark:border-slate-800">
-                <h4 className="text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
+                <h4 className="text-xs font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400">
                   Targeted Business Solutions
                 </h4>
               </div>
@@ -335,7 +335,7 @@ export default function MegaMenu({ activeMenu, closeMenu, openConsultation }: Me
                   onClick={closeMenu}
                   className="group p-3.5 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-900 border border-transparent hover:border-slate-200 dark:hover:border-slate-800 transition-all"
                 >
-                  <h5 className="text-sm font-semibold text-slate-900 dark:text-white group-hover:text-emerald-600 dark:group-hover:text-emerald-400">
+                  <h5 className="text-sm font-semibold text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400">
                     {sol.title}
                   </h5>
                   <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
@@ -345,9 +345,9 @@ export default function MegaMenu({ activeMenu, closeMenu, openConsultation }: Me
               ))}
             </div>
 
-            <div className="col-span-4 rounded-2xl bg-slate-950 bg-gradient-to-br from-emerald-950/90 via-slate-900 to-slate-950 p-6 border border-emerald-500/30 flex flex-col justify-between shadow-xl">
+            <div className="col-span-4 rounded-2xl bg-slate-950 bg-gradient-to-br from-blue-950/90 via-slate-900 to-slate-950 p-6 border border-blue-500/30 flex flex-col justify-between shadow-xl">
               <div>
-                <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-400">
+                <span className="text-[10px] font-bold uppercase tracking-wider text-blue-400">
                   Delivery Speed
                 </span>
                 <h5 className="text-base font-bold text-white mt-1 mb-2">4-Week Proof of Value</h5>
@@ -360,7 +360,7 @@ export default function MegaMenu({ activeMenu, closeMenu, openConsultation }: Me
                   closeMenu();
                   openConsultation();
                 }}
-                className="w-full py-2.5 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-xs transition-colors flex items-center justify-center gap-2 shadow-lg"
+                className="w-full py-2.5 px-4 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-semibold text-xs transition-colors flex items-center justify-center gap-2 shadow-lg"
               >
                 Request Pilot Scope <ArrowRight className="w-3.5 h-3.5" />
               </button>
@@ -373,7 +373,7 @@ export default function MegaMenu({ activeMenu, closeMenu, openConsultation }: Me
           <div className="grid grid-cols-12 gap-8">
             <div className="col-span-7 grid grid-cols-2 gap-4">
               <div className="col-span-2 pb-2 border-b border-slate-100 dark:border-slate-800">
-                <h4 className="text-xs font-bold uppercase tracking-wider text-amber-600 dark:text-amber-400">
+                <h4 className="text-xs font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400">
                   Insights & Engineering Thought Leadership
                 </h4>
               </div>
@@ -384,8 +384,8 @@ export default function MegaMenu({ activeMenu, closeMenu, openConsultation }: Me
                 className="group p-3 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-900 border border-transparent hover:border-slate-200 dark:hover:border-slate-800 transition-all"
               >
                 <div className="flex items-center gap-2 mb-1">
-                  <FileText className="w-4 h-4 text-amber-500" />
-                  <span className="text-sm font-semibold text-slate-900 dark:text-white group-hover:text-amber-500">
+                  <FileText className="w-4 h-4 text-blue-500" />
+                  <span className="text-sm font-semibold text-slate-900 dark:text-white group-hover:text-blue-500">
                     Engineering Insights & Blog
                   </span>
                 </div>
@@ -400,8 +400,8 @@ export default function MegaMenu({ activeMenu, closeMenu, openConsultation }: Me
                 className="group p-3 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-900 border border-transparent hover:border-slate-200 dark:hover:border-slate-800 transition-all"
               >
                 <div className="flex items-center gap-2 mb-1">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-500" />
-                  <span className="text-sm font-semibold text-slate-900 dark:text-white group-hover:text-emerald-500">
+                  <CheckCircle2 className="w-4 h-4 text-blue-500" />
+                  <span className="text-sm font-semibold text-slate-900 dark:text-white group-hover:text-blue-500">
                     Enterprise Case Studies
                   </span>
                 </div>
@@ -416,8 +416,8 @@ export default function MegaMenu({ activeMenu, closeMenu, openConsultation }: Me
                 className="group p-3 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-900 border border-transparent hover:border-slate-200 dark:hover:border-slate-800 transition-all"
               >
                 <div className="flex items-center gap-2 mb-1">
-                  <Calculator className="w-4 h-4 text-cyan-500" />
-                  <span className="text-sm font-semibold text-slate-900 dark:text-white group-hover:text-cyan-500">
+                  <Calculator className="w-4 h-4 text-blue-500" />
+                  <span className="text-sm font-semibold text-slate-900 dark:text-white group-hover:text-blue-500">
                     Project Cost & Timeline Estimator
                   </span>
                 </div>
@@ -448,8 +448,8 @@ export default function MegaMenu({ activeMenu, closeMenu, openConsultation }: Me
                 className="group p-3 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-900 border border-transparent hover:border-slate-200 dark:hover:border-slate-800 transition-all"
               >
                 <div className="flex items-center gap-2 mb-1">
-                  <HelpCircle className="w-4 h-4 text-purple-500" />
-                  <span className="text-sm font-semibold text-slate-900 dark:text-white group-hover:text-purple-500">
+                  <HelpCircle className="w-4 h-4 text-blue-500" />
+                  <span className="text-sm font-semibold text-slate-900 dark:text-white group-hover:text-blue-500">
                     Frequently Asked Questions
                   </span>
                 </div>

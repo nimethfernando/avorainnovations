@@ -223,7 +223,7 @@ export default function Header() {
 
               <button
                 onClick={() => setModalOpen(true)}
-                className="px-3 xl:px-4 py-2 xl:py-2.5 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold text-xs tracking-wide shadow-md shadow-blue-500/25 hover:shadow-blue-500/40 transition-all flex items-center gap-1.5 whitespace-nowrap group flex-shrink-0"
+                className="px-3 xl:px-4 py-2 xl:py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs tracking-wide shadow-md shadow-blue-500/25 hover:shadow-blue-500/40 transition-all flex items-center gap-1.5 whitespace-nowrap group flex-shrink-0"
               >
                 <span>{t.nav.getConsultation}</span>
                 <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
@@ -243,7 +243,7 @@ export default function Header() {
               <ThemeToggle />
               <button
                 onClick={() => setModalOpen(true)}
-                className="hidden sm:inline-flex items-center gap-1 px-3 py-2 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-bold text-xs shadow-sm hover:shadow transition-all"
+                className="hidden sm:inline-flex items-center gap-1 px-3 py-2 rounded-xl bg-blue-600 text-white font-bold text-xs shadow-sm hover:shadow transition-all"
               >
                 <span>{t.nav.getConsultation}</span>
               </button>
@@ -293,7 +293,7 @@ export default function Header() {
                   setMobileOpen(false);
                   setModalOpen(true);
                 }}
-                className="w-full py-3 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold text-sm shadow-md flex items-center justify-center gap-2"
+                className="w-full py-3 rounded-xl bg-blue-600 text-white font-semibold text-sm shadow-md flex items-center justify-center gap-2"
               >
                 <span>{t.nav.getConsultation}</span>
                 <ArrowRight className="w-4 h-4" />

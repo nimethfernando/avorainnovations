@@ -51,7 +51,7 @@ export default function LeadershipSection({ initialData = [] }: LeadershipSectio
         <div className="relative rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 p-6 sm:p-10 lg:p-12 shadow-xl overflow-hidden">
           {/* Ambient Background Glow */}
           <div className="absolute top-0 right-0 w-96 h-96 bg-blue-500/10 dark:bg-blue-600/10 rounded-full blur-3xl pointer-events-none" />
-          <div className="absolute bottom-0 left-0 w-80 h-80 bg-purple-500/10 dark:bg-purple-600/10 rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute bottom-0 left-0 w-80 h-80 bg-blue-600/10 dark:bg-blue-700/10 rounded-full blur-3xl pointer-events-none" />
 
           <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
             {/* Executive Portrait Card */}
