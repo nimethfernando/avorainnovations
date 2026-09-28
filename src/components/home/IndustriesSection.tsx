@@ -113,14 +113,14 @@ export default function IndustriesSection() {
 
               {/* Industry Solutions Highlights */}
               <div className="space-y-2">
-                <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400">
+                <h4 className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
                   Specialized Solutions:
                 </h4>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                   {activeIndustry.solutions.slice(0, 2).map((sol, i) => (
                     <div key={i} className="p-3 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-xs">
                       <div className="font-bold text-slate-900 dark:text-white mb-1">{sol.title}</div>
-                      <p className="text-[11px] text-slate-500 line-clamp-2">{sol.desc}</p>
+                      <p className="text-[11px] text-slate-600 dark:text-slate-400 line-clamp-2">{sol.desc}</p>
                     </div>
                   ))}
                 </div>
@@ -139,7 +139,7 @@ export default function IndustriesSection() {
 
             {/* Right: Client Outcome Card */}
             <div className="lg:col-span-5 rounded-2xl bg-white dark:bg-slate-900 p-6 sm:p-8 border border-slate-200 dark:border-slate-800 shadow-xl space-y-5">
-              <span className="text-[10px] font-bold uppercase tracking-wider text-purple-500">
+              <span className="text-[10px] font-bold uppercase tracking-wider text-purple-600 dark:text-purple-400">
                 Verified Production Outcome
               </span>
               <div className="space-y-2">
@@ -151,13 +151,13 @@ export default function IndustriesSection() {
                 </p>
               </div>
 
-              <div className="p-4 rounded-xl bg-purple-500/10 border border-purple-500/20 text-purple-900 dark:text-purple-200 text-xs">
+              <div className="p-4 rounded-xl bg-purple-50 dark:bg-purple-500/10 border border-purple-200/80 dark:border-purple-500/20 text-purple-900 dark:text-purple-200 text-xs">
                 <span className="font-bold block mb-1">Measured Impact:</span>
                 {activeIndustry.useCases[0]?.metrics}
               </div>
 
               <div className="pt-2">
-                <div className="text-[11px] font-semibold text-slate-400 mb-2">Relevant Technologies:</div>
+                <div className="text-[11px] font-semibold text-slate-500 dark:text-slate-400 mb-2">Relevant Technologies:</div>
                 <div className="flex flex-wrap gap-1.5">
                   {activeIndustry.technologies.map((t) => (
                     <span key={t} className="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-[10px] text-slate-600 dark:text-slate-400 font-medium">

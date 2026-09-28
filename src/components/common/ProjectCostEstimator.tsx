@@ -127,7 +127,7 @@ export default function ProjectCostEstimator() {
 
       {/* Step 1: Select Platform */}
       <div className="space-y-3">
-        <label className="block text-xs font-bold uppercase tracking-wider text-slate-400">
+        <label className="block text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
           Step 1: Primary Technology Platform
         </label>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
@@ -148,7 +148,7 @@ export default function ProjectCostEstimator() {
                 <Icon className="w-5 h-5 flex-shrink-0 mt-0.5" />
                 <div>
                   <div className="text-xs font-bold">{p.label}</div>
-                  <div className="text-[11px] text-slate-400 mt-0.5">
+                  <div className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">
                     From {currency}{p.base.toLocaleString()}
                   </div>
                 </div>
@@ -160,7 +160,7 @@ export default function ProjectCostEstimator() {
 
       {/* Step 2: Select Project Scale */}
       <div className="space-y-3">
-        <label className="block text-xs font-bold uppercase tracking-wider text-slate-400">
+        <label className="block text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
           Step 2: Operational Scale & Deployment Tier
         </label>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
@@ -188,7 +188,7 @@ export default function ProjectCostEstimator() {
 
       {/* Step 3: Feature Architecture */}
       <div className="space-y-3">
-        <label className="block text-xs font-bold uppercase tracking-wider text-slate-400">
+        <label className="block text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
           Step 3: Core Architectural Capabilities & Features
         </label>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5">

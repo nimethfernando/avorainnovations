@@ -58,20 +58,20 @@ export default async function CaseStudyDetailPage({ params }: CaseStudyPageProps
         />
 
         {/* Hero */}
-        <div className="my-10 lg:my-16 rounded-3xl bg-gradient-to-br from-emerald-950/40 via-slate-900 to-slate-950 p-8 sm:p-14 border border-emerald-500/20 relative overflow-hidden">
+        <div className="my-10 lg:my-16 rounded-3xl bg-slate-950 bg-gradient-to-br from-emerald-950/80 via-slate-900 to-slate-950 p-8 sm:p-14 border border-emerald-500/20 relative overflow-hidden shadow-2xl">
           <div className="max-w-3xl space-y-6 relative z-10">
             <div className="flex items-center gap-3">
               <span className="px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-400 text-xs font-bold uppercase tracking-wider">
                 {study.industry}
               </span>
-              <span className="text-slate-400 text-xs font-semibold">Client: {study.client}</span>
+              <span className="text-slate-300 text-xs font-semibold">Client: {study.client}</span>
             </div>
 
             <h1 className="text-3xl sm:text-5xl font-black text-white tracking-tight leading-tight">
               {study.title}
             </h1>
 
-            <p className="text-base sm:text-lg text-slate-300 leading-relaxed">
+            <p className="text-base sm:text-lg text-slate-200 leading-relaxed">
               {study.subtitle}
             </p>
 
@@ -80,7 +80,7 @@ export default async function CaseStudyDetailPage({ params }: CaseStudyPageProps
               {study.results.map((res, i) => (
                 <div key={i}>
                   <div className="text-2xl sm:text-3xl font-black text-emerald-400">{res.metric}</div>
-                  <div className="text-xs text-slate-400 font-medium">{res.label}</div>
+                  <div className="text-xs text-slate-300 font-medium">{res.label}</div>
                 </div>
               ))}
             </div>
@@ -90,7 +90,7 @@ export default async function CaseStudyDetailPage({ params }: CaseStudyPageProps
         {/* 1. Challenge & 2. Solution */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 my-16">
           <div className="p-8 sm:p-10 rounded-3xl bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 space-y-4">
-            <span className="px-3 py-1 rounded-full bg-rose-500/10 text-rose-500 text-xs font-bold uppercase tracking-wider">
+            <span className="px-3 py-1 rounded-full bg-rose-50 text-rose-700 dark:bg-rose-500/10 dark:text-rose-400 border border-rose-200/80 dark:border-rose-500/20 text-xs font-bold uppercase tracking-wider">
               The Architectural Challenge
             </span>
             <h2 className="text-2xl font-bold text-slate-900 dark:text-white">
@@ -102,7 +102,7 @@ export default async function CaseStudyDetailPage({ params }: CaseStudyPageProps
           </div>
 
           <div className="p-8 sm:p-10 rounded-3xl bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 space-y-4">
-            <span className="px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-500 text-xs font-bold uppercase tracking-wider">
+            <span className="px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-400 border border-emerald-200/80 dark:border-emerald-500/20 text-xs font-bold uppercase tracking-wider">
               The Avora Solution
             </span>
             <h2 className="text-2xl font-bold text-slate-900 dark:text-white">
@@ -203,7 +203,7 @@ export default async function CaseStudyDetailPage({ params }: CaseStudyPageProps
               <div className="font-bold text-sm text-slate-900 dark:text-white">
                 {study.testimonial.author}
               </div>
-              <div className="text-xs text-slate-500">
+              <div className="text-xs text-slate-600 dark:text-slate-400">
                 {study.testimonial.role}, {study.testimonial.company}
               </div>
             </div>

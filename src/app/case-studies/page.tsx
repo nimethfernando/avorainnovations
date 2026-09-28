@@ -36,17 +36,17 @@ export default function CaseStudiesPage() {
           >
             <div className="p-8 space-y-5">
               <div className="flex items-center justify-between text-xs">
-                <span className="px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-bold uppercase tracking-wider text-[10px]">
+                <span className="px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-400 border border-emerald-200/80 dark:border-emerald-500/20 font-bold uppercase tracking-wider text-[10px]">
                   {study.industry}
                 </span>
-                <span className="text-slate-500 font-semibold">{study.client}</span>
+                <span className="text-slate-600 dark:text-slate-400 font-semibold">{study.client}</span>
               </div>
 
               <h2 className="text-xl font-bold text-slate-900 dark:text-white group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors leading-snug">
                 {study.title}
               </h2>
 
-              <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 line-clamp-3 leading-relaxed">
+              <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 line-clamp-3 leading-relaxed">
                 {study.challenge}
               </p>
 
@@ -56,7 +56,7 @@ export default function CaseStudiesPage() {
                     <div className="text-lg font-black text-emerald-600 dark:text-emerald-400">
                       {res.metric}
                     </div>
-                    <div className="text-[11px] text-slate-500 leading-tight mt-0.5">
+                    <div className="text-[11px] text-slate-600 dark:text-slate-400 leading-tight mt-0.5">
                       {res.label}
                     </div>
                   </div>

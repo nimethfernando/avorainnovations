@@ -61,7 +61,7 @@ export default function IndustriesPage() {
               className="rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 p-8 flex flex-col justify-between hover:shadow-2xl hover:border-purple-500/40 transition-all duration-300 group"
             >
               <div className="space-y-4">
-                <div className="w-12 h-12 rounded-xl bg-purple-500/10 text-purple-600 dark:text-purple-400 group-hover:bg-purple-600 group-hover:text-white flex items-center justify-center transition-colors">
+                <div className="w-12 h-12 rounded-2xl bg-purple-50 dark:bg-purple-500/10 text-purple-600 dark:text-purple-400 border border-purple-200/80 dark:border-purple-500/20 group-hover:bg-purple-600 group-hover:text-white group-hover:border-transparent flex items-center justify-center transition-all shadow-xs">
                   <Icon className="w-6 h-6" />
                 </div>
 
@@ -69,7 +69,7 @@ export default function IndustriesPage() {
                   <h2 className="text-xl font-bold text-slate-900 dark:text-white group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">
                     {ind.title}
                   </h2>
-                  <p className="text-xs text-purple-500 font-semibold mt-0.5">
+                  <p className="text-xs text-purple-600 dark:text-purple-400 font-semibold mt-0.5">
                     {ind.subtitle}
                   </p>
                   <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mt-3 leading-relaxed line-clamp-3">
@@ -81,7 +81,7 @@ export default function IndustriesPage() {
                   {ind.keyStats.slice(0, 2).map((stat, i) => (
                     <div key={i} className="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-900/60 border border-slate-100 dark:border-slate-800/80">
                       <div className="text-base font-extrabold text-purple-600 dark:text-purple-400">{stat.value}</div>
-                      <div className="text-[10px] text-slate-500 leading-tight">{stat.label}</div>
+                      <div className="text-[10px] text-slate-600 dark:text-slate-400 leading-tight">{stat.label}</div>
                     </div>
                   ))}
                 </div>

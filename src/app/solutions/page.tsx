@@ -91,7 +91,7 @@ export default function SolutionsPage() {
               className="rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 p-8 flex flex-col justify-between hover:shadow-2xl hover:border-emerald-500/40 transition-all duration-300 group"
             >
               <div className="space-y-4">
-                <div className="w-12 h-12 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 group-hover:bg-emerald-600 group-hover:text-white flex items-center justify-center transition-colors">
+                <div className="w-12 h-12 rounded-2xl bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-200/80 dark:border-emerald-500/20 group-hover:bg-emerald-600 group-hover:text-white group-hover:border-transparent flex items-center justify-center transition-all shadow-xs">
                   <Icon className="w-6 h-6" />
                 </div>
                 <h2 className="text-xl font-bold text-slate-900 dark:text-white group-hover:text-emerald-500 transition-colors">

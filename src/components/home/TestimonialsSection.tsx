@@ -551,7 +551,7 @@ export default function TestimonialsSection() {
 
             {/* In-depth Review Body */}
             <div className="space-y-4 text-sm sm:text-base text-slate-700 dark:text-slate-300 leading-relaxed">
-              <div className="text-xs font-bold uppercase tracking-wider text-slate-400">
+              <div className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
                 Executive Review Statement
               </div>
               <p className="italic font-medium text-slate-900 dark:text-slate-100 border-l-4 border-blue-500 pl-4 py-1">
@@ -567,7 +567,7 @@ export default function TestimonialsSection() {
             {/* Technology Tags */}
             {selectedReview.tags && selectedReview.tags.length > 0 && (
               <div className="space-y-2 pt-2">
-                <div className="text-xs font-bold uppercase tracking-wider text-slate-400">
+                <div className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
                   Technologies Deployed
                 </div>
                 <div className="flex flex-wrap gap-2">

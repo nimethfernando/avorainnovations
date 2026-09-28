@@ -149,7 +149,7 @@ export default function MegaMenu({ activeMenu, closeMenu, openConsultation }: Me
             </div>
 
             {/* Featured Box on Right */}
-            <div className="col-span-4 rounded-2xl bg-gradient-to-br from-blue-900/40 via-indigo-950/40 to-slate-900 p-6 border border-blue-500/20 flex flex-col justify-between">
+            <div className="col-span-4 rounded-2xl bg-slate-950 bg-gradient-to-br from-blue-950/90 via-slate-900 to-slate-950 p-6 border border-blue-500/30 flex flex-col justify-between shadow-xl">
               <div>
                 <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-blue-500/20 text-blue-300 text-xs font-semibold uppercase tracking-wider mb-3">
                   <Sparkles className="w-3.5 h-3.5" /> High-Demand Architecture
@@ -225,10 +225,10 @@ export default function MegaMenu({ activeMenu, closeMenu, openConsultation }: Me
               ))}
             </div>
 
-            <div className="col-span-3 rounded-2xl bg-gradient-to-br from-purple-900/30 via-slate-900 to-slate-950 p-6 border border-purple-500/20 flex flex-col justify-between">
+            <div className="col-span-3 rounded-2xl bg-slate-950 bg-gradient-to-br from-purple-950/90 via-slate-900 to-slate-950 p-6 border border-purple-500/30 flex flex-col justify-between shadow-xl">
               <div>
                 <span className="text-[10px] font-bold uppercase tracking-wider text-purple-400">
-                  Compliance & Security
+                  Compliance &amp; Security
                 </span>
                 <h5 className="text-base font-bold text-white mt-1 mb-2">Enterprise Grade Compliance</h5>
                 <p className="text-xs text-slate-300 leading-relaxed mb-4">
@@ -345,7 +345,7 @@ export default function MegaMenu({ activeMenu, closeMenu, openConsultation }: Me
               ))}
             </div>
 
-            <div className="col-span-4 rounded-2xl bg-gradient-to-br from-emerald-950/40 via-slate-900 to-slate-950 p-6 border border-emerald-500/20 flex flex-col justify-between">
+            <div className="col-span-4 rounded-2xl bg-slate-950 bg-gradient-to-br from-emerald-950/90 via-slate-900 to-slate-950 p-6 border border-emerald-500/30 flex flex-col justify-between shadow-xl">
               <div>
                 <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-400">
                   Delivery Speed

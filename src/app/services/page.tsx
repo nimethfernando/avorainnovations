@@ -66,10 +66,10 @@ export default function ServicesPage() {
             >
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
-                  <div className="w-12 h-12 rounded-xl bg-blue-500/10 text-blue-600 dark:text-blue-400 group-hover:bg-blue-600 group-hover:text-white flex items-center justify-center transition-colors">
+                  <div className="w-12 h-12 rounded-2xl bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-200/80 dark:border-blue-500/20 group-hover:bg-blue-600 group-hover:text-white group-hover:border-transparent flex items-center justify-center transition-all shadow-xs">
                     <Icon className="w-6 h-6" />
                   </div>
-                  <span className="px-2.5 py-1 text-[11px] font-semibold rounded-full bg-slate-100 dark:bg-slate-900 text-slate-600 dark:text-slate-300">
+                  <span className="px-2.5 py-1 text-[11px] font-semibold rounded-full bg-slate-100 dark:bg-slate-900 text-slate-700 dark:text-slate-300 border border-slate-200/60 dark:border-slate-800">
                     {service.badge}
                   </span>
                 </div>
@@ -78,7 +78,7 @@ export default function ServicesPage() {
                   <h2 className="text-xl font-bold text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
                     {service.title}
                   </h2>
-                  <p className="text-xs text-blue-500 font-semibold uppercase tracking-wider mt-0.5">
+                  <p className="text-xs text-blue-600 dark:text-blue-400 font-semibold uppercase tracking-wider mt-0.5">
                     {service.category}
                   </p>
                   <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mt-3 leading-relaxed">
@@ -87,7 +87,7 @@ export default function ServicesPage() {
                 </div>
 
                 <div className="pt-3 border-t border-slate-100 dark:border-slate-800 space-y-1.5">
-                  <div className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">
+                  <div className="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
                     Core Capabilities:
                   </div>
                   {service.capabilities.map((cap, i) => (

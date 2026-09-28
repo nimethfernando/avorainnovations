@@ -76,7 +76,7 @@ export default async function IndustryDetailPage({ params }: IndustryPageProps) 
         />
 
         {/* 1. Industry Hero */}
-        <div className="my-10 lg:my-16 rounded-3xl bg-gradient-to-br from-purple-950/40 via-slate-900 to-slate-950 p-8 sm:p-14 border border-purple-500/20 relative overflow-hidden">
+        <div className="my-10 lg:my-16 rounded-3xl bg-slate-950 bg-gradient-to-br from-purple-950/80 via-slate-900 to-slate-950 p-8 sm:p-14 border border-purple-500/20 relative overflow-hidden shadow-2xl">
           <div className="max-w-3xl space-y-6 relative z-10">
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-purple-500/20 text-purple-400 text-xs font-bold uppercase tracking-wider">
               <Sparkles className="w-3.5 h-3.5" /> Domain Specialization
@@ -96,7 +96,7 @@ export default async function IndustryDetailPage({ params }: IndustryPageProps) 
               </div>
             </div>
 
-            <p className="text-base sm:text-lg text-slate-300 leading-relaxed">
+            <p className="text-base sm:text-lg text-slate-200 leading-relaxed">
               {industry.overview}
             </p>
 
@@ -105,7 +105,7 @@ export default async function IndustryDetailPage({ params }: IndustryPageProps) 
               {industry.keyStats.map((stat, i) => (
                 <div key={i}>
                   <div className="text-2xl sm:text-3xl font-black text-purple-400">{stat.value}</div>
-                  <div className="text-xs text-slate-400 font-medium">{stat.label}</div>
+                  <div className="text-xs text-slate-300 font-medium">{stat.label}</div>
                 </div>
               ))}
             </div>
@@ -124,38 +124,38 @@ export default async function IndustryDetailPage({ params }: IndustryPageProps) 
 
         {/* 1.5 Compliance & Regulatory Moat Proof Banner */}
         <section className="py-10 border-b border-slate-200 dark:border-slate-800/80">
-          <div className="p-6 rounded-3xl bg-gradient-to-r from-purple-950/40 via-slate-900/60 to-blue-950/40 border border-purple-500/20 grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="p-6 sm:p-8 rounded-3xl bg-gradient-to-r from-purple-50/90 via-white to-blue-50/90 dark:from-purple-950/40 dark:via-slate-900/80 dark:to-blue-950/40 border border-purple-200/80 dark:border-purple-500/20 grid grid-cols-1 md:grid-cols-3 gap-6 shadow-sm">
             <div className="flex items-start gap-3.5">
-              <div className="w-10 h-10 rounded-xl bg-purple-500/10 text-purple-400 flex items-center justify-center flex-shrink-0">
+              <div className="w-11 h-11 rounded-2xl bg-purple-100 text-purple-600 dark:bg-purple-500/20 dark:text-purple-400 border border-purple-200 dark:border-purple-500/30 flex items-center justify-center flex-shrink-0 shadow-sm">
                 <ShieldCheck className="w-5 h-5" />
               </div>
               <div>
                 <h4 className="text-sm font-bold text-slate-900 dark:text-white">Enterprise Security Hardened</h4>
-                <p className="text-xs text-slate-600 dark:text-slate-400 mt-1 leading-relaxed">
+                <p className="text-xs text-slate-600 dark:text-slate-300 mt-1 leading-relaxed">
                   Engineered with zero-trust security architecture, end-to-end data encryption, and strict data privacy standards.
                 </p>
               </div>
             </div>
 
             <div className="flex items-start gap-3.5">
-              <div className="w-10 h-10 rounded-xl bg-blue-500/10 text-blue-400 flex items-center justify-center flex-shrink-0">
+              <div className="w-11 h-11 rounded-2xl bg-blue-100 text-blue-600 dark:bg-blue-500/20 dark:text-blue-400 border border-blue-200 dark:border-blue-500/30 flex items-center justify-center flex-shrink-0 shadow-sm">
                 <Sparkles className="w-5 h-5" />
               </div>
               <div>
                 <h4 className="text-sm font-bold text-slate-900 dark:text-white">Domain-Trained AI Agents</h4>
-                <p className="text-xs text-slate-600 dark:text-slate-400 mt-1 leading-relaxed">
+                <p className="text-xs text-slate-600 dark:text-slate-300 mt-1 leading-relaxed">
                   Autonomous agents pre-tuned on vertical terminologies, ontology schemas, and deterministic safety guardrails.
                 </p>
               </div>
             </div>
 
             <div className="flex items-start gap-3.5">
-              <div className="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center flex-shrink-0">
+              <div className="w-11 h-11 rounded-2xl bg-emerald-100 text-emerald-600 dark:bg-emerald-500/20 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-500/30 flex items-center justify-center flex-shrink-0 shadow-sm">
                 <CheckCircle2 className="w-5 h-5" />
               </div>
               <div>
                 <h4 className="text-sm font-bold text-slate-900 dark:text-white">Zero-Downtime Rollout SLA</h4>
-                <p className="text-xs text-slate-600 dark:text-slate-400 mt-1 leading-relaxed">
+                <p className="text-xs text-slate-600 dark:text-slate-300 mt-1 leading-relaxed">
                   Blue-green deployment strategies guaranteeing 99.99% system continuity for mission-critical workloads.
                 </p>
               </div>
@@ -189,7 +189,7 @@ export default async function IndustryDetailPage({ params }: IndustryPageProps) 
                 </p>
 
                 <div className="pt-3 border-t border-slate-100 dark:border-slate-800 space-y-2">
-                  <div className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">
+                  <div className="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
                     Included Features:
                   </div>
                   {sol.features.map((feat, fi) => (

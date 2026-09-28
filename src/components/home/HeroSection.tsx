@@ -239,7 +239,7 @@ export default function HeroSection() {
                     <CheckCircle2 className="w-4 h-4 flex-shrink-0" />
                     <span>✓ Edge canary deployment: 100% HEALTHY</span>
                   </div>
-                  <div className="p-2 mt-3 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-[11px]">
+                  <div className="p-2 mt-3 rounded-lg bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-200 dark:border-emerald-500/20 text-emerald-700 dark:text-emerald-400 text-[11px] font-medium">
                     Production status: 99.999% SLA • Zero Downtime Maintained
                   </div>
                 </div>

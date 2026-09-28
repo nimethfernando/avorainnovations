@@ -151,7 +151,7 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
         />
 
         {/* 1. Hero Section */}
-        <div className="my-10 lg:my-16 rounded-3xl bg-gradient-to-br from-blue-900/30 via-slate-900 to-slate-950 p-8 sm:p-14 border border-blue-500/20 relative overflow-hidden">
+        <div className="my-10 lg:my-16 rounded-3xl bg-slate-950 bg-gradient-to-br from-blue-950/80 via-slate-900 to-slate-950 p-8 sm:p-14 border border-blue-500/20 relative overflow-hidden shadow-2xl">
           <div className="max-w-3xl space-y-6 relative z-10">
             <div className="flex items-center gap-3">
               <span className="px-3 py-1 rounded-full bg-blue-500/20 text-blue-400 text-xs font-bold uppercase tracking-wider">
@@ -171,7 +171,7 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
               </h1>
             </div>
 
-            <p className="text-base sm:text-lg text-slate-300 leading-relaxed">
+            <p className="text-base sm:text-lg text-slate-200 leading-relaxed">
               {service.shortDesc}
             </p>
 
@@ -208,7 +208,7 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
               </p>
             </div>
             <div className="lg:col-span-4 p-6 rounded-2xl bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 space-y-3">
-              <div className="text-xs font-bold uppercase tracking-wider text-slate-400">
+              <div className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
                 Delivery Guarantees
               </div>
               <div className="space-y-2 text-xs text-slate-700 dark:text-slate-300">
@@ -423,11 +423,11 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
                 </h3>
                 <div className="space-y-2 text-xs">
                   <div>
-                    <span className="font-bold text-slate-400 block mb-0.5">The Challenge:</span>
+                    <span className="font-bold text-slate-600 dark:text-slate-400 block mb-0.5">The Challenge:</span>
                     <p className="text-slate-600 dark:text-slate-300 leading-relaxed">{uc.challenge}</p>
                   </div>
                   <div>
-                    <span className="font-bold text-slate-400 block mb-0.5">Our Solution:</span>
+                    <span className="font-bold text-slate-600 dark:text-slate-400 block mb-0.5">Our Solution:</span>
                     <p className="text-slate-600 dark:text-slate-300 leading-relaxed">{uc.solution}</p>
                   </div>
                 </div>
@@ -461,7 +461,7 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
                   <th className="p-4 font-bold text-blue-600 dark:text-blue-400 bg-blue-50/50 dark:bg-blue-950/30">
                     AVORA Custom Engineering
                   </th>
-                  <th className="p-4 font-bold text-slate-500">Off-The-Shelf SaaS / Templates</th>
+                  <th className="p-4 font-bold text-slate-600 dark:text-slate-400">Off-The-Shelf SaaS / Templates</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-200 dark:divide-slate-800 bg-white dark:bg-slate-950">
@@ -470,43 +470,43 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
                   <td className="p-4 text-emerald-600 dark:text-emerald-400 font-bold bg-blue-50/30 dark:bg-blue-950/20">
                     Fixed capital asset. Zero per-user punitive seat licensing costs as your team scales.
                   </td>
-                  <td className="p-4 text-slate-500">
+                  <td className="p-4 text-slate-600 dark:text-slate-400">
                     Recurring monthly license fees that balloon by 200-500% with enterprise headcount.
                   </td>
                 </tr>
                 <tr>
                   <td className="p-4 font-semibold text-slate-900 dark:text-white">Proprietary IP Ownership</td>
                   <td className="p-4 text-emerald-600 dark:text-emerald-400 font-bold bg-blue-50/30 dark:bg-blue-950/20">
-                    100% Client Ownership. Full transfer of codebases, schemas, weights & patents.
+                    100% Client Ownership. Full transfer of codebases, schemas, weights &amp; patents.
                   </td>
-                  <td className="p-4 text-slate-500">
+                  <td className="p-4 text-slate-600 dark:text-slate-400">
                     Zero IP ownership. Locked into vendor platform with extreme switching friction.
                   </td>
                 </tr>
                 <tr>
-                  <td className="p-4 font-semibold text-slate-900 dark:text-white">Model Fine-Tuning & Custom Logic</td>
+                  <td className="p-4 font-semibold text-slate-900 dark:text-white">Model Fine-Tuning &amp; Custom Logic</td>
                   <td className="p-4 text-emerald-600 dark:text-emerald-400 font-bold bg-blue-50/30 dark:bg-blue-950/20">
-                    Deterministic agent orchestration tailored to your exact business rules & private APIs.
+                    Deterministic agent orchestration tailored to your exact business rules &amp; private APIs.
                   </td>
-                  <td className="p-4 text-slate-500">
+                  <td className="p-4 text-slate-600 dark:text-slate-400">
                     Rigid out-of-the-box prompts with generic fallback responses and zero customizations.
                   </td>
                 </tr>
                 <tr>
-                  <td className="p-4 font-semibold text-slate-900 dark:text-white">Air-Gapped Security & Compliance</td>
+                  <td className="p-4 font-semibold text-slate-900 dark:text-white">Air-Gapped Security &amp; Compliance</td>
                   <td className="p-4 text-emerald-600 dark:text-emerald-400 font-bold bg-blue-50/30 dark:bg-blue-950/20">
-                    Zero-trust & air-gapped secure architecture. Deployable in private VPC, air-gapped, or on-prem.
+                    Zero-trust &amp; air-gapped secure architecture. Deployable in private VPC, air-gapped, or on-prem.
                   </td>
-                  <td className="p-4 text-slate-500">
+                  <td className="p-4 text-slate-600 dark:text-slate-400">
                     Multi-tenant shared cloud with public API vulnerabilities and third-party data access risks.
                   </td>
                 </tr>
                 <tr>
-                  <td className="p-4 font-semibold text-slate-900 dark:text-white">Latency & Concurrency Thresholds</td>
+                  <td className="p-4 font-semibold text-slate-900 dark:text-white">Latency &amp; Concurrency Thresholds</td>
                   <td className="p-4 text-emerald-600 dark:text-emerald-400 font-bold bg-blue-50/30 dark:bg-blue-950/20">
-                    Sub-15ms database response with dedicated MariaDB connection pooling & CDN caching.
+                    Sub-15ms database response with dedicated MariaDB connection pooling &amp; CDN caching.
                   </td>
-                  <td className="p-4 text-slate-500">
+                  <td className="p-4 text-slate-600 dark:text-slate-400">
                     Throttled rate limits, unpredictable cold-starts, and shared server downtime.
                   </td>
                 </tr>

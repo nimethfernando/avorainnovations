@@ -291,7 +291,7 @@ export default function ContactPage() {
               </div>
               <div className="flex items-center gap-3">
                 <Clock className="w-4 h-4 text-blue-500" />
-                <span className="text-slate-500">
+                <span className="text-slate-600 dark:text-slate-400">
                   Guaranteed Discovery Response: &lt; 4 Hours
                 </span>
               </div>
@@ -313,18 +313,18 @@ export default function ContactPage() {
                       {off.city}
                     </h4>
                     {off.isPrimary && (
-                      <span className="text-[10px] font-semibold text-blue-600 dark:text-blue-400 bg-blue-500/10 px-2 py-0.5 rounded-full border border-blue-500/20">
+                      <span className="text-[10px] font-semibold text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-500/10 px-2 py-0.5 rounded-full border border-blue-200 dark:border-blue-500/20">
                         Global HQ
                       </span>
                     )}
                   </div>
-                  <div className="text-[11px] text-blue-500 font-medium">{off.role}</div>
-                  <p className="text-[11px] text-slate-500">{off.address}</p>
+                  <div className="text-[11px] text-blue-600 dark:text-blue-400 font-medium">{off.role}</div>
+                  <p className="text-[11px] text-slate-600 dark:text-slate-400 leading-relaxed">{off.address}</p>
                   {off.phone && (
-                    <p className="text-[11px] text-slate-400">Tel: {off.phone}</p>
+                    <p className="text-[11px] text-slate-600 dark:text-slate-400">Tel: {off.phone}</p>
                   )}
                   {off.email && (
-                    <p className="text-[11px] text-slate-400">Email: {off.email}</p>
+                    <p className="text-[11px] text-slate-600 dark:text-slate-400">Email: {off.email}</p>
                   )}
                 </div>
               ))}

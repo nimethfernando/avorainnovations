@@ -118,7 +118,7 @@ export default function AboutPage() {
           <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white">
             Our 5-Phase Delivery Methodology
           </h2>
-          <p className="text-sm text-slate-500">
+          <p className="text-sm text-slate-600 dark:text-slate-400">
             A deterministic, milestone-driven framework that eliminates surprises and ensures flawless execution.
           </p>
         </div>
@@ -151,7 +151,7 @@ export default function AboutPage() {
           <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white">
             Executive & Engineering Leadership
           </h2>
-          <p className="text-sm text-slate-500">
+          <p className="text-sm text-slate-600 dark:text-slate-400">
             Guided by proven software architects and artificial intelligence researchers.
           </p>
         </div>
@@ -168,8 +168,8 @@ export default function AboutPage() {
               <h3 className="text-base font-bold text-slate-900 dark:text-white">
                 {l.name}
               </h3>
-              <div className="text-xs font-semibold text-blue-500">{l.role}</div>
-              <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+              <div className="text-xs font-semibold text-blue-600 dark:text-blue-400">{l.role}</div>
+              <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
                 {l.bio}
               </p>
             </div>
