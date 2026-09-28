@@ -109,7 +109,7 @@ export default function RootLayout({
           <I18nProvider>
             <GoogleTranslateSync />
             <Header />
-            <main className="flex-grow pt-24 xl:pt-32">
+            <main className="flex-grow pt-20 sm:pt-24">
               {children}
             </main>
             <FloatingContactWidget />

@@ -13,12 +13,7 @@ import {
   ChevronDown,
   Menu,
   X,
-  Sparkles,
-  Phone,
-  Mail,
   ArrowRight,
-  Shield,
-  Layers,
   Search,
 } from 'lucide-react';
 
@@ -122,37 +117,7 @@ export default function Header() {
             : 'bg-white/70 dark:bg-slate-950/70 backdrop-blur-sm border-b border-slate-200/40 dark:border-slate-800/40'
         }`}
       >
-        {/* Top Announcement / Quick Contact Bar */}
-        <div className="hidden xl:block bg-slate-950 text-slate-300 text-[11px] py-1.5 px-6 border-b border-slate-800/60">
-          <div className="max-w-[1440px] mx-auto flex items-center justify-between gap-4">
-            <div className="flex items-center gap-3 min-w-0 truncate">
-              <span className="inline-flex items-center gap-1.5 text-blue-400 font-medium truncate">
-                <Sparkles className="w-3 h-3 flex-shrink-0" /> Enterprise AI &amp; Digital Product Engineering Studio
-              </span>
-              <span className="text-slate-600 hidden 2xl:inline">|</span>
-              <span className="text-slate-400 hidden 2xl:inline truncate">Enterprise AI • Cloud Platforms • Digital Products</span>
-            </div>
-            <div className="flex items-center gap-4 xl:gap-5 flex-shrink-0 whitespace-nowrap">
-              <a
-                href="mailto:avorainnovations@gmail.com"
-                className="flex items-center gap-1.5 hover:text-white transition-colors notranslate"
-              >
-                <Mail className="w-3 h-3 text-blue-400" /> avorainnovations@gmail.com
-              </a>
-              <span className="text-slate-700">|</span>
-              <a
-                href="tel:+995555433091"
-                className="flex items-center gap-1.5 hover:text-white transition-colors notranslate"
-              >
-                <Phone className="w-3 h-3 text-blue-400" /> <span className="whitespace-nowrap">+995 555433091</span>
-              </a>
-              <span className="text-slate-700">|</span>
-              <Link href="/admin" className="text-slate-400 hover:text-blue-400 transition-colors">
-                CMS Portal
-              </Link>
-            </div>
-          </div>
-        </div>
+        
 
         {/* Main Navigation Bar */}
         <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
