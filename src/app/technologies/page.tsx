@@ -112,7 +112,8 @@ export default function TechnologiesPage() {
           return (
             <div
               key={cat.slug}
-              className="rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 p-8 sm:p-12 shadow-xl space-y-8"
+              id={cat.slug}
+              className="rounded-3xl scroll-mt-28 border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 p-8 sm:p-12 shadow-xl space-y-8"
             >
               <div className="flex items-center gap-4 pb-6 border-b border-slate-100 dark:border-slate-800">
                 <div className="w-12 h-12 rounded-2xl bg-blue-500/10 text-blue-600 dark:text-blue-400 flex items-center justify-center">

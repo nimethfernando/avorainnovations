@@ -293,7 +293,7 @@ export default function MegaMenu({ activeMenu, closeMenu, openConsultation }: Me
                     {cat.items?.slice(0, 6).map((tech: any) => (
                       <Link
                         key={tech.name}
-                        href="/technologies"
+                        href={`/technologies/${getTechSlug(tech.name)}`}
                         onClick={closeMenu}
                         className="group flex items-center justify-between p-2 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-900 text-xs transition-colors"
                       >
@@ -306,8 +306,7 @@ export default function MegaMenu({ activeMenu, closeMenu, openConsultation }: Me
                       </Link>
                     ))}
                     {(cat.items?.length || 0) > 6 && (
-                      <Link
-                        href="/technologies"
+                      <Link href={`/technologies#${cat.slug}`}
                         onClick={closeMenu}
                         className="inline-flex items-center gap-1 text-[11px] font-semibold text-blue-600 dark:text-blue-400 hover:underline px-2 pt-1"
                       >
