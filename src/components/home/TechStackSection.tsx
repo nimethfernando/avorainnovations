@@ -14,6 +14,7 @@ import {
   ArrowRight,
   Sparkles,
   Terminal,
+  ShoppingBag,
 } from 'lucide-react';
 
 const CATEGORY_ICONS: Record<string, any> = {
@@ -24,6 +25,7 @@ const CATEGORY_ICONS: Record<string, any> = {
   cloud: Cloud,
   aiml: Brain,
   devops: Rocket,
+  ecommerce: ShoppingBag,
 };
 
 export default function TechStackSection() {

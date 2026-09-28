@@ -1,7 +1,7 @@
 'use client';
 
-import React, { useState } from 'react';
-import { TECH_CATEGORIES } from '@/lib/content';
+import React, { useState, useEffect } from 'react';
+import { TECH_CATEGORIES, TechCategory } from '@/lib/content';
 import Breadcrumbs from '@/components/common/Breadcrumbs';
 import CtaBanner from '@/components/home/CtaBanner';
 import {
@@ -15,6 +15,7 @@ import {
   ArrowRight,
   Sparkles,
   CheckCircle,
+  ShoppingBag,
 } from 'lucide-react';
 
 const CATEGORY_ICONS: Record<string, any> = {
@@ -25,15 +26,34 @@ const CATEGORY_ICONS: Record<string, any> = {
   cloud: Cloud,
   aiml: Brain,
   devops: Rocket,
+  ecommerce: ShoppingBag,
 };
 
 export default function TechnologiesPage() {
   const [selectedCat, setSelectedCat] = useState('all');
+  const [categories, setCategories] = useState<TechCategory[]>(TECH_CATEGORIES);
+
+  useEffect(() => {
+    async function loadTechs() {
+      try {
+        const res = await fetch('/api/technologies');
+        if (res.ok) {
+          const data = await res.json();
+          if (Array.isArray(data) && data.length > 0) {
+            setCategories(data);
+          }
+        }
+      } catch {
+        // Fallback
+      }
+    }
+    loadTechs();
+  }, []);
 
   const filteredCategories =
     selectedCat === 'all'
-      ? TECH_CATEGORIES
-      : TECH_CATEGORIES.filter((c) => c.slug === selectedCat);
+      ? categories
+      : categories.filter((c) => c.slug === selectedCat);
 
   return (
     <div className="py-8 pb-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -64,7 +84,7 @@ export default function TechnologiesPage() {
           All Categories
         </button>
 
-        {TECH_CATEGORIES.map((cat) => {
+        {categories.map((cat) => {
           const Icon = CATEGORY_ICONS[cat.slug] || Code2;
           const isActive = selectedCat === cat.slug;
           return (

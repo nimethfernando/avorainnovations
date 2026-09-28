@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Search, X, ArrowRight, Brain, Building, Cpu, FileText } from 'lucide-react';
+import { Search, X, ArrowRight, Brain, Building, Cpu, FileText, Terminal } from 'lucide-react';
 import { SERVICES_DATA, INDUSTRIES_DATA, TECH_CATEGORIES, BLOG_POSTS_DATA } from '@/lib/content';
 
 interface SearchModalProps {
@@ -33,6 +33,19 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
   const matchingIndustries = q
     ? INDUSTRIES_DATA.filter((i) => i.title.toLowerCase().includes(q) || i.overview.toLowerCase().includes(q))
     : INDUSTRIES_DATA.slice(0, 3);
+
+  const matchingTechs = q
+    ? TECH_CATEGORIES.flatMap((c) =>
+        c.items
+          .filter(
+            (t) =>
+              t.name.toLowerCase().includes(q) ||
+              t.description.toLowerCase().includes(q) ||
+              c.category.toLowerCase().includes(q)
+          )
+          .map((t) => ({ ...t, categoryName: c.category }))
+      ).slice(0, 4)
+    : [];
 
   const matchingBlogs = q
     ? BLOG_POSTS_DATA.filter((b) => b.title.toLowerCase().includes(q) || b.excerpt.toLowerCase().includes(q))
@@ -107,6 +120,44 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
                     </span>
                   </div>
                   <ArrowRight className="w-3.5 h-3.5 text-slate-400 group-hover:text-purple-500" />
+                </Link>
+              ))}
+            </div>
+          )}
+
+          {/* Technologies */}
+          {matchingTechs.length > 0 && (
+            <div className="space-y-1">
+              <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400 px-2 py-1 flex items-center justify-between">
+                <span>Technologies & Frameworks</span>
+                <span className="text-cyan-500 font-normal">View Tech Matrix</span>
+              </div>
+              {matchingTechs.map((t, idx) => (
+                <Link
+                  key={idx}
+                  href="/technologies"
+                  onClick={onClose}
+                  className="flex items-center justify-between p-2.5 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 text-xs transition-colors group"
+                >
+                  <div className="flex items-center gap-2.5">
+                    <Terminal className="w-4 h-4 text-cyan-500" />
+                    <div>
+                      <span className="font-bold text-slate-800 dark:text-slate-200 group-hover:text-cyan-500 mr-2">
+                        {t.name}
+                      </span>
+                      <span className="text-[10px] text-slate-400">
+                        ({t.categoryName})
+                      </span>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    {t.badge && (
+                      <span className="text-[10px] px-1.5 py-0.5 rounded bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 font-semibold">
+                        {t.badge}
+                      </span>
+                    )}
+                    <ArrowRight className="w-3.5 h-3.5 text-slate-400 group-hover:text-cyan-500" />
+                  </div>
                 </Link>
               ))}
             </div>
