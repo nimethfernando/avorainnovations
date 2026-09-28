@@ -12,6 +12,8 @@ import {
   TECH_CATEGORIES,
   CompanyLocation,
   DEFAULT_LOCATIONS,
+  LeadershipMember,
+  DEFAULT_LEADERSHIP,
 } from './content';
 
 export const DEFAULT_NAVIGATION = [
@@ -122,6 +124,7 @@ interface StorageData {
   seo: Record<string, any>;
   costCalculator?: any;
   locations?: CompanyLocation[];
+  leadership?: LeadershipMember[];
   resetTokens?: Array<{ email: string; token: string; expiresAt: number; used: boolean }>;
 }
 
@@ -285,6 +288,7 @@ function getInitialData(): StorageData {
     seo: DEFAULT_SEO,
     costCalculator: DEFAULT_COST_CONFIG,
     locations: DEFAULT_LOCATIONS,
+    leadership: DEFAULT_LEADERSHIP,
     resetTokens: [],
   };
 }
@@ -306,6 +310,7 @@ function loadLocalStore(): StorageData {
       if (!parsed.costCalculator) parsed.costCalculator = DEFAULT_COST_CONFIG;
       if (!parsed.seo) parsed.seo = DEFAULT_SEO;
       if (!parsed.locations) parsed.locations = DEFAULT_LOCATIONS;
+      if (!parsed.leadership) parsed.leadership = DEFAULT_LEADERSHIP;
       if (!parsed.resetTokens) parsed.resetTokens = [];
       return parsed;
     }
@@ -1036,6 +1041,105 @@ export const db = {
     const store = loadLocalStore();
     if (store.locations) {
       store.locations = store.locations.filter((l: any) => l.id !== id);
+      saveLocalStore(store);
+    }
+    return true;
+  },
+
+  // --- Executive Leadership Team (CMS Managed) ---
+  async getAllLeadership(): Promise<LeadershipMember[]> {
+    const seedCheck = await queryDb<any>(
+      "SELECT id FROM avora_cms_content WHERE type = 'system_meta' AND id = 'leadership_seeded_v1' LIMIT 1"
+    );
+
+    if (seedCheck && seedCheck.length === 0) {
+      for (const lead of DEFAULT_LEADERSHIP) {
+        await queryDb(
+          `
+          INSERT INTO avora_cms_content (id, type, slug, data)
+          VALUES (?, 'leadership', ?, ?)
+          ON DUPLICATE KEY UPDATE id = id
+        `,
+          [lead.id, lead.id, JSON.stringify(lead)]
+        );
+      }
+      await queryDb(
+        `
+        INSERT INTO avora_cms_content (id, type, slug, data)
+        VALUES ('leadership_seeded_v1', 'system_meta', 'leadership_seeded_v1', '{"seeded": true}')
+        ON DUPLICATE KEY UPDATE id = id
+      `
+      );
+    }
+
+    const rows = await queryDb<any>("SELECT data FROM avora_cms_content WHERE type = 'leadership' ORDER BY updatedAt DESC");
+    if (rows && rows.length > 0) {
+      try {
+        const list: LeadershipMember[] = rows.map((r) => JSON.parse(r.data));
+        return list.sort((a, b) => (a.order ?? 99) - (b.order ?? 99));
+      } catch (e) {
+        console.error('[DB] Error parsing leadership data:', e);
+      }
+    }
+
+    const store = loadLocalStore();
+    const local = store.leadership || DEFAULT_LEADERSHIP;
+    return [...local].sort((a, b) => (a.order ?? 99) - (b.order ?? 99));
+  },
+
+  async saveLeadership(data: any): Promise<LeadershipMember> {
+    const id = data.id || 'lead-' + Date.now();
+    const record: LeadershipMember = {
+      id,
+      name: data.name || '',
+      role: data.role || '',
+      image: data.image || '/images/team/amit-batra.png',
+      experience: data.experience || '10+ Years Experience',
+      bio: data.bio || '',
+      linkedin: data.linkedin || '',
+      expertise: Array.isArray(data.expertise)
+        ? data.expertise
+        : (typeof data.expertise === 'string'
+            ? data.expertise.split(',').map((s: string) => s.trim()).filter(Boolean)
+            : []),
+      highlights: Array.isArray(data.highlights) && data.highlights.length > 0
+        ? data.highlights
+        : [
+            { label: 'Industry Track Record', value: data.experience || '10+ Years' },
+            { label: 'Core Expertise', value: data.role ? data.role.split('&')[0].trim() : 'Leadership' },
+            { label: 'Strategic Focus', value: 'Enterprise Scale' },
+          ],
+      order: typeof data.order === 'number' ? data.order : parseInt(data.order || '1', 10),
+      isActive: data.isActive !== undefined ? !!data.isActive : true,
+    };
+
+    await queryDb(
+      `
+      INSERT INTO avora_cms_content (id, type, slug, data)
+      VALUES (?, 'leadership', ?, ?)
+      ON DUPLICATE KEY UPDATE data = VALUES(data), updatedAt = NOW()
+    `,
+      [id, id, JSON.stringify(record)]
+    );
+
+    const store = loadLocalStore();
+    if (!store.leadership) store.leadership = [...DEFAULT_LEADERSHIP];
+    const idx = store.leadership.findIndex((l: any) => l.id === id);
+    if (idx !== -1) {
+      store.leadership[idx] = record;
+    } else {
+      store.leadership.push(record);
+    }
+    saveLocalStore(store);
+    return record;
+  },
+
+  async deleteLeadership(id: string): Promise<boolean> {
+    await queryDb("DELETE FROM avora_cms_content WHERE type = 'leadership' AND id = ?", [id]);
+
+    const store = loadLocalStore();
+    if (store.leadership) {
+      store.leadership = store.leadership.filter((l: any) => l.id !== id);
       saveLocalStore(store);
     }
     return true;

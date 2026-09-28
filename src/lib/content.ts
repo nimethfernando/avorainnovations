@@ -1274,3 +1274,44 @@ export const DEFAULT_LOCATIONS: CompanyLocation[] = [
   },
 ];
 
+export interface LeadershipMember {
+  id: string;
+  name: string;
+  role: string;
+  image: string;
+  experience: string;
+  bio: string;
+  linkedin?: string;
+  expertise: string[];
+  highlights?: { label: string; value: string }[];
+  order?: number;
+  isActive?: boolean;
+}
+
+export const DEFAULT_LEADERSHIP: LeadershipMember[] = [
+  {
+    id: 'lead-amit-batra',
+    name: 'Amit Batra',
+    role: 'Founder & Technology Innovation Leader',
+    image: '/images/team/amit-batra.png',
+    experience: '18+ Years Experience',
+    bio: 'Amit Batra brings 18 years of experience in technology, innovation and building technology-driven businesses. His expertise spans AI, blockchain, Web3 and digital infrastructure, with a strong focus on turning emerging technologies into practical, scalable and real-world solutions. At Avora Innovations, he brings strategic vision, product thinking and execution expertise to build future-ready technology products.',
+    linkedin: 'https://www.linkedin.com/in/amit-batra-romania/',
+    expertise: [
+      'Artificial Intelligence & Deep Tech',
+      'Blockchain & Web3 Architectures',
+      'Digital Infrastructure & Cloud Systems',
+      'Enterprise Scalability & Execution',
+      'Strategic Product Thinking',
+    ],
+    highlights: [
+      { label: 'Industry Track Record', value: '18+ Years' },
+      { label: 'Core Expertise', value: 'AI & Web3' },
+      { label: 'Strategic Focus', value: 'Global Scale' },
+    ],
+    order: 1,
+    isActive: true,
+  },
+];
+
+
