@@ -289,7 +289,7 @@ export default function MegaMenu({ activeMenu, closeMenu, openConsultation }: Me
                     <span className="text-[10px] font-normal text-slate-400">({cat.items?.length || 0})</span>
                   </h5>
                   <div className="space-y-1.5">
-                    {cat.items?.slice(0, 5).map((tech: any) => (
+                    {cat.items?.slice(0, 6).map((tech: any) => (
                       <Link
                         key={tech.name}
                         href="/technologies"
@@ -304,6 +304,15 @@ export default function MegaMenu({ activeMenu, closeMenu, openConsultation }: Me
                         </span>
                       </Link>
                     ))}
+                    {(cat.items?.length || 0) > 6 && (
+                      <Link
+                        href="/technologies"
+                        onClick={closeMenu}
+                        className="inline-flex items-center gap-1 text-[11px] font-semibold text-blue-600 dark:text-blue-400 hover:underline px-2 pt-1"
+                      >
+                        + {(cat.items?.length || 0) - 6} more <ArrowRight className="w-3 h-3" />
+                      </Link>
+                    )}
                   </div>
                 </div>
               ))}

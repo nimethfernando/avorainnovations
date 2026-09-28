@@ -4,10 +4,10 @@
       "id": "admin-1",
       "email": "avorainnovations@gmail.com",
       "name": "Avora Executive Admin",
-      "password": "6ecc737b340c5f1477653ed2b372b020:ca72a21c4e32fa3c4f3c2511bd7e143c3fc3d9ce0d0e49ae732b7bf3f2722ec91c121a13d22b037d6a1a60dbbfaa44d1b3aa5b7b034ad90083f7c9e35e9bebbb",
+      "password": "cd22d5422b0bd3987a787711e202ad95:093d24436134793c572c955dc1bbff8ee333fab4df23aea03b10c1c61b144ff240229a03059a61df157a5b420ed6648759b5bc6570859a6226b6f78385396c96",
       "role": "superadmin",
-      "createdAt": "2026-09-24T09:26:13.837Z",
-      "updatedAt": "2026-09-24T09:26:13.837Z"
+      "createdAt": "2026-09-28T05:10:46.547Z",
+      "updatedAt": "2026-09-28T05:10:46.547Z"
     }
   ],
   "pages": [
@@ -20,8 +20,8 @@
       "metaTitle": "AVORA Innovations | Enterprise AI, Cloud & Software Engineering",
       "metaDesc": "Avora Innovations designs and engineers production-grade AI systems, mobile applications, cloud infrastructures, and digital products for forward-thinking enterprises.",
       "sections": "[{\"type\":\"hero\",\"enabled\":true},{\"type\":\"about\",\"enabled\":true},{\"type\":\"services\",\"enabled\":true},{\"type\":\"technologies\",\"enabled\":true},{\"type\":\"industries\",\"enabled\":true},{\"type\":\"case-studies\",\"enabled\":true},{\"type\":\"why-avora\",\"enabled\":true},{\"type\":\"testimonials\",\"enabled\":true},{\"type\":\"blogs\",\"enabled\":true},{\"type\":\"faqs\",\"enabled\":true},{\"type\":\"cta\",\"enabled\":true}]",
-      "createdAt": "2026-09-24T09:26:13.837Z",
-      "updatedAt": "2026-09-24T09:26:13.837Z"
+      "createdAt": "2026-09-28T05:10:46.547Z",
+      "updatedAt": "2026-09-28T05:10:46.547Z"
     }
   ],
   "blogs": [
@@ -40,7 +40,7 @@
       "isFeatured": true,
       "isPublished": true,
       "createdAt": "2026-09-18T00:00:00.000Z",
-      "updatedAt": "2026-09-24T09:26:13.837Z"
+      "updatedAt": "2026-09-28T05:10:46.547Z"
     },
     {
       "id": "nextjs-16-turbopack-performance",
@@ -57,7 +57,7 @@
       "isFeatured": false,
       "isPublished": true,
       "createdAt": "2026-09-12T00:00:00.000Z",
-      "updatedAt": "2026-09-24T09:26:13.837Z"
+      "updatedAt": "2026-09-28T05:10:46.547Z"
     },
     {
       "id": "mariadb-enterprise-high-throughput",
@@ -74,67 +74,9 @@
       "isFeatured": false,
       "isPublished": true,
       "createdAt": "2026-09-04T00:00:00.000Z",
-      "updatedAt": "2026-09-24T09:26:13.837Z"
+      "updatedAt": "2026-09-28T05:10:46.547Z"
     }
   ],
-  "inquiries": [
-    {
-      "id": "inq-1790241973838",
-      "name": "Verification Lead",
-      "email": "lead@enterprise.com",
-      "message": "Testing enterprise inquiry intake pipeline.",
-      "status": "new",
-      "createdAt": "2026-09-24T09:26:13.838Z",
-      "updatedAt": "2026-09-24T09:26:13.838Z"
-    },
-    {
-      "id": "inq-1",
-      "name": "David Vance",
-      "email": "d.vance@solargen.example.com",
-      "phone": "+1 (555) 349-2810",
-      "company": "Solargen Dynamics",
-      "service": "AI & Machine Learning",
-      "budget": "$50,000 - $100,000",
-      "timeline": "1-3 months",
-      "message": "Looking to build an autonomous computer vision inspection pipeline for solar panel fabrication lines.",
-      "status": "new",
-      "createdAt": "2026-09-24T05:26:13.837Z",
-      "updatedAt": "2026-09-24T09:26:13.837Z"
-    },
-    {
-      "id": "inq-2",
-      "name": "Dr. Sarah Lin",
-      "email": "slin@biovista.example.com",
-      "phone": "+1 (555) 782-9901",
-      "company": "BioVista Diagnostics",
-      "service": "Generative AI & LLMs",
-      "budget": "$100,000+",
-      "timeline": "Immediate",
-      "message": "Need a private enterprise RAG engine to query clinical trial results with strict citation verification.",
-      "status": "contacting",
-      "createdAt": "2026-09-23T09:26:13.837Z",
-      "updatedAt": "2026-09-24T09:26:13.837Z"
-    }
-  ],
-  "contacts": [],
-  "subscribers": [
-    {
-      "id": "sub-1",
-      "email": "tech-insights@innovators.example.com",
-      "isActive": true,
-      "createdAt": "2026-09-24T09:26:13.837Z"
-    }
-  ],
-  "settings": {
-    "siteName": "AVORA Innovations",
-    "tagline": "Enterprise AI & Digital Engineering Partner",
-    "contactEmail": "avorainnovations@gmail.com",
-    "contactPhone": "+995 555433091",
-    "headquarters": "17 Ioane Shavteli St, Tbilisi, Georgia",
-    "twitter": "https://twitter.com/avorainnovations",
-    "linkedin": "https://linkedin.com/company/avorainnovations",
-    "github": "https://github.com/avorainnovations"
-  },
   "services": [
     {
       "id": "ai-machine-learning",
@@ -2068,10 +2010,28 @@
           "badge": "Core"
         },
         {
+          "name": "Vue 3 / Nuxt",
+          "icon": "Layers",
+          "description": "Progressive reactivity for rapid enterprise portal development.",
+          "badge": "Supported"
+        },
+        {
+          "name": "Angular",
+          "icon": "Code",
+          "description": "Enterprise-grade SPA framework with strict architectural patterns.",
+          "badge": "Enterprise"
+        },
+        {
           "name": "Tailwind CSS v4",
           "icon": "Palette",
           "description": "High-performance utility-first styling with zero runtime bloat.",
           "badge": "Modern"
+        },
+        {
+          "name": "Three.js (3D & WebGL)",
+          "icon": "Layers",
+          "description": "Interactive 3D environments, spatial computing, and digital twin web renders.",
+          "badge": "3D/Spatial"
         },
         {
           "name": "Framer Motion",
@@ -2080,10 +2040,10 @@
           "badge": "UI/UX"
         },
         {
-          "name": "Vue 3 / Nuxt",
-          "icon": "Layers",
-          "description": "Progressive reactivity for rapid enterprise portal development.",
-          "badge": "Supported"
+          "name": "Svelte / SvelteKit",
+          "icon": "Zap",
+          "description": "Compile-time reactivity with minimal footprint and blazing speeds.",
+          "badge": "Fast"
         }
       ]
     },
@@ -2093,10 +2053,58 @@
       "description": "High-throughput microservices, scalable distributed APIs, and resilient business logic engines.",
       "items": [
         {
-          "name": "Node.js (v22)",
+          "name": "NodeJS",
           "icon": "Server",
-          "description": "Asynchronous event-driven server runtime for I/O intensive APIs.",
+          "description": "High-concurrency asynchronous JavaScript/TypeScript runtime for scalable APIs.",
           "badge": "Core"
+        },
+        {
+          "name": ".NET (C#)",
+          "icon": "Cpu",
+          "description": "Enterprise-grade ASP.NET Core microservices with high throughput and security.",
+          "badge": "Enterprise"
+        },
+        {
+          "name": "PHP",
+          "icon": "Globe",
+          "description": "Modern PHP 8.3+ with JIT compilation powering high-scale web platforms and APIs.",
+          "badge": "Web Scale"
+        },
+        {
+          "name": "Python",
+          "icon": "Terminal",
+          "description": "Versatile backend language powering async services, scientific data, and AI systems.",
+          "badge": "AI-Ready"
+        },
+        {
+          "name": "Laravel",
+          "icon": "Layers",
+          "description": "Elegant PHP framework with robust Eloquent ORM, job queues, and enterprise auth.",
+          "badge": "Ecosystem"
+        },
+        {
+          "name": "Django",
+          "icon": "Boxes",
+          "description": "Batteries-included Python web framework built for rapid, secure enterprise delivery.",
+          "badge": "Secure"
+        },
+        {
+          "name": "Ruby on Rails",
+          "icon": "Rocket",
+          "description": "Convention-over-configuration full-stack MVC framework for high developer velocity.",
+          "badge": "Velocity"
+        },
+        {
+          "name": "CodeIgniter",
+          "icon": "Zap",
+          "description": "Lightweight PHP framework with near-zero configuration and lightning-fast execution.",
+          "badge": "Lightweight"
+        },
+        {
+          "name": "CakePHP",
+          "icon": "FileCode",
+          "description": "Rapid development PHP framework with built-in validation, ORM, and scaffold generation.",
+          "badge": "Rapid CRUD"
         },
         {
           "name": "Go (Golang)",
@@ -2105,28 +2113,101 @@
           "badge": "High Perf"
         },
         {
-          "name": "Python FastAPI",
-          "icon": "Terminal",
-          "description": "High-performance ASGI framework for ML and data endpoints.",
-          "badge": "AI-Ready"
-        },
-        {
           "name": "Java Spring Boot",
           "icon": "Boxes",
           "description": "Enterprise-grade rock-solid transactional architectures.",
           "badge": "Enterprise"
         },
         {
-          "name": "GraphQL",
-          "icon": "Share2",
-          "description": "Flexible client-driven schema querying eliminating over-fetching.",
-          "badge": "API"
+          "name": "NestJS & Express",
+          "icon": "Server",
+          "description": "Modular, maintainable TypeScript server architectures and RESTful microservices.",
+          "badge": "TypeScript"
         },
         {
-          "name": "gRPC / Protobuf",
-          "icon": "Network",
-          "description": "Ultra-compact binary RPC for internal microservice communication.",
+          "name": "GraphQL & gRPC",
+          "icon": "Share2",
+          "description": "Client-driven schema querying and ultra-compact binary inter-service RPC.",
           "badge": "Distributed"
+        }
+      ]
+    },
+    {
+      "category": "AI / ML",
+      "slug": "aiml",
+      "description": "Cutting-edge deep learning frameworks, transformer models, computer vision, and autonomous agent loops.",
+      "items": [
+        {
+          "name": "OpenAI & GPT-4o",
+          "icon": "Sparkles",
+          "description": "Frontier foundation models, structured outputs, fine-tuning, and function calling.",
+          "badge": "Frontier LLM"
+        },
+        {
+          "name": "Claude & Anthropic",
+          "icon": "Bot",
+          "description": "Deep reasoning, 200k+ context windows, and autonomous tool-use workflows.",
+          "badge": "Reasoning"
+        },
+        {
+          "name": "PyTorch",
+          "icon": "Cpu",
+          "description": "Industry standard research and production deep learning framework.",
+          "badge": "Core ML"
+        },
+        {
+          "name": "TensorFlow & TensorRT",
+          "icon": "Activity",
+          "description": "Production model deployment with hardware-accelerated GPU inference.",
+          "badge": "Production"
+        },
+        {
+          "name": "LangChain & LlamaIndex",
+          "icon": "Share2",
+          "description": "Orchestration layers for complex enterprise RAG and multi-modal vector workflows.",
+          "badge": "GenAI"
+        },
+        {
+          "name": "Hugging Face Transformers",
+          "icon": "Smile",
+          "description": "Pre-trained foundation models, open-weights pipelines, and PEFT/LoRA fine-tuning.",
+          "badge": "Ecosystem"
+        },
+        {
+          "name": "Computer Vision & OpenCV",
+          "icon": "Scan",
+          "description": "Real-time spatial segmentation, object detection, and visual inspection pipelines.",
+          "badge": "Vision"
+        },
+        {
+          "name": "NLP & SpaCy",
+          "icon": "FileText",
+          "description": "Industrial-strength natural language processing, entity extraction, and sentiment analysis.",
+          "badge": "NLP"
+        },
+        {
+          "name": "vLLM & Ollama",
+          "icon": "Server",
+          "description": "High-throughput PagedAttention local inference serving with sub-millisecond latency.",
+          "badge": "Optimization"
+        },
+        {
+          "name": "CrewAI & AutoGPT",
+          "icon": "Bot",
+          "description": "Multi-agent coordination, hierarchical task planning, and autonomous execution loops.",
+          "badge": "Agents"
+        },
+        {
+          "name": "MLflow & Kubeflow",
+          "icon": "Network",
+          "description": "End-to-end MLOps lifecycle, model registry, experiment tracking, and automated retraining.",
+          "badge": "MLOps"
+        },
+        {
+          "name": "Apache Spark & Big Data",
+          "icon": "Database",
+          "description": "Distributed large-scale data processing pipelines and high-velocity feature engineering.",
+          "badge": "Big Data"
         }
       ]
     },
@@ -2164,6 +2245,12 @@
           "icon": "Rocket",
           "description": "Rapid mobile prototyping and seamless over-the-air updates.",
           "badge": "Velocity"
+        },
+        {
+          "name": ".NET MAUI & Ionic",
+          "icon": "Code",
+          "description": "Cross-platform and hybrid enterprise mobile application suites.",
+          "badge": "Enterprise"
         }
       ]
     },
@@ -2197,16 +2284,28 @@
           "badge": "AI Vector"
         },
         {
-          "name": "Snowflake",
-          "icon": "CloudRain",
-          "description": "Elastic cloud data warehouse for petabyte-scale analytics.",
-          "badge": "Lakehouse"
+          "name": "Microsoft SQL Server",
+          "icon": "Database",
+          "description": "Enterprise transactional database with high availability and columnstore indexing.",
+          "badge": "Enterprise"
         },
         {
           "name": "MongoDB",
           "icon": "Grid",
           "description": "Flexible document store for rapid schema evolution.",
           "badge": "NoSQL"
+        },
+        {
+          "name": "Snowflake & BigQuery",
+          "icon": "CloudRain",
+          "description": "Elastic cloud data warehouses for petabyte-scale analytics.",
+          "badge": "Lakehouse"
+        },
+        {
+          "name": "Firebase & Supabase",
+          "icon": "Layers",
+          "description": "Real-time database sync, edge functions, and backend-as-a-service infrastructure.",
+          "badge": "Realtime"
         }
       ]
     },
@@ -2254,49 +2353,6 @@
       ]
     },
     {
-      "category": "AI / ML",
-      "slug": "aiml",
-      "description": "Cutting-edge deep learning frameworks, transformer models, and autonomous agent loops.",
-      "items": [
-        {
-          "name": "PyTorch",
-          "icon": "Cpu",
-          "description": "Industry standard research and production deep learning framework.",
-          "badge": "Core ML"
-        },
-        {
-          "name": "TensorFlow",
-          "icon": "Activity",
-          "description": "Scalable model deployment with TFX and TensorRT acceleration.",
-          "badge": "Production"
-        },
-        {
-          "name": "LangChain & LlamaIndex",
-          "icon": "Sparkles",
-          "description": "Orchestration layers for complex enterprise RAG and LLM workflows.",
-          "badge": "GenAI"
-        },
-        {
-          "name": "vLLM & Ollama",
-          "icon": "Server",
-          "description": "High-throughput PagedAttention local inference serving.",
-          "badge": "Optimization"
-        },
-        {
-          "name": "Hugging Face",
-          "icon": "Smile",
-          "description": "Pre-trained foundation models, tokenizers, and model hubs.",
-          "badge": "Ecosystem"
-        },
-        {
-          "name": "CrewAI & AutoGPT",
-          "icon": "Bot",
-          "description": "Multi-agent coordination and recursive autonomous execution.",
-          "badge": "Agents"
-        }
-      ]
-    },
-    {
       "category": "DevOps",
       "slug": "devops",
       "description": "Automated continuous integration, GitOps deployment pipelines, and 24/7 site reliability.",
@@ -2330,10 +2386,108 @@
           "icon": "Lock",
           "description": "Centralized secrets management, dynamic credentials, and KMS encryption.",
           "badge": "Security"
+        },
+        {
+          "name": "SonarQube & Snyk",
+          "icon": "Shield",
+          "description": "Automated code quality gates and container vulnerability scanning.",
+          "badge": "SecOps"
+        }
+      ]
+    },
+    {
+      "category": "CMS & E-Commerce",
+      "slug": "ecommerce",
+      "description": "High-conversion e-commerce engines, headless CMS architectures, and enterprise content portals.",
+      "items": [
+        {
+          "name": "Laravel Custom Commerce",
+          "icon": "ShoppingCart",
+          "description": "Bespoke high-scale e-commerce engines, multi-currency carts, and custom B2B portals.",
+          "badge": "Enterprise"
+        },
+        {
+          "name": "Shopify & Shopify Plus",
+          "icon": "ShoppingBag",
+          "description": "Scalable merchant storefronts, custom Liquid/Hydrogen themes, and checkout apps.",
+          "badge": "Popular"
+        },
+        {
+          "name": "Magento 2 (Adobe Commerce)",
+          "icon": "Store",
+          "description": "Complex omnichannel e-commerce with multi-catalog, inventory, and ERP integrations.",
+          "badge": "Commerce"
+        },
+        {
+          "name": "WordPress & WooCommerce",
+          "icon": "Globe",
+          "description": "High-traffic publishing platforms, custom Gutenberg blocks, and decoupled headless WP.",
+          "badge": "CMS"
+        },
+        {
+          "name": "Strapi (Headless CMS)",
+          "icon": "Layers",
+          "description": "Open-source headless CMS with custom REST/GraphQL schemas and decoupled frontends.",
+          "badge": "Headless"
+        },
+        {
+          "name": "Payload CMS / Sanity",
+          "icon": "FileText",
+          "description": "Modern TypeScript headless CMS with real-time editing and edge distribution.",
+          "badge": "Modern CMS"
         }
       ]
     }
   ],
+  "inquiries": [
+    {
+      "id": "inq-1",
+      "name": "David Vance",
+      "email": "d.vance@solargen.example.com",
+      "phone": "+1 (555) 349-2810",
+      "company": "Solargen Dynamics",
+      "service": "AI & Machine Learning",
+      "budget": "$50,000 - $100,000",
+      "timeline": "1-3 months",
+      "message": "Looking to build an autonomous computer vision inspection pipeline for solar panel fabrication lines.",
+      "status": "new",
+      "createdAt": "2026-09-28T01:10:46.547Z",
+      "updatedAt": "2026-09-28T05:10:46.547Z"
+    },
+    {
+      "id": "inq-2",
+      "name": "Dr. Sarah Lin",
+      "email": "slin@biovista.example.com",
+      "phone": "+1 (555) 782-9901",
+      "company": "BioVista Diagnostics",
+      "service": "Generative AI & LLMs",
+      "budget": "$100,000+",
+      "timeline": "Immediate",
+      "message": "Need a private enterprise RAG engine to query clinical trial results with strict citation verification.",
+      "status": "contacting",
+      "createdAt": "2026-09-27T05:10:46.547Z",
+      "updatedAt": "2026-09-28T05:10:46.547Z"
+    }
+  ],
+  "contacts": [],
+  "subscribers": [
+    {
+      "id": "sub-1",
+      "email": "tech-insights@innovators.example.com",
+      "isActive": true,
+      "createdAt": "2026-09-28T05:10:46.547Z"
+    }
+  ],
+  "settings": {
+    "siteName": "AVORA Innovations",
+    "tagline": "Enterprise AI & Digital Engineering Partner",
+    "contactEmail": "avorainnovations@gmail.com",
+    "contactPhone": "+995 555433091",
+    "headquarters": "17 Ioane Shavteli St, Tbilisi, Georgia",
+    "twitter": "https://twitter.com/avorainnovations",
+    "linkedin": "https://linkedin.com/company/avorainnovations",
+    "github": "https://github.com/avorainnovations"
+  },
   "navigation": [
     {
       "id": "nav-services",
@@ -2428,7 +2582,7 @@
       "type": "image/png",
       "dimensions": "1000x250",
       "category": "Branding",
-      "createdAt": "2026-09-27T12:45:14.112Z"
+      "createdAt": "2026-09-28T05:10:46.530Z"
     },
     {
       "id": "media-logo-dark",
@@ -2437,7 +2591,7 @@
       "type": "image/png",
       "dimensions": "1000x250",
       "category": "Branding",
-      "createdAt": "2026-09-27T12:45:14.113Z"
+      "createdAt": "2026-09-28T05:10:46.531Z"
     },
     {
       "id": "media-symbol",
@@ -2446,7 +2600,7 @@
       "type": "image/png",
       "dimensions": "512x512",
       "category": "Branding",
-      "createdAt": "2026-09-27T12:45:14.113Z"
+      "createdAt": "2026-09-28T05:10:46.531Z"
     },
     {
       "id": "media-icon",
@@ -2455,9 +2609,21 @@
       "type": "image/png",
       "dimensions": "512x512",
       "category": "Favicon",
-      "createdAt": "2026-09-27T12:45:14.113Z"
+      "createdAt": "2026-09-28T05:10:46.531Z"
     }
   ],
+  "seo": {
+    "metaTitle": "AVORA Innovations | Enterprise AI, Cloud & Digital Product Engineering",
+    "metaDescription": "Avora Innovations designs and engineers production-grade AI systems, mobile applications, cloud infrastructures, and digital products for forward-thinking enterprises.",
+    "siteName": "AVORA Innovations",
+    "ogImage": "/logo-horizontal-dark.png",
+    "twitterHandle": "@avorainnovations",
+    "twitterCard": "summary_large_image",
+    "keywords": "AI Engineering, Next.js 16, MariaDB, Enterprise Software, Cloud Architecture, Digital Transformation, Global AI Studio",
+    "canonicalBase": "https://avorainnovations.com",
+    "robotsIndex": true,
+    "robotsFollow": true
+  },
   "costCalculator": {
     "currency": "$",
     "lowMultiplier": 0.9,
@@ -2553,18 +2719,6 @@
       }
     ]
   },
-  "seo": {
-    "metaTitle": "AVORA Innovations | Enterprise AI, Cloud & Digital Product Engineering",
-    "metaDescription": "Avora Innovations designs and engineers production-grade AI systems, mobile applications, cloud infrastructures, and digital products for forward-thinking enterprises.",
-    "siteName": "AVORA Innovations",
-    "ogImage": "/logo-horizontal-dark.png",
-    "twitterHandle": "@avorainnovations",
-    "twitterCard": "summary_large_image",
-    "keywords": "AI Engineering, Next.js 16, MariaDB, Enterprise Software, Cloud Architecture, Digital Transformation, Global AI Studio",
-    "canonicalBase": "https://avorainnovations.com",
-    "robotsIndex": true,
-    "robotsFollow": true
-  },
   "locations": [
     {
       "id": "loc-tbilisi",
@@ -2576,12 +2730,39 @@
       "isPrimary": true
     }
   ],
-  "resetTokens": [
+  "leadership": [
     {
-      "email": "avorainnovations@gmail.com",
-      "token": "987654",
-      "expiresAt": 1790514748978,
-      "used": true
+      "id": "lead-amit-batra",
+      "name": "Amit Batra",
+      "role": "Founder & Technology Innovation Leader",
+      "image": "/images/team/amit-batra.png",
+      "experience": "18+ Years Experience",
+      "bio": "Amit Batra brings 18 years of experience in technology, innovation and building technology-driven businesses. His expertise spans AI, blockchain, Web3 and digital infrastructure, with a strong focus on turning emerging technologies into practical, scalable and real-world solutions. At Avora Innovations, he brings strategic vision, product thinking and execution expertise to build future-ready technology products.",
+      "linkedin": "https://www.linkedin.com/in/amit-batra-romania/",
+      "expertise": [
+        "Artificial Intelligence & Deep Tech",
+        "Blockchain & Web3 Architectures",
+        "Digital Infrastructure & Cloud Systems",
+        "Enterprise Scalability & Execution",
+        "Strategic Product Thinking"
+      ],
+      "highlights": [
+        {
+          "label": "Industry Track Record",
+          "value": "18+ Years"
+        },
+        {
+          "label": "Core Expertise",
+          "value": "AI & Web3"
+        },
+        {
+          "label": "Strategic Focus",
+          "value": "Global Scale"
+        }
+      ],
+      "order": 1,
+      "isActive": true
     }
-  ]
+  ],
+  "resetTokens": []
 }

@@ -303,7 +303,13 @@ function loadLocalStore(): StorageData {
       if (!parsed.caseStudies) parsed.caseStudies = CASE_STUDIES_DATA;
       if (!parsed.testimonials) parsed.testimonials = TESTIMONIALS_DATA;
       if (!parsed.faqs) parsed.faqs = FAQS_HOMEPAGE;
-      if (!parsed.technologies) parsed.technologies = TECH_CATEGORIES;
+      let needsSave = false;
+      const backendCat = parsed.technologies?.find((c: any) => c.slug === 'backend');
+      const hasAllBackends = backendCat && backendCat.items && backendCat.items.some((i: any) => i.name.toLowerCase().includes('rails'));
+      if (!parsed.technologies || !Array.isArray(parsed.technologies) || parsed.technologies.length < TECH_CATEGORIES.length || !hasAllBackends) {
+        parsed.technologies = TECH_CATEGORIES;
+        needsSave = true;
+      }
       if (!parsed.navigation) parsed.navigation = DEFAULT_NAVIGATION;
       if (!parsed.ctas) parsed.ctas = DEFAULT_CTAS;
       if (!parsed.media) parsed.media = DEFAULT_MEDIA;
@@ -1459,6 +1465,29 @@ export const db = {
 
   // --- Technologies (CMS Managed) ---
   async getAllTechnologies() {
+    const seedCheck = await queryDb<any>(
+      "SELECT id FROM avora_cms_content WHERE type = 'system_meta' AND id = 'technologies_seeded_v4' LIMIT 1"
+    );
+
+    if (seedCheck && seedCheck.length === 0) {
+      for (const t of TECH_CATEGORIES) {
+        await queryDb(
+          `
+          INSERT INTO avora_cms_content (id, type, slug, data)
+          VALUES (?, 'technology', ?, ?)
+          ON DUPLICATE KEY UPDATE data = VALUES(data), updatedAt = NOW()
+        `,
+          [t.slug, t.slug, JSON.stringify(t)]
+        );
+      }
+      await queryDb(
+        `
+        INSERT INTO avora_cms_content (id, type, slug, data)
+        VALUES ('technologies_seeded_v4', 'system_meta', 'technologies_seeded_v4', '{"seeded": true}')
+        ON DUPLICATE KEY UPDATE id = id
+      `
+      );
+    }
     const rows = await queryDb<any>("SELECT data FROM avora_cms_content WHERE type = 'technology' ORDER BY updatedAt DESC");
     if (rows && rows.length > 0) {
       try {

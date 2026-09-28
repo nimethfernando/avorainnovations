@@ -818,6 +818,7 @@ export const TECH_CATEGORIES: TechCategory[] = [
       { name: 'Vue 3 / Nuxt', icon: 'Layers', description: 'Progressive reactivity for rapid enterprise portal development.', badge: 'Supported' },
       { name: 'Angular', icon: 'Code', description: 'Enterprise-grade SPA framework with strict architectural patterns.', badge: 'Enterprise' },
       { name: 'Tailwind CSS v4', icon: 'Palette', description: 'High-performance utility-first styling with zero runtime bloat.', badge: 'Modern' },
+      { name: 'Three.js (3D & WebGL)', icon: 'Layers', description: 'Interactive 3D environments, spatial computing, and digital twin web renders.', badge: '3D/Spatial' },
       { name: 'Framer Motion', icon: 'Sparkles', description: 'Smooth, physics-based 60 FPS UI transitions and interactions.', badge: 'UI/UX' },
       { name: 'Svelte / SvelteKit', icon: 'Zap', description: 'Compile-time reactivity with minimal footprint and blazing speeds.', badge: 'Fast' },
     ],
