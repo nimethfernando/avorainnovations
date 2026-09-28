@@ -149,15 +149,18 @@ Every public component, landing page, and navigation item is dynamically connect
 | 2 | **Services** | `/admin/services` | Rich slide-over modal for managing practice titles, badges, descriptions, capabilities, and FAQs. |
 | 3 | **Sub-Services** | `/admin/services` | Interactive nested list editor to define specialized practice offerings and technical scope. |
 | 4 | **Industries** | `/admin/industries` | Visual modal for vertical compliance stats, solutions, tech stacks, and domain use cases. |
-| 5 | **Technologies** | `/admin/technologies` | Domain and framework matrix management (AI/ML, Frontend, Backend, Cloud, Mobile, Databases). |
-| 6 | **Case Studies** | `/admin/case-studies` | Portfolio manager for client challenges, engineering solutions, and quantified ROI percentages. |
-| 7 | **Blogs** | `/admin/blogs` | Full Markdown authoring suite with cover graphics, tags, estimated read times, and author credentials. |
-| 8 | **FAQs** | `/admin/faqs` | Site-wide accordion manager with question categorization and instant answer updates. |
-| 9 | **Testimonials** | `/admin/testimonials` | Executive endorsement cards with verified client 5-star ratings and company roles. |
-| 10 | **Images & Media** | `/admin/media` | Media library supporting direct file uploads (PNG, JPG, WebP, SVG), category tags, and 1-click URL copying. |
-| 11 | **CTAs & Banners** | `/admin/ctas` | Centralized control of global consultation banners, secondary estimator buttons, and floating widgets. |
-| 12 | **SEO & Metadata** | `/admin/seo` | Global OpenGraph image previews, Twitter cards, meta descriptions, and Googlebot indexing toggles. |
-| 13 | **Navigation** | `/admin/navigation` | Header mega menu items, link ordering, badge tags, and footer directory management. |
+| 5 | **Technologies & Landing Pages** | `/admin/technologies` | Domain and framework matrix + dedicated Konstant-style technology landing pages (`/technologies/[slug]`). |
+| 6 | **Leadership & Executive Team** | `/admin/leadership` | Manage executive leaders (Amit Batra, etc.), local device photo uploads, bio, and LinkedIn. |
+| 7 | **Case Studies** | `/admin/case-studies` | Portfolio manager for client challenges, engineering solutions, and quantified ROI percentages. |
+| 8 | **Blogs** | `/admin/blogs` | Full Markdown authoring suite with cover photography, tags, estimated read times, and author credentials. |
+| 9 | **FAQs** | `/admin/faqs` | Site-wide accordion manager with question categorization and instant answer updates. |
+| 10 | **Testimonials** | `/admin/testimonials` | Executive endorsement cards with verified client 5-star ratings and company roles. |
+| 11 | **Images & Media** | `/admin/media` | Media library supporting direct file uploads (PNG, JPG, WebP, SVG), category tags, and 1-click URL copying. |
+| 12 | **CTAs & Banners** | `/admin/ctas` | Centralized control of global consultation banners, secondary estimator buttons, and floating widgets. |
+| 13 | **SEO & Metadata** | `/admin/seo` | Global OpenGraph image previews, Twitter cards, meta descriptions, and Googlebot indexing toggles. |
+| 14 | **Navigation** | `/admin/navigation` | Header mega menu items, link ordering, badge tags, and footer directory management. |
+
+> 📖 **Comprehensive System Documentation:** For complete architectural diagrams, API route listings, database schema references, and operational runbooks, see [**DOCUMENTATION.md**](DOCUMENTATION.md).
 
 ---
 
@@ -197,7 +200,7 @@ Visit [http://localhost:3000](http://localhost:3000) to view the application.
 
 ## 🏗️ Production Build & Verification
 
-To verify full static generation and TypeScript type-checking across all 89 routes:
+To verify full static generation and TypeScript type-checking across all 173 routes:
 
 ```bash
 npm run build
