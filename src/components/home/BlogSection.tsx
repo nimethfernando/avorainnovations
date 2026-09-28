@@ -38,7 +38,7 @@ export default function BlogSection() {
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-500/10 text-blue-600 dark:text-blue-400 text-xs font-semibold uppercase tracking-wider">
               <Sparkles className="w-3.5 h-3.5" /> Latest Blogs &amp; Insights
             </div>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 dark:text-white tracking-tight">
+            <h2 className="text-2xl sm:text-4xl lg:text-5xl font-black text-slate-900 dark:text-white tracking-tight">
               Engineering Thought Leadership &amp; Papers
             </h2>
             <p className="text-sm sm:text-base text-slate-600 dark:text-slate-400 leading-relaxed">
@@ -48,7 +48,7 @@ export default function BlogSection() {
 
           <Link
             href="/blog"
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-blue-50 dark:bg-slate-900 hover:bg-blue-100 dark:hover:bg-slate-800 text-blue-600 dark:text-blue-400 text-xs sm:text-sm font-bold transition-all border border-blue-200/60 dark:border-slate-800 self-start md:self-end group shadow-xs cursor-pointer"
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-blue-50 dark:bg-slate-900 hover:bg-blue-100 dark:hover:bg-slate-800 text-blue-600 dark:text-blue-400 text-xs sm:text-sm font-bold transition-all border border-blue-200/60 dark:border-slate-800 self-start md:self-end group shadow-xs cursor-pointer text-center"
           >
             <span>View All Engineering Articles</span>
             <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -104,7 +104,7 @@ export default function BlogSection() {
                   </Link>
 
                   {/* Body Content */}
-                  <div className="p-6 sm:p-7 space-y-3.5">
+                  <div className="p-5 sm:p-7 space-y-3.5">
                     {/* Date */}
                     <div className="flex items-center gap-1.5 text-xs text-slate-500 dark:text-slate-400">
                       <Calendar className="w-3.5 h-3.5 text-blue-500" />
@@ -140,7 +140,7 @@ export default function BlogSection() {
                 </div>
 
                 {/* Footer: Author Info & Read Link */}
-                <div className="p-6 sm:p-7 pt-4 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between mt-2">
+                <div className="p-5 sm:p-7 pt-4 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between mt-2">
                   <div className="min-w-0 pr-3">
                     <div className="text-xs font-bold text-slate-900 dark:text-white truncate">
                       {post.authorName || 'Avora Engineering'}

@@ -124,7 +124,7 @@ export default async function BlogDetailPage({ params }: BlogPageProps) {
             </span>
           </div>
 
-          <h1 className="text-3xl sm:text-5xl font-black text-slate-900 dark:text-white tracking-tight leading-tight">
+          <h1 className="text-2xl sm:text-4xl lg:text-5xl font-black text-slate-900 dark:text-white tracking-tight leading-tight">
             {post.title}
           </h1>
 
@@ -133,7 +133,7 @@ export default async function BlogDetailPage({ params }: BlogPageProps) {
           </p>
 
           {/* Author Card */}
-          <div className="pt-6 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between">
+          <div className="pt-6 border-t border-slate-200 dark:border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div className="flex items-center gap-3">
               <div className="w-12 h-12 rounded-full bg-gradient-to-tr from-blue-600 to-indigo-600 flex items-center justify-center text-white font-bold text-lg shadow-md shadow-blue-500/20">
                 {post.authorName ? post.authorName[0] : 'A'}

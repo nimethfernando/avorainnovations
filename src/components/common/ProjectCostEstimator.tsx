@@ -110,13 +110,13 @@ export default function ProjectCostEstimator() {
   };
 
   return (
-    <div className="rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 p-6 sm:p-12 shadow-2xl space-y-8">
-      <div className="flex items-center gap-3">
+    <div className="rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 p-4 sm:p-8 lg:p-12 shadow-2xl space-y-6 sm:space-y-8">
+      <div className="flex flex-col sm:flex-row sm:items-center gap-3">
         <div className="w-12 h-12 rounded-2xl bg-blue-500/10 text-blue-600 dark:text-blue-400 flex items-center justify-center">
           <Calculator className="w-6 h-6" />
         </div>
         <div>
-          <h3 className="text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-white">
+          <h3 className="text-lg sm:text-2xl font-extrabold text-slate-900 dark:text-white">
             Interactive Project Cost & Timeline Estimator
           </h3>
           <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400">
@@ -214,12 +214,12 @@ export default function ProjectCostEstimator() {
       </div>
 
       {/* Live Calculation Output Card */}
-      <div className="p-6 sm:p-8 rounded-3xl bg-gradient-to-r from-blue-50/90 via-indigo-50/60 to-purple-50/90 dark:from-slate-900 dark:via-indigo-950/40 dark:to-slate-900 border border-blue-200 dark:border-blue-500/20 shadow-lg grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+      <div className="p-5 sm:p-8 rounded-2xl sm:rounded-3xl bg-gradient-to-r from-blue-50/90 via-indigo-50/60 to-purple-50/90 dark:from-slate-900 dark:via-indigo-950/40 dark:to-slate-900 border border-blue-200 dark:border-blue-500/20 shadow-lg grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
         <div className="lg:col-span-7 space-y-2">
           <div className="text-[10px] font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400">
             Estimated Engineering Scope
           </div>
-          <div className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white tracking-tight">
+          <div className="text-2xl sm:text-4xl font-black text-slate-900 dark:text-white tracking-tight">
             {currency}{lowRange.toLocaleString()} – {currency}{highRange.toLocaleString()}
           </div>
           <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
@@ -243,7 +243,7 @@ export default function ProjectCostEstimator() {
                 onChange={(e) => setContactData({ ...contactData, name: e.target.value })}
                 className="w-full px-3.5 py-2.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 text-xs focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all"
               />
-              <div className="flex gap-2">
+              <div className="flex flex-col sm:flex-row gap-2">
                 <input
                   type="email"
                   required
@@ -255,7 +255,7 @@ export default function ProjectCostEstimator() {
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs whitespace-nowrap shadow-md flex items-center gap-1 disabled:opacity-50 transition-all"
+                  className="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs whitespace-nowrap shadow-md flex items-center justify-center gap-1 disabled:opacity-50 transition-all"
                 >
                   {submitting ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <span>Lock Estimate</span>}
                 </button>

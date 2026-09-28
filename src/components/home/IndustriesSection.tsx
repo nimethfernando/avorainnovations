@@ -53,7 +53,7 @@ export default function IndustriesSection() {
         </div>
 
         {/* Interactive Industry Selector (Pills / Grid) */}
-        <div className="flex flex-wrap items-center justify-center gap-2 mb-12">
+        <div className="flex overflow-x-auto w-full pb-3 mb-10 scrollbar-none flex-nowrap sm:flex-wrap items-center justify-start sm:justify-center gap-2">
           {INDUSTRIES_DATA.map((ind) => {
             const Icon = INDUSTRY_ICONS[ind.iconName] || Landmark;
             const isActive = selectedSlug === ind.slug;
@@ -61,7 +61,7 @@ export default function IndustriesSection() {
               <button
                 key={ind.id}
                 onClick={() => setSelectedSlug(ind.slug)}
-                className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
+                className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all cursor-pointer flex-shrink-0 ${
                   isActive
                     ? 'bg-purple-600 text-white shadow-md shadow-purple-500/25 scale-105'
                     : 'bg-slate-100 dark:bg-slate-900 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-800'
@@ -75,7 +75,7 @@ export default function IndustriesSection() {
         </div>
 
         {/* Detailed Industry Showcase Card */}
-        <div className="rounded-3xl border border-slate-200 dark:border-slate-800 bg-gradient-to-br from-white via-slate-50 to-slate-100 dark:from-slate-950 dark:via-slate-900/90 dark:to-slate-950 p-8 sm:p-12 shadow-2xl">
+        <div className="rounded-3xl border border-slate-200 dark:border-slate-800 bg-gradient-to-br from-white via-slate-50 to-slate-100 dark:from-slate-950 dark:via-slate-900/90 dark:to-slate-950 p-5 sm:p-8 lg:p-12 shadow-2xl">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
             {/* Left Narrative & Stats */}
             <div className="lg:col-span-7 space-y-6">

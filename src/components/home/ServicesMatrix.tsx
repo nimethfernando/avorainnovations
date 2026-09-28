@@ -66,12 +66,12 @@ export default function ServicesMatrix() {
         </div>
 
         {/* Category Filter Tabs */}
-        <div className="flex flex-wrap items-center justify-center gap-2 mb-12">
+        <div className="flex overflow-x-auto w-full pb-3 mb-10 scrollbar-none flex-nowrap sm:flex-wrap items-center justify-start sm:justify-center gap-2">
           {CATEGORIES.map((cat) => (
             <button
               key={cat}
               onClick={() => setSelectedCategory(cat)}
-              className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all cursor-pointer ${
+              className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold whitespace-nowrap transition-all cursor-pointer flex-shrink-0 ${
                 selectedCategory === cat
                   ? 'bg-blue-600 text-white shadow-md shadow-blue-500/20'
                   : 'bg-slate-100 dark:bg-slate-900 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-800'
@@ -89,7 +89,7 @@ export default function ServicesMatrix() {
             return (
               <div
                 key={service.id}
-                className="group rounded-2xl border border-slate-200 dark:border-slate-800/80 bg-white dark:bg-slate-950 p-6 flex flex-col justify-between hover:border-blue-500/50 hover:shadow-xl hover:shadow-blue-500/5 transition-all duration-300 relative overflow-hidden"
+                className="group rounded-2xl border border-slate-200 dark:border-slate-800/80 bg-white dark:bg-slate-950 p-5 sm:p-6 flex flex-col justify-between hover:border-blue-500/50 hover:shadow-xl hover:shadow-blue-500/5 transition-all duration-300 relative overflow-hidden"
               >
                 {/* Glow accent */}
                 <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/5 group-hover:bg-blue-500/10 rounded-full blur-2xl transition-all" />

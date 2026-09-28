@@ -80,7 +80,7 @@ export default function Footer() {
     <footer className="bg-slate-950 text-slate-400 border-t border-slate-900 pt-16 pb-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Newsletter & Executive Callout Banner */}
-        <div className="rounded-3xl bg-gradient-to-r from-blue-950/60 via-blue-900/40 to-blue-950/60 border border-blue-500/20 p-8 sm:p-12 mb-16 relative overflow-hidden">
+        <div className="rounded-3xl bg-gradient-to-r from-blue-950/60 via-blue-900/40 to-blue-950/60 border border-blue-500/20 p-5 sm:p-12 mb-12 sm:mb-16 relative overflow-hidden">
           <div className="absolute -right-10 -bottom-10 w-72 h-72 bg-blue-500/10 rounded-full blur-3xl pointer-events-none" />
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative z-10">
             <div className="lg:col-span-7 space-y-2">
@@ -103,7 +103,7 @@ export default function Footer() {
                 </div>
               ) : (
                 <form onSubmit={handleSubscribe} className="space-y-2">
-                  <div className="flex gap-2">
+                  <div className="flex flex-col sm:flex-row gap-2">
                     <input
                       type="email"
                       required
@@ -115,7 +115,7 @@ export default function Footer() {
                     <button
                       type="submit"
                       disabled={loading}
-                      className="px-6 py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm shadow-lg flex items-center gap-1.5 flex-shrink-0 transition-all disabled:opacity-50"
+                      className="w-full sm:w-auto px-6 py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm shadow-lg flex items-center justify-center gap-1.5 flex-shrink-0 transition-all disabled:opacity-50"
                     >
                       {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <span>{t.common.subscribe}</span>}
                     </button>
@@ -131,9 +131,9 @@ export default function Footer() {
         </div>
 
         {/* Global Multi-Column Navigation */}
-        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8 pb-16 border-b border-slate-900 text-sm">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8 pb-12 sm:pb-16 border-b border-slate-900 text-sm">
           {/* Col 1: Brand & Contact Info */}
-          <div className="col-span-2 lg:col-span-2 space-y-4">
+          <div className="col-span-1 sm:col-span-2 lg:col-span-2 space-y-4">
             <Link href="/" className="inline-block group mb-1 notranslate">
               <img
                 src="/logo-horizontal-dark.png"

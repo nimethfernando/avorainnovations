@@ -47,7 +47,7 @@ export default function AboutSection() {
               <Sparkles className="w-3.5 h-3.5" /> About AVORA Innovations
             </div>
 
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight leading-tight">
+            <h2 className="text-2xl sm:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight leading-tight">
               Pioneering Enterprise AI & High-Throughput Digital Engineering
             </h2>
 

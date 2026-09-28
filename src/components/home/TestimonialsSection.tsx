@@ -232,7 +232,7 @@ export default function TestimonialsSection() {
               {/* Decorative Background Quote Icon */}
               <Quote className="w-28 h-28 text-blue-500/10 dark:text-blue-500/15 absolute -top-4 right-6 pointer-events-none" />
 
-              <div className="p-8 sm:p-12 lg:p-14 space-y-7 relative z-10">
+              <div className="p-5 sm:p-10 lg:p-14 space-y-6 sm:space-y-7 relative z-10">
                 {/* Meta Badges Row */}
                 <div className="flex flex-wrap items-center justify-between gap-4">
                   <div className="flex items-center gap-3">
@@ -264,7 +264,7 @@ export default function TestimonialsSection() {
 
                 {/* Highlight Quote */}
                 <div className="space-y-4">
-                  <blockquote className="text-xl sm:text-2xl lg:text-3xl font-medium text-slate-900 dark:text-slate-100 leading-snug tracking-tight italic">
+                  <blockquote className="text-base sm:text-2xl lg:text-3xl font-medium text-slate-900 dark:text-slate-100 leading-snug tracking-tight italic">
                     &ldquo;{current.quote}&rdquo;
                   </blockquote>
 
@@ -311,7 +311,7 @@ export default function TestimonialsSection() {
                   {/* Read Full Review Button */}
                   <button
                     onClick={() => setSelectedReview(current)}
-                    className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs sm:text-sm shadow-lg shadow-blue-500/20 hover:shadow-blue-500/30 transition-all cursor-pointer group"
+                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs sm:text-sm shadow-lg shadow-blue-500/20 hover:shadow-blue-500/30 transition-all cursor-pointer group text-center"
                   >
                     <span>Read Full Review</span>
                     <Maximize2 className="w-3.5 h-3.5 group-hover:scale-110 transition-transform" />

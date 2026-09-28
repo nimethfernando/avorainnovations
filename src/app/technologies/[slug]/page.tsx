@@ -146,7 +146,7 @@ export default async function TechnologyDetailPage({ params }: TechPageProps) {
         />
 
         {/* 1. HERO SECTION */}
-        <div className="my-10 lg:my-16 rounded-3xl bg-slate-950 bg-gradient-to-br from-blue-950/80 via-slate-900 to-slate-950 p-8 sm:p-14 border border-blue-500/20 relative overflow-hidden shadow-2xl">
+        <div className="my-10 lg:my-16 rounded-3xl bg-slate-950 bg-gradient-to-br from-blue-950/80 via-slate-900 to-slate-950 p-5 sm:p-10 lg:p-14 border border-blue-500/20 relative overflow-hidden shadow-2xl">
           <div className="max-w-3xl space-y-6 relative z-10">
             <div className="flex flex-wrap items-center gap-3">
               <span className="px-3 py-1 rounded-full bg-blue-500/20 text-blue-400 text-xs font-bold uppercase tracking-wider">
@@ -157,11 +157,11 @@ export default async function TechnologyDetailPage({ params }: TechPageProps) {
               </span>
             </div>
 
-            <div className="flex items-center gap-4">
+            <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4">
               <div className="w-14 h-14 rounded-2xl bg-blue-600 text-white flex items-center justify-center shadow-lg shadow-blue-500/30 flex-shrink-0">
                 <HeroIcon className="w-8 h-8" />
               </div>
-              <h1 className="text-3xl sm:text-5xl font-black text-white tracking-tight leading-tight">
+              <h1 className="text-2xl sm:text-4xl lg:text-5xl font-black text-white tracking-tight leading-tight">
                 {page.title}
               </h1>
             </div>
@@ -174,17 +174,17 @@ export default async function TechnologyDetailPage({ params }: TechPageProps) {
               {page.heroDescription}
             </p>
 
-            <div className="pt-2 flex flex-wrap gap-4">
+            <div className="pt-2 flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4">
               <Link
                 href="/contact"
-                className="px-6 py-3.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm shadow-lg shadow-blue-500/30 transition-all flex items-center gap-2 cursor-pointer"
+                className="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm shadow-lg shadow-blue-500/30 transition-all flex items-center justify-center gap-2 cursor-pointer"
               >
                 <span>Schedule Technical Consultation</span>
                 <ArrowRight className="w-4 h-4" />
               </Link>
               <Link
                 href="/cost-calculator"
-                className="px-6 py-3.5 rounded-xl bg-slate-800/80 hover:bg-slate-800 text-white font-semibold text-sm border border-slate-700 transition-all cursor-pointer"
+                className="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-slate-800/80 hover:bg-slate-800 text-white font-semibold text-sm border border-slate-700 transition-all cursor-pointer text-center"
               >
                 Estimate Project Cost
               </Link>
@@ -205,7 +205,7 @@ export default async function TechnologyDetailPage({ params }: TechPageProps) {
         </div>
 
         {/* 2. WHAT AVORA DOES IN THIS TECHNOLOGY */}
-        <div className="my-16 rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 p-8 sm:p-12 shadow-xl space-y-6">
+        <div className="my-16 rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 p-5 sm:p-8 lg:p-12 shadow-xl space-y-6">
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-500/10 text-blue-600 dark:text-blue-400 text-xs font-semibold uppercase tracking-wider">
             <Sparkles className="w-3.5 h-3.5" /> What We Build &amp; Engineer
           </div>
@@ -276,7 +276,7 @@ export default async function TechnologyDetailPage({ params }: TechPageProps) {
         </div>
 
         {/* 4. WHY CHOOSE AVORA */}
-        <div className="my-16 rounded-3xl bg-slate-950 p-8 sm:p-12 border border-slate-800 space-y-8 shadow-xl">
+        <div className="my-16 rounded-3xl bg-slate-950 p-5 sm:p-8 lg:p-12 border border-slate-800 space-y-8 shadow-xl">
           <div className="text-center max-w-2xl mx-auto space-y-3">
             <span className="text-xs font-bold text-blue-400 uppercase tracking-wider">
               The Avora Advantage
@@ -304,7 +304,7 @@ export default async function TechnologyDetailPage({ params }: TechPageProps) {
 
         {/* 5. TECH STACK PAIRINGS */}
         {page.techStackPairings && page.techStackPairings.length > 0 && (
-          <div className="my-16 rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 p-8 sm:p-12 shadow-xl space-y-6">
+          <div className="my-16 rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 p-5 sm:p-8 lg:p-12 shadow-xl space-y-6">
             <div>
               <h3 className="text-xl font-bold text-slate-900 dark:text-white">
                 Architectural Ecosystem &amp; Tech Pairings
@@ -383,7 +383,7 @@ export default async function TechnologyDetailPage({ params }: TechPageProps) {
               {page.useCases.map((cs, i) => (
                 <div
                   key={i}
-                  className="p-8 rounded-3xl bg-slate-950 text-white border border-slate-800 shadow-xl space-y-4"
+                  className="p-5 sm:p-8 rounded-3xl bg-slate-950 text-white border border-slate-800 shadow-xl space-y-4"
                 >
                   <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-500/20 text-blue-400 text-xs font-semibold">
                     Client Success Story
@@ -404,7 +404,7 @@ export default async function TechnologyDetailPage({ params }: TechPageProps) {
 
         {/* 8. FREQUENTLY ASKED QUESTIONS */}
         {page.faqs && page.faqs.length > 0 && (
-          <div className="my-16 rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 p-8 sm:p-12 shadow-xl space-y-6">
+          <div className="my-16 rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 p-5 sm:p-8 lg:p-12 shadow-xl space-y-6">
             <div className="text-center max-w-2xl mx-auto space-y-2 mb-8">
               <h3 className="text-2xl font-bold text-slate-900 dark:text-white">
                 Frequently Asked Questions about {page.name}

@@ -263,6 +263,34 @@ export default function Header() {
               ))}
             </div>
 
+            {/* Popular Technology Shortcuts for Mobile Visitors */}
+            <div className="pt-3 pb-1 border-t border-slate-100 dark:border-slate-800">
+              <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400 block mb-2 px-1">
+                Popular Technologies
+              </span>
+              <div className="flex flex-wrap gap-1.5">
+                {[
+                  { name: 'Python', href: '/technologies/python' },
+                  { name: 'React Native', href: '/technologies/react-native' },
+                  { name: 'Flutter', href: '/technologies/flutter' },
+                  { name: 'Ruby on Rails', href: '/technologies/ruby-on-rails' },
+                  { name: 'PHP', href: '/technologies/php' },
+                  { name: 'Node.js', href: '/technologies/nodejs' },
+                  { name: 'AI / ML', href: '/technologies#aiml' },
+                  { name: '.NET', href: '/technologies/dotnet' },
+                ].map((pill) => (
+                  <Link
+                    key={pill.name}
+                    href={pill.href}
+                    onClick={() => setMobileOpen(false)}
+                    className="px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-100 dark:bg-slate-900 text-slate-700 dark:text-slate-300 hover:bg-blue-50 dark:hover:bg-blue-950/40 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                  >
+                    {pill.name}
+                  </Link>
+                ))}
+              </div>
+            </div>
+
             <div className="pt-4 border-t border-slate-100 dark:border-slate-800 space-y-3">
               <button
                 onClick={() => {

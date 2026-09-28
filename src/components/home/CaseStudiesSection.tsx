@@ -45,7 +45,7 @@ export default function CaseStudiesSection() {
               key={study.id}
               className="rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 overflow-hidden flex flex-col justify-between hover:shadow-2xl hover:border-emerald-500/40 transition-all duration-300 group"
             >
-              <div className="p-6 sm:p-8 space-y-5">
+              <div className="p-5 sm:p-8 space-y-5">
                 {/* Industry & Client */}
                 <div className="flex items-center justify-between text-xs">
                   <span className="px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-bold uppercase tracking-wider text-[10px]">
@@ -92,7 +92,7 @@ export default function CaseStudiesSection() {
               </div>
 
               {/* Read More Flow (Required by Brief) */}
-              <div className="p-6 sm:p-8 pt-0 mt-auto">
+              <div className="p-5 sm:p-8 pt-0 mt-auto">
                 <Link
                   href={`/case-studies/${study.slug}`}
                   className="w-full py-3 px-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/80 hover:bg-emerald-600 hover:text-white dark:hover:bg-emerald-600 text-slate-800 dark:text-slate-200 font-bold text-xs transition-all flex items-center justify-center gap-2 group-hover:border-emerald-500"

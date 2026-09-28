@@ -110,25 +110,28 @@ export default function HeroSection() {
 
           {/* Right Column: Interactive Architecture Visualizer */}
           <div className="lg:col-span-5">
-            <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-900/90 backdrop-blur-xl p-5 shadow-2xl relative overflow-hidden">
-              <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3 mb-4">
-                <div className="flex items-center gap-2">
-                  <div className="w-3 h-3 rounded-full bg-rose-500" />
-                  <div className="w-3 h-3 rounded-full bg-amber-500" />
-                  <div className="w-3 h-3 rounded-full bg-emerald-500" />
-                  <span className="text-xs font-mono text-slate-400 pl-2">
+            <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-900/90 backdrop-blur-xl p-4 sm:p-5 shadow-2xl relative overflow-hidden">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 dark:border-slate-800 pb-3 mb-4">
+                {/* Window Controls & Filename */}
+                <div className="flex items-center gap-1.5 sm:gap-2">
+                  <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-rose-500" />
+                  <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-amber-500" />
+                  <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-emerald-500" />
+                  <span className="text-[11px] sm:text-xs font-mono text-slate-400 pl-1.5 truncate max-w-[190px] sm:max-w-none">
                     avora-enterprise-engine.ts
                   </span>
                 </div>
-                <div className="flex gap-1">
+
+                {/* Tabs: Responsive segmented control shifted inward on mobile and desktop */}
+                <div className="flex items-center justify-between sm:justify-end gap-1 bg-slate-100/90 dark:bg-slate-950/80 p-1 rounded-xl border border-slate-200/60 dark:border-slate-800/80 w-full sm:w-auto">
                   {(['architecture', 'benchmark', 'pipeline'] as const).map((tab) => (
                     <button
                       key={tab}
                       onClick={() => setActiveTab(tab)}
-                      className={`text-[11px] px-2.5 py-1 rounded-md font-medium capitalize transition-colors ${
+                      className={`flex-1 sm:flex-initial text-center text-xs sm:text-[11px] px-3 sm:px-2.5 py-1.5 sm:py-1 rounded-lg font-medium capitalize transition-all cursor-pointer ${
                         activeTab === tab
-                          ? 'bg-blue-600 text-white'
-                          : 'text-slate-500 hover:text-slate-700 dark:hover:text-slate-300'
+                          ? 'bg-blue-600 text-white shadow-sm font-semibold'
+                          : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
                       }`}
                     >
                       {tab}
@@ -222,7 +225,7 @@ export default function HeroSection() {
 
               {/* Tab 3: Deployment Pipeline */}
               {activeTab === 'pipeline' && (
-                <div className="p-2 space-y-2 text-xs font-mono text-slate-700 dark:text-slate-300">
+                <div className="p-1 sm:p-2 space-y-2 text-xs font-mono text-slate-700 dark:text-slate-300">
                   <div className="flex items-center gap-2 text-emerald-500">
                     <CheckCircle2 className="w-4 h-4 flex-shrink-0" />
                     <span>$ git push origin main</span>

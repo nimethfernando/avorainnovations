@@ -35,7 +35,7 @@ export default async function BlogIndexPage() {
         <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-500/10 text-blue-600 dark:text-blue-400 text-xs font-semibold uppercase tracking-wider">
           <Sparkles className="w-3.5 h-3.5" /> Engineering &amp; AI Research
         </div>
-        <h1 className="text-4xl sm:text-5xl font-black text-slate-900 dark:text-white tracking-tight">
+        <h1 className="text-3xl sm:text-5xl font-black text-slate-900 dark:text-white tracking-tight">
           Thought Leadership &amp; Technical Papers
         </h1>
         <p className="text-base text-slate-600 dark:text-slate-400 leading-relaxed max-w-2xl mx-auto">
