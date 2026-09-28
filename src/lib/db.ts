@@ -1505,7 +1505,7 @@ export const db = {
       }
     }
     const store = loadLocalStore();
-    return store.technologyPages || DEFAULT_TECH_PAGES;
+    return (store.technologyPages && store.technologyPages.length > 0) ? store.technologyPages : DEFAULT_TECH_PAGES;
   },
 
   async getTechnologyPageBySlug(slug: string): Promise<TechnologyDetailPage | null> {

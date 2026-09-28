@@ -136,7 +136,7 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
               {matchingTechs.map((t, idx) => (
                 <Link
                   key={idx}
-                  href="/technologies"
+                  href={`/technologies/${getTechSlug(t.name)}`}
                   onClick={onClose}
                   className="flex items-center justify-between p-2.5 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 text-xs transition-colors group"
                 >
