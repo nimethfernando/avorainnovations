@@ -57,7 +57,7 @@ const BASE_EN_TRANSLATIONS: Translations = {
     resources: 'Resources',
     about: 'About',
     contact: 'Contact',
-    getConsultation: 'Book Consultation',
+    getConsultation: 'Consultation',
   },
   hero: {
     badge: 'ENTERPRISE AI & DIGITAL ENGINEERING STUDIO',
