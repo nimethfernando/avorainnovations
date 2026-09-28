@@ -27,6 +27,18 @@ export default function Header() {
   const [searchOpen, setSearchOpen] = useState(false);
   const headerRef = useRef<HTMLDivElement>(null);
 
+  // Close mega menu or modal on Escape key
+  useEffect(() => {
+    function handleKeyDown(e: KeyboardEvent) {
+      if (e.key === 'Escape') {
+        setActiveMenu(null);
+        setMobileOpen(false);
+      }
+    }
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
+
   // Close mega menu on route change
   useEffect(() => {
     setActiveMenu(null);
@@ -122,6 +134,7 @@ export default function Header() {
     <>
       <header
         ref={headerRef}
+        onMouseLeave={() => setActiveMenu(null)}
         className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
           scrolled
             ? 'bg-white/90 dark:bg-slate-950/90 backdrop-blur-md shadow-md border-b border-slate-200/80 dark:border-slate-800/80'
@@ -159,17 +172,18 @@ export default function Header() {
 
                 return (
                   <div key={item.key} className="relative">
-                    {item.hasMega ? (
-                      <button
-                        onClick={() => setActiveMenu(activeMenu === item.key ? null : item.key)}
-                        onMouseEnter={() => setActiveMenu(item.key)}
-                        className={`px-2 xl:px-2.5 2xl:px-3 py-2 rounded-xl text-xs xl:text-[13px] 2xl:text-[13.5px] flex items-center gap-1 xl:gap-1.5 transition-all whitespace-nowrap cursor-pointer ${
-                          isActive || activeMenu === item.key
-                            ? 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/50 shadow-xs border border-blue-500/25 dark:border-blue-500/30 font-bold'
-                            : 'text-slate-700 dark:text-slate-200 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-slate-100/70 dark:hover:bg-slate-900/60 border border-transparent font-semibold'
-                        }`}
-                      >
-                        <span>{item.label}</span>
+                    <Link
+                      href={item.href}
+                      onClick={() => setActiveMenu(null)}
+                      onMouseEnter={() => (item.hasMega ? setActiveMenu(item.key) : setActiveMenu(null))}
+                      className={`px-2 xl:px-2.5 2xl:px-3 py-2 rounded-xl text-xs xl:text-[13px] 2xl:text-[13.5px] flex items-center gap-1 xl:gap-1.5 transition-all whitespace-nowrap cursor-pointer ${
+                        isActive || activeMenu === item.key
+                          ? 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/50 shadow-xs border border-blue-500/25 dark:border-blue-500/30 font-bold'
+                          : 'text-slate-700 dark:text-slate-200 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-slate-100/70 dark:hover:bg-slate-900/60 border border-transparent font-semibold'
+                      }`}
+                    >
+                      <span>{item.label}</span>
+                      {item.hasMega && (
                         <ChevronDown
                           className={`w-3 h-3 xl:w-3.5 xl:h-3.5 transition-transform duration-200 ${
                             activeMenu === item.key
@@ -179,20 +193,8 @@ export default function Header() {
                               : 'text-slate-400'
                           }`}
                         />
-                      </button>
-                    ) : (
-                      <Link
-                        href={item.href}
-                        onMouseEnter={() => setActiveMenu(null)}
-                        className={`px-2 xl:px-2.5 2xl:px-3 py-2 rounded-xl text-xs xl:text-[13px] 2xl:text-[13.5px] transition-all whitespace-nowrap block ${
-                          isActive
-                            ? 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/50 shadow-xs border border-blue-500/25 dark:border-blue-500/30 font-bold'
-                            : 'text-slate-700 dark:text-slate-200 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-slate-100/70 dark:hover:bg-slate-900/60 border border-transparent font-semibold'
-                        }`}
-                      >
-                        {item.label}
-                      </Link>
-                    )}
+                      )}
+                    </Link>
                   </div>
                 );
               })}
