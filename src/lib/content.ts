@@ -1160,6 +1160,86 @@ export const BLOG_POSTS_DATA: BlogPost[] = [
     publishedAt: '2026-09-04',
     isFeatured: false,
   },
+  {
+    id: 'microservices-php-modernization',
+    slug: 'microservices-php-modernization',
+    title: 'Modernizing Legacy Monoliths: Migrating Enterprise PHP & Laravel to Asynchronous Microservices',
+    excerpt: 'Step-by-step decoupling strategies: using the Strangler Fig pattern, event-driven queues, and gRPC bridges to modernize legacy enterprise codebases without downtime.',
+    content: `
+      <h2>The Enterprise Legacy Dilemma</h2>
+      <p>Decades-old enterprise applications frequently run on monolithic PHP and Laravel stacks. While reliable, these systems struggle under sudden scale surges, high-frequency background worker demands, and distributed team velocity requirements.</p>
+
+      <h2>The Strangler Fig Migration Pattern</h2>
+      <p>Rather than risky big-bang rewrites, Avora employs the Strangler Fig pattern to incrementally carve out bounded contexts into independent microservices:</p>
+      <ul>
+        <li><strong>API Gateway Routing:</strong> A lightweight reverse proxy intercepts incoming client requests, routing legacy endpoints to the monolith and modern endpoints to newly deployed services.</li>
+        <li><strong>Event-Driven Asynchrony:</strong> Redis streams and RabbitMQ decouple long-running jobs (PDF rendering, batch notifications, transactional reporting) from request-response lifecycles.</li>
+        <li><strong>Automated Regression Testing:</strong> Synthetic canary traffic runs concurrently against both old and new implementations to verify parity before cutover.</li>
+      </ul>
+
+      <h2>Measurable Results</h2>
+      <p>Following modernization, our enterprise clients experience up to 65% reductions in server hosting overhead and average API response times plummeting from 420ms to under 35ms.</p>
+    `,
+    category: 'Engineering',
+    tags: ['PHP', 'Laravel', 'Microservices', 'Modernization', 'Architecture'],
+    coverImage: 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=1200&q=80',
+    authorName: 'Siddharth Patel',
+    authorRole: 'Principal Web Architect, Avora Innovations',
+    readTime: '6 min read',
+    publishedAt: '2026-09-22',
+    isFeatured: false,
+  },
+  {
+    id: 'offline-first-react-native-edge-ai',
+    slug: 'offline-first-react-native-edge-ai',
+    title: 'Offline-First Mobile Architecture: Running On-Device Neural Models with React Native & CoreML',
+    excerpt: 'How we engineer low-latency mobile applications that execute computer vision and sentiment inference entirely on-device without cloud connectivity.',
+    content: `
+      <h2>The Cloud Latency Bottleneck</h2>
+      <p>Sending mobile sensor feeds and camera frames over cellular networks to central cloud GPUs introduces 200ms+ roundtrip latencies, consumes client cellular data, and raises strict privacy concerns for healthcare and defense clients.</p>
+
+      <h2>Architecting On-Device Mobile AI</h2>
+      <p>By leveraging React Native paired with native C++ JSI bindings to Apple CoreML and Android NNAPI, our mobile engineering squad executes quantized 4-bit transformer and YOLO models directly on the client's Neural Engine:</p>
+      <ul>
+        <li><strong>Zero Network Dependency:</strong> Full functionality in remote, field, or air-gapped clinical settings.</li>
+        <li><strong>Sub-20ms Inference:</strong> Immediate frame-by-frame object tracking and live OCR document analysis.</li>
+        <li><strong>Guaranteed Data Privacy:</strong> Sensitive biometric and visual telemetry never leaves the physical handset.</li>
+      </ul>
+    `,
+    category: 'Mobile & AI',
+    tags: ['React Native', 'Mobile AI', 'CoreML', 'Edge Computing', 'iOS & Android'],
+    coverImage: 'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&w=1200&q=80',
+    authorName: 'Elena Rostova',
+    authorRole: 'Mobile Engineering Lead',
+    readTime: '5 min read',
+    publishedAt: '2026-09-25',
+    isFeatured: true,
+  },
+  {
+    id: 'zero-trust-kubernetes-devops',
+    slug: 'zero-trust-kubernetes-devops',
+    title: 'Zero-Trust Cloud Engineering: Hardening Multi-Tenant Kubernetes Clusters with eBPF and ArgoCD',
+    excerpt: 'Comprehensive blueprints for enterprise GitOps, automated mTLS service mesh policies, and real-time kernel-level threat detection in production.',
+    content: `
+      <h2>Beyond Perimeter Security</h2>
+      <p>Traditional network firewalls are insufficient for modern microservices architectures. A breach in a single staging container can allow lateral traversal across the entire VPC unless strict Zero-Trust boundaries are continuously enforced.</p>
+
+      <h2>Core Infrastructure Pillars</h2>
+      <ul>
+        <li><strong>eBPF-Powered Telemetry:</strong> Using Cilium for kernel-space packet filtering and continuous observability without proxy overhead.</li>
+        <li><strong>Declarative GitOps:</strong> ArgoCD ensures all cluster manifests match version-controlled Git repositories with automated drift correction.</li>
+        <li><strong>Automated Secret Rotation:</strong> HashiCorp Vault injects ephemeral credentials that expire within minutes, eliminating hardcoded keys entirely.</li>
+      </ul>
+    `,
+    category: 'Database & Cloud',
+    tags: ['Kubernetes', 'DevOps', 'eBPF', 'GitOps', 'Zero-Trust'],
+    coverImage: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1200&q=80',
+    authorName: 'Klaus Reinhardt',
+    authorRole: 'Lead Database & Cloud Infrastructure Engineer',
+    readTime: '7 min read',
+    publishedAt: '2026-09-27',
+    isFeatured: false,
+  },
 ];
 
 export const TESTIMONIALS_DATA = [

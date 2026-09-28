@@ -70,6 +70,7 @@ export default function Header() {
     { key: 'industries', label: t.nav.industries, hasMega: true, href: '/industries' },
     { key: 'technologies', label: t.nav.technologies, hasMega: true, href: '/technologies' },
     { key: 'solutions', label: t.nav.solutions, hasMega: true, href: '/solutions' },
+    { key: 'blog', label: 'Blog', hasMega: false, href: '/blog' },
     { key: 'resources', label: t.nav.resources, hasMega: true, href: '/case-studies' },
     { key: 'about', label: t.nav.about, hasMega: false, href: '/about' },
     { key: 'contact', label: t.nav.contact, hasMega: false, href: '/contact' },
@@ -82,10 +83,20 @@ export default function Header() {
         if (res.ok) {
           const cmsNav = await res.json();
           if (Array.isArray(cmsNav) && cmsNav.length > 0) {
+            let activeItems = cmsNav.filter((item: any) => item.enabled !== false);
+            const hasBlog = activeItems.some((i: any) => i.href === '/blog' || i.id === 'nav-blog');
+            if (!hasBlog) {
+              const aboutIdx = activeItems.findIndex((i: any) => i.href === '/about' || i.id === 'nav-about');
+              const blogItem = { id: 'nav-blog', label: 'Blog', href: '/blog', type: 'link', badge: '', enabled: true, order: 5 };
+              if (aboutIdx !== -1) {
+                activeItems.splice(aboutIdx, 0, blogItem);
+              } else {
+                activeItems.push(blogItem);
+              }
+            }
+
             setNavItems(
-              cmsNav
-                .filter((item: any) => item.enabled !== false)
-                .map((item: any) => {
+              activeItems.map((item: any) => {
                   const cleanKey = item.id?.replace(/^nav-/, '') || item.href.replace(/^\//, '');
                   const isMega =
                     item.type === 'mega' ||
