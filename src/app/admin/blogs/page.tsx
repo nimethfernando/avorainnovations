@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import AdminHeader from '@/components/admin/AdminHeader';
-import { Plus, Edit3, Trash2, ExternalLink, FileText } from 'lucide-react';
+import { Plus, Edit3, Trash2, ExternalLink, FileText, Image as ImageIcon } from 'lucide-react';
 import { formatDate } from '@/lib/utils';
 
 export default function AdminBlogsPage() {
@@ -65,7 +65,7 @@ export default function AdminBlogsPage() {
               <table className="w-full text-left text-xs">
                 <thead>
                   <tr className="border-b border-slate-100 dark:border-slate-800 text-slate-400 font-bold uppercase tracking-wider">
-                    <th className="pb-3">Title</th>
+                    <th className="pb-3">Article</th>
                     <th className="pb-3">Category</th>
                     <th className="pb-3">Author</th>
                     <th className="pb-3">Read Time</th>
@@ -76,8 +76,23 @@ export default function AdminBlogsPage() {
                 <tbody className="divide-y divide-slate-100 dark:divide-slate-800/60">
                   {blogs.map((b) => (
                     <tr key={b.id} className="hover:bg-slate-50 dark:hover:bg-slate-900/40">
-                      <td className="py-3.5 font-bold text-slate-900 dark:text-white max-w-xs truncate">
-                        {b.title}
+                      <td className="py-3.5 pr-4">
+                        <div className="flex items-center gap-3">
+                          <div className="w-12 h-10 rounded-lg overflow-hidden bg-slate-100 dark:bg-slate-800 flex-shrink-0 border border-slate-200 dark:border-slate-700 flex items-center justify-center">
+                            {b.coverImage ? (
+                              <img
+                                src={b.coverImage}
+                                alt={b.title}
+                                className="w-full h-full object-cover"
+                              />
+                            ) : (
+                              <ImageIcon className="w-4 h-4 text-slate-400" />
+                            )}
+                          </div>
+                          <div className="max-w-xs truncate font-bold text-slate-900 dark:text-white">
+                            {b.title}
+                          </div>
+                        </div>
                       </td>
                       <td className="py-3.5">
                         <span className="px-2 py-0.5 rounded-full bg-blue-500/10 text-blue-500 text-[10px] font-bold">
@@ -93,21 +108,21 @@ export default function AdminBlogsPage() {
                             href={`/blog/${b.slug}`}
                             target="_blank"
                             className="p-1.5 rounded-lg border border-slate-200 dark:border-slate-800 hover:text-blue-500"
-                            title="Preview Article"
+                            title="Preview Article Live"
                           >
                             <ExternalLink className="w-3.5 h-3.5" />
                           </Link>
                           <Link
                             href={`/admin/blogs/${b.id}`}
                             className="p-1.5 rounded-lg border border-slate-200 dark:border-slate-800 hover:text-blue-500"
-                            title="Edit Article"
+                            title="Edit Article & Image"
                           >
                             <Edit3 className="w-3.5 h-3.5" />
                           </Link>
                           <button
                             onClick={() => handleDelete(b.id)}
-                            className="p-1.5 rounded-lg border border-slate-200 dark:border-slate-800 text-rose-400 hover:text-rose-500"
-                            title="Delete"
+                            className="p-1.5 rounded-lg border border-slate-200 dark:border-slate-800 text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-950/30"
+                            title="Delete Article"
                           >
                             <Trash2 className="w-3.5 h-3.5" />
                           </button>
