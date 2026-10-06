@@ -41,7 +41,7 @@ model Blog {
   content     String   @db.LongText
   category    String   @default("Technology")
   tags        String   @default("[]")
-  coverImage  String?
+  coverImage  String?  @db.LongText
   authorName  String   @default("Avora Engineering")
   authorRole  String   @default("Tech Lead")
   readTime    String   @default("5 min read")

@@ -130,6 +130,22 @@ export default function Header() {
     fetchNav();
   }, []);
 
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    setActiveMenu(null);
+    setMobileOpen(false);
+
+    if (href === '/blog' || href === '#blog') {
+      if (pathname === '/') {
+        const blogSection = document.getElementById('blog');
+        if (blogSection) {
+          e.preventDefault();
+          blogSection.scrollIntoView({ behavior: 'smooth' });
+          return;
+        }
+      }
+    }
+  };
+
   return (
     <>
       <header
@@ -174,7 +190,7 @@ export default function Header() {
                   <div key={item.key} className="relative">
                     <Link
                       href={item.href}
-                      onClick={() => setActiveMenu(null)}
+                      onClick={(e) => handleNavClick(e, item.href)}
                       onMouseEnter={() => (item.hasMega ? setActiveMenu(item.key) : setActiveMenu(null))}
                       className={`px-2 xl:px-2.5 2xl:px-3 py-2 rounded-xl text-xs xl:text-[13px] 2xl:text-[13.5px] flex items-center gap-1 xl:gap-1.5 transition-all whitespace-nowrap cursor-pointer ${
                         isActive || activeMenu === item.key
@@ -277,7 +293,7 @@ export default function Header() {
                   <div key={item.key} className="py-0.5">
                     <Link
                       href={item.href}
-                      onClick={() => setMobileOpen(false)}
+                      onClick={(e) => handleNavClick(e, item.href)}
                       className={`px-3.5 py-2.5 rounded-xl text-base transition-all flex items-center justify-between ${
                         isActive
                           ? 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/50 border border-blue-500/20 font-bold shadow-xs'

@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { revalidatePath } from 'next/cache';
 import { db } from '@/lib/db';
 
 interface RouteContext {
@@ -32,6 +33,14 @@ export async function PUT(request: Request, { params }: RouteContext) {
       tags: typeof body.tags === 'string' ? body.tags : JSON.stringify(body.tags || []),
     });
 
+    try {
+      revalidatePath('/blog');
+      revalidatePath('/');
+      revalidatePath('/admin/blogs');
+    } catch (e) {
+      console.warn('[Cache Revalidation Error]:', e);
+    }
+
     return NextResponse.json(saved);
   } catch (error) {
     return NextResponse.json({ error: 'Failed to update blog' }, { status: 500 });
@@ -42,6 +51,15 @@ export async function DELETE(request: Request, { params }: RouteContext) {
   try {
     const { id } = await params;
     await db.deleteBlog(id);
+
+    try {
+      revalidatePath('/blog');
+      revalidatePath('/');
+      revalidatePath('/admin/blogs');
+    } catch (e) {
+      console.warn('[Cache Revalidation Error]:', e);
+    }
+
     return NextResponse.json({ success: true, message: 'Blog deleted' });
   } catch (error) {
     return NextResponse.json({ error: 'Failed to delete blog' }, { status: 500 });

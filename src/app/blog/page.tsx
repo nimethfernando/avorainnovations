@@ -7,6 +7,9 @@ import { db } from '@/lib/db';
 import BlogListClient from '@/components/blog/BlogListClient';
 import CtaBanner from '@/components/home/CtaBanner';
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export const metadata = constructMetadata({
   title: 'Engineering Blog & Technical Insights | Avora Innovations',
   description: 'Deep technical breakdowns on autonomous AI agents, Next.js 16 performance engineering, MariaDB scalability, and distributed cloud microservices.',

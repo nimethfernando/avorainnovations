@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { revalidatePath } from 'next/cache';
 import { db } from '@/lib/db';
 import { slugify } from '@/lib/utils';
 
@@ -36,6 +37,14 @@ export async function POST(request: Request) {
       isFeatured: !!isFeatured,
       isPublished: isPublished !== undefined ? isPublished : true,
     });
+
+    try {
+      revalidatePath('/blog');
+      revalidatePath('/');
+      revalidatePath('/admin/blogs');
+    } catch (e) {
+      console.warn('[Cache Revalidation Error]:', e);
+    }
 
     return NextResponse.json(saved, { status: 201 });
   } catch (error) {

@@ -75,6 +75,57 @@
       "isPublished": true,
       "createdAt": "2026-09-04T00:00:00.000Z",
       "updatedAt": "2026-09-28T05:10:46.547Z"
+    },
+    {
+      "id": "microservices-php-modernization",
+      "slug": "microservices-php-modernization",
+      "title": "Modernizing Legacy Monoliths: Migrating Enterprise PHP & Laravel to Asynchronous Microservices",
+      "excerpt": "Step-by-step decoupling strategies: using the Strangler Fig pattern, event-driven queues, and gRPC bridges to modernize legacy enterprise codebases without downtime.",
+      "content": "<h2>The Enterprise Legacy Dilemma</h2><p>Decades-old enterprise applications frequently run on monolithic PHP and Laravel stacks...</p>",
+      "category": "Engineering",
+      "tags": "[\"PHP\",\"Laravel\",\"Microservices\",\"Modernization\",\"Architecture\"]",
+      "coverImage": "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=1200&q=80",
+      "authorName": "Siddharth Patel",
+      "authorRole": "Principal Web Architect, Avora Innovations",
+      "readTime": "6 min read",
+      "isFeatured": false,
+      "isPublished": true,
+      "createdAt": "2026-09-22T00:00:00.000Z",
+      "updatedAt": "2026-10-06T14:18:57.465Z"
+    },
+    {
+      "id": "offline-first-react-native-edge-ai",
+      "slug": "offline-first-react-native-edge-ai",
+      "title": "Offline-First Mobile Architecture: Running On-Device Neural Models with React Native & CoreML",
+      "excerpt": "How we engineer low-latency mobile applications that execute computer vision and sentiment inference entirely on-device without cloud connectivity.",
+      "content": "<h2>The Cloud Latency Bottleneck</h2><p>Sending mobile sensor feeds and camera frames over cellular networks to central cloud GPUs introduces 200ms+ roundtrip latencies...</p>",
+      "category": "Mobile & AI",
+      "tags": "[\"React Native\",\"Mobile AI\",\"CoreML\",\"Edge Computing\",\"iOS & Android\"]",
+      "coverImage": "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&w=1200&q=80",
+      "authorName": "Elena Rostova",
+      "authorRole": "Mobile Engineering Lead",
+      "readTime": "5 min read",
+      "isFeatured": true,
+      "isPublished": true,
+      "createdAt": "2026-09-25T00:00:00.000Z",
+      "updatedAt": "2026-10-06T14:18:57.465Z"
+    },
+    {
+      "id": "zero-trust-kubernetes-devops",
+      "slug": "zero-trust-kubernetes-devops",
+      "title": "Zero-Trust Cloud Engineering: Hardening Multi-Tenant Kubernetes Clusters with eBPF and ArgoCD",
+      "excerpt": "Comprehensive blueprints for enterprise GitOps, automated mTLS service mesh policies, and real-time kernel-level threat detection in production.",
+      "content": "<h2>Beyond Perimeter Security</h2><p>Traditional network firewalls are insufficient for modern microservices architectures...</p>",
+      "category": "Database & Cloud",
+      "tags": "[\"Kubernetes\",\"DevOps\",\"eBPF\",\"GitOps\",\"Zero-Trust\"]",
+      "coverImage": "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1200&q=80",
+      "authorName": "Klaus Reinhardt",
+      "authorRole": "Lead Database & Cloud Infrastructure Engineer",
+      "readTime": "7 min read",
+      "isFeatured": false,
+      "isPublished": true,
+      "createdAt": "2026-09-27T00:00:00.000Z",
+      "updatedAt": "2026-10-06T14:18:57.465Z"
     }
   ],
   "services": [
@@ -2531,6 +2582,15 @@
       "href": "/case-studies",
       "type": "mega",
       "badge": "Insights",
+      "enabled": true,
+      "order": 5
+    },
+    {
+      "id": "nav-blog",
+      "label": "Blog",
+      "href": "/blog",
+      "type": "link",
+      "badge": "",
       "enabled": true,
       "order": 5
     },

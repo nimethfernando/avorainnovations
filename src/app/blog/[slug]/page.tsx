@@ -161,7 +161,7 @@ export default async function BlogDetailPage({ params }: BlogPageProps) {
         {post.coverImage && (
           <div className="my-8 rounded-3xl overflow-hidden aspect-[16/9] w-full shadow-2xl bg-slate-900 border border-slate-200 dark:border-slate-800">
             <img
-              src={post.coverImage}
+              src={post.coverImage || 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1200&q=80'}
               alt={post.title}
               className="w-full h-full object-cover"
             />

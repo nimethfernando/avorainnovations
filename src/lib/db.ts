@@ -317,7 +317,43 @@ function loadLocalStore(): StorageData {
         parsed.technologies = TECH_CATEGORIES;
         needsSave = true;
       }
-      if (!parsed.navigation) parsed.navigation = DEFAULT_NAVIGATION;
+      if (!parsed.navigation || !Array.isArray(parsed.navigation) || !parsed.navigation.some((n: any) => n.id === 'nav-blog' || n.href === '/blog')) {
+        parsed.navigation = DEFAULT_NAVIGATION;
+        needsSave = true;
+      }
+      if (!parsed.blogs || !Array.isArray(parsed.blogs)) {
+        parsed.blogs = [];
+        needsSave = true;
+      }
+      for (const master of BLOG_POSTS_DATA) {
+        if (!parsed.blogs.some((b: any) => b.slug === master.slug)) {
+          parsed.blogs.push({
+            id: master.id,
+            slug: master.slug,
+            title: master.title,
+            excerpt: master.excerpt,
+            content: master.content,
+            category: master.category,
+            tags: JSON.stringify(master.tags),
+            coverImage: master.coverImage,
+            authorName: master.authorName,
+            authorRole: master.authorRole,
+            readTime: master.readTime,
+            isFeatured: !!master.isFeatured,
+            isPublished: true,
+            createdAt: new Date(master.publishedAt).toISOString(),
+            updatedAt: new Date().toISOString(),
+          });
+          needsSave = true;
+        }
+      }
+      for (const b of parsed.blogs) {
+        if (!b.coverImage || (typeof b.coverImage === 'string' && b.coverImage.startsWith('data:') && b.coverImage.length <= 500)) {
+          const master = BLOG_POSTS_DATA.find((p) => p.slug === b.slug);
+          b.coverImage = master ? master.coverImage : 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1200&q=80';
+          needsSave = true;
+        }
+      }
       if (!parsed.ctas) parsed.ctas = DEFAULT_CTAS;
       if (!parsed.media) parsed.media = DEFAULT_MEDIA;
       if (!parsed.costCalculator) parsed.costCalculator = DEFAULT_COST_CONFIG;
@@ -325,6 +361,9 @@ function loadLocalStore(): StorageData {
       if (!parsed.locations) parsed.locations = DEFAULT_LOCATIONS;
       if (!parsed.leadership) parsed.leadership = DEFAULT_LEADERSHIP;
       if (!parsed.resetTokens) parsed.resetTokens = [];
+      if (needsSave) {
+        saveLocalStore(parsed);
+      }
       return parsed;
     }
   } catch (err) {
@@ -1204,41 +1243,165 @@ export const db = {
   },
 
   // --- Blogs ---
+  async ensureDefaultBlogs() {
+    // 1. Try to ensure table schema and seed master articles in MariaDB
+    try {
+      await queryDb('ALTER TABLE avora_blogs MODIFY coverImage LONGTEXT');
+
+      const existingRows = await queryDb<any>('SELECT slug, coverImage FROM avora_blogs');
+      if (existingRows !== null) {
+        const existingSlugs = new Set((existingRows || []).map((r: any) => r.slug));
+
+        for (const post of BLOG_POSTS_DATA) {
+          if (!existingSlugs.has(post.slug)) {
+            await queryDb(
+              `
+              INSERT INTO avora_blogs (id, slug, title, excerpt, content, category, tags, coverImage, authorName, authorRole, readTime, isFeatured, isPublished, createdAt, updatedAt)
+              VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1, ?, NOW())
+              ON DUPLICATE KEY UPDATE id = id
+            `,
+              [
+                post.id,
+                post.slug,
+                post.title,
+                post.excerpt,
+                post.content,
+                post.category,
+                JSON.stringify(post.tags),
+                post.coverImage,
+                post.authorName,
+                post.authorRole,
+                post.readTime,
+                post.isFeatured ? 1 : 0,
+                new Date(post.publishedAt || Date.now()).toISOString(),
+              ]
+            );
+          }
+        }
+
+        for (const row of existingRows) {
+          if (row.coverImage && row.coverImage.startsWith('data:') && row.coverImage.length <= 500) {
+            const master = BLOG_POSTS_DATA.find((p) => p.slug === row.slug);
+            const fallback = master ? master.coverImage : 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1200&q=80';
+            await queryDb('UPDATE avora_blogs SET coverImage = ? WHERE slug = ?', [fallback, row.slug]);
+          }
+        }
+      }
+    } catch (e) {
+      // Fallback silently if DB is unreachable
+    }
+
+    // 2. Ensure local store blogs has all default articles and clean cover images
+    try {
+      const store = loadLocalStore();
+      let modified = false;
+      const existingStoreSlugs = new Set((store.blogs || []).map((b: any) => b.slug));
+
+      for (const post of BLOG_POSTS_DATA) {
+        if (!existingStoreSlugs.has(post.slug)) {
+          store.blogs.push({
+            id: post.id,
+            slug: post.slug,
+            title: post.title,
+            excerpt: post.excerpt,
+            content: post.content,
+            category: post.category,
+            tags: JSON.stringify(post.tags),
+            coverImage: post.coverImage,
+            authorName: post.authorName,
+            authorRole: post.authorRole,
+            readTime: post.readTime,
+            isFeatured: !!post.isFeatured,
+            isPublished: true,
+            createdAt: new Date(post.publishedAt).toISOString(),
+            updatedAt: new Date().toISOString(),
+          });
+          modified = true;
+        }
+      }
+
+      for (const b of store.blogs) {
+        if (!b.coverImage || (typeof b.coverImage === 'string' && b.coverImage.startsWith('data:') && b.coverImage.length <= 500)) {
+          const master = BLOG_POSTS_DATA.find((p) => p.slug === b.slug);
+          b.coverImage = master ? master.coverImage : 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1200&q=80';
+          modified = true;
+        }
+      }
+
+      if (modified) {
+        saveLocalStore(store);
+      }
+    } catch (e) {
+      console.warn('[DB] Error syncing local store blogs:', e);
+    }
+  },
+
   async getAllBlogs(options?: { publishedOnly?: boolean }) {
+    await this.ensureDefaultBlogs();
+    const sanitizeBlog = (r: any) => {
+      let cover = r.coverImage;
+      if (!cover || (typeof cover === 'string' && cover.startsWith('data:') && cover.length <= 500)) {
+        const master = BLOG_POSTS_DATA.find((p) => p.slug === r.slug);
+        cover = master ? master.coverImage : 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1200&q=80';
+      }
+      return {
+        ...r,
+        coverImage: cover,
+        isFeatured: Boolean(r.isFeatured),
+        isPublished: Boolean(r.isPublished),
+      };
+    };
+
     const sql = options?.publishedOnly
       ? 'SELECT * FROM avora_blogs WHERE isPublished = 1 ORDER BY createdAt DESC'
       : 'SELECT * FROM avora_blogs ORDER BY createdAt DESC';
     const rows = await queryDb<any>(sql);
     if (rows && rows.length > 0) {
-      return rows.map((r) => ({
-        ...r,
-        isFeatured: Boolean(r.isFeatured),
-        isPublished: Boolean(r.isPublished),
-      }));
+      return rows.map(sanitizeBlog);
     }
 
     const store = loadLocalStore();
     if (options?.publishedOnly) {
-      return store.blogs.filter((b) => b.isPublished);
+      return store.blogs.filter((b) => b.isPublished).map(sanitizeBlog);
     }
-    return store.blogs;
+    return store.blogs.map(sanitizeBlog);
   },
 
   async getBlogBySlug(slug: string) {
+    await this.ensureDefaultBlogs();
+    const sanitizeBlog = (r: any) => {
+      if (!r) return null;
+      let cover = r.coverImage;
+      if (!cover || (typeof cover === 'string' && cover.startsWith('data:') && cover.length <= 500)) {
+        const master = BLOG_POSTS_DATA.find((p) => p.slug === r.slug);
+        cover = master ? master.coverImage : 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1200&q=80';
+      }
+      return {
+        ...r,
+        coverImage: cover,
+        isFeatured: Boolean(r.isFeatured),
+        isPublished: Boolean(r.isPublished),
+      };
+    };
+
     const rows = await queryDb<any>('SELECT * FROM avora_blogs WHERE slug = ? LIMIT 1', [slug]);
     if (rows && rows.length > 0) {
-      return {
-        ...rows[0],
-        isFeatured: Boolean(rows[0].isFeatured),
-        isPublished: Boolean(rows[0].isPublished),
-      };
+      return sanitizeBlog(rows[0]);
     }
 
     const store = loadLocalStore();
-    return store.blogs.find((b) => b.slug === slug) || null;
+    const found = store.blogs.find((b) => b.slug === slug);
+    return found ? sanitizeBlog(found) : null;
   },
 
   async saveBlog(blogData: any) {
+    await this.ensureDefaultBlogs();
+    let coverImage = blogData.coverImage;
+    if (!coverImage || (typeof coverImage === 'string' && coverImage.startsWith('data:') && coverImage.length <= 500)) {
+      const master = BLOG_POSTS_DATA.find((p) => p.slug === blogData.slug);
+      coverImage = master ? master.coverImage : 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1200&q=80';
+    }
+
     const id = blogData.id || 'blog-' + Date.now();
     await queryDb(
       `
@@ -1266,7 +1429,7 @@ export const db = {
         blogData.content || '',
         blogData.category || 'Technology',
         typeof blogData.tags === 'string' ? blogData.tags : JSON.stringify(blogData.tags || []),
-        blogData.coverImage || '',
+        coverImage,
         blogData.authorName || 'Avora Engineering',
         blogData.authorRole || 'Tech Lead',
         blogData.readTime || '5 min read',
@@ -1282,6 +1445,7 @@ export const db = {
       store.blogs[existingIdx] = {
         ...store.blogs[existingIdx],
         ...blogData,
+        coverImage,
         updatedAt: now,
       };
       saveLocalStore(store);
@@ -1290,6 +1454,7 @@ export const db = {
       const newBlog = {
         id,
         ...blogData,
+        coverImage,
         createdAt: now,
         updatedAt: now,
       };
