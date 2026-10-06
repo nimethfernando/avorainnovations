@@ -7,11 +7,13 @@ import { formatDate } from '@/lib/utils';
 
 interface BlogListClientProps {
   initialPosts: any[];
+  initialTag?: string;
 }
 
-export default function BlogListClient({ initialPosts }: BlogListClientProps) {
+export default function BlogListClient({ initialPosts, initialTag = '' }: BlogListClientProps) {
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState<string>('');
+  const [activeTag, setActiveTag] = useState<string>(initialTag);
 
   const categories = useMemo(() => {
     const set = new Set<string>();
@@ -27,16 +29,32 @@ export default function BlogListClient({ initialPosts }: BlogListClientProps) {
         selectedCategory === 'all' || post.category?.toLowerCase() === selectedCategory.toLowerCase();
 
       const q = searchQuery.toLowerCase().trim();
+      const rawPostTags: string[] = Array.isArray(post.tags)
+        ? post.tags
+        : typeof post.tags === 'string'
+        ? (() => {
+            try {
+              return JSON.parse(post.tags);
+            } catch {
+              return post.tags.split(',').map((t: string) => t.trim());
+            }
+          })()
+        : [];
+
+      const matchesTag =
+        !activeTag ||
+        rawPostTags.some((t: string) => t.replace(/^#/, '').toLowerCase() === activeTag.toLowerCase().trim());
+
       const matchesQuery =
         !q ||
         post.title?.toLowerCase().includes(q) ||
         post.excerpt?.toLowerCase().includes(q) ||
         post.category?.toLowerCase().includes(q) ||
-        (Array.isArray(post.tags) && post.tags.some((t: string) => t.toLowerCase().includes(q)));
+        rawPostTags.some((t: string) => t.toLowerCase().includes(q));
 
-      return matchesCategory && matchesQuery;
+      return matchesCategory && matchesQuery && matchesTag;
     });
-  }, [initialPosts, selectedCategory, searchQuery]);
+  }, [initialPosts, selectedCategory, searchQuery, activeTag]);
 
   const featuredPost = useMemo(() => {
     return initialPosts.find((p) => p.isFeatured) || initialPosts[0];
@@ -100,6 +118,25 @@ export default function BlogListClient({ initialPosts }: BlogListClientProps) {
               </div>
             </div>
           </div>
+        </div>
+      )}
+
+      {/* Active Hashtag Banner */}
+      {activeTag && (
+        <div className="p-3.5 rounded-2xl bg-blue-50 dark:bg-blue-950/40 border border-blue-500/20 flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <span className="text-xs text-slate-500 dark:text-slate-400">Filtering by hashtag:</span>
+            <span className="px-2.5 py-1 rounded-lg bg-blue-600 text-white font-bold text-xs flex items-center gap-1 shadow-xs">
+              <span>#{activeTag}</span>
+            </span>
+          </div>
+          <button
+            type="button"
+            onClick={() => setActiveTag('')}
+            className="text-xs font-semibold text-blue-600 dark:text-blue-400 hover:underline cursor-pointer"
+          >
+            Clear tag filter ×
+          </button>
         </div>
       )}
 
@@ -210,14 +247,29 @@ export default function BlogListClient({ initialPosts }: BlogListClientProps) {
 
                     {rawTags && rawTags.length > 0 && (
                       <div className="pt-2 flex flex-wrap gap-1.5">
-                        {rawTags.slice(0, 3).map((tag: string) => (
-                          <span
-                            key={tag}
-                            className="px-2 py-0.5 rounded-md bg-slate-100 dark:bg-slate-900 text-[10.5px] font-medium text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-800"
-                          >
-                            #{tag}
-                          </span>
-                        ))}
+                        {rawTags.slice(0, 4).map((tag: string) => {
+                          const cleanTag = tag.replace(/^#/, '').trim();
+                          const isTagActive = activeTag.toLowerCase() === cleanTag.toLowerCase();
+                          return (
+                            <button
+                              type="button"
+                              key={tag}
+                              onClick={(e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                setActiveTag(isTagActive ? '' : cleanTag);
+                              }}
+                              className={`px-2 py-0.5 rounded-md text-[10.5px] font-medium transition-colors cursor-pointer border ${
+                                isTagActive
+                                  ? 'bg-blue-600 text-white border-blue-600 shadow-xs'
+                                  : 'bg-slate-100 hover:bg-blue-50 dark:bg-slate-900 dark:hover:bg-blue-950/50 text-slate-600 hover:text-blue-600 dark:text-slate-400 dark:hover:text-blue-400 border-slate-200 dark:border-slate-800'
+                              }`}
+                              title={`Filter articles by #${cleanTag}`}
+                            >
+                              #{cleanTag}
+                            </button>
+                          );
+                        })}
                       </div>
                     )}
                   </div>

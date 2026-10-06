@@ -174,17 +174,26 @@ export default async function BlogDetailPage({ params }: BlogPageProps) {
           dangerouslySetInnerHTML={{ __html: post.content }}
         />
 
-        {/* Tags */}
+        {/* Tags / Hashtags */}
         {rawTags && rawTags.length > 0 && (
-          <div className="pt-6 flex flex-wrap gap-2">
-            {rawTags.map((t: string) => (
-              <span
-                key={t}
-                className="px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-900 text-xs text-slate-600 dark:text-slate-400 font-medium border border-slate-200 dark:border-slate-800"
-              >
-                #{t}
-              </span>
-            ))}
+          <div className="pt-6 flex flex-wrap items-center gap-2">
+            <span className="text-xs font-bold uppercase tracking-wider text-slate-400 mr-1">
+              Topics:
+            </span>
+            {rawTags.map((t: string) => {
+              const cleanTag = t.replace(/^#/, '').trim();
+              if (!cleanTag) return null;
+              return (
+                <Link
+                  key={t}
+                  href={`/blog?tag=${encodeURIComponent(cleanTag)}`}
+                  className="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-blue-50 dark:bg-slate-900 dark:hover:bg-blue-950/40 text-xs text-slate-700 hover:text-blue-600 dark:text-slate-300 dark:hover:text-blue-400 font-semibold border border-slate-200 dark:border-slate-800 transition-colors inline-flex items-center gap-1 shadow-2xs group"
+                >
+                  <span className="text-blue-600 dark:text-blue-400 font-bold">#</span>
+                  <span>{cleanTag}</span>
+                </Link>
+              );
+            })}
           </div>
         )}
 

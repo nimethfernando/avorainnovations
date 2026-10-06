@@ -13,7 +13,14 @@ export const metadata = constructMetadata({
   canonical: '/blog',
 });
 
-export default async function BlogIndexPage() {
+interface BlogIndexPageProps {
+  searchParams?: Promise<{ tag?: string }>;
+}
+
+export default async function BlogIndexPage({ searchParams }: BlogIndexPageProps) {
+  const resolvedParams = searchParams ? await searchParams : {};
+  const initialTag = resolvedParams.tag || '';
+
   let posts: any[] = [];
   try {
     const dbPosts = await db.getAllBlogs({ publishedOnly: true });
@@ -44,7 +51,7 @@ export default async function BlogIndexPage() {
       </div>
 
       {/* Interactive Blog List Component */}
-      <BlogListClient initialPosts={posts} />
+      <BlogListClient initialPosts={posts} initialTag={initialTag} />
 
       {/* Call to Action Banner */}
       <div className="mt-20">

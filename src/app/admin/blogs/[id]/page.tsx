@@ -34,8 +34,36 @@ export default function EditBlogPage() {
     authorName: '',
     authorRole: '',
     readTime: '',
-    tags: '',
   });
+
+  const [tagsList, setTagsList] = useState<string[]>([]);
+  const [tagInput, setTagInput] = useState('');
+
+  const addTag = (val: string) => {
+    const clean = val.replace(/^#/, '').trim();
+    if (!clean) return;
+    if (!tagsList.some((t) => t.toLowerCase() === clean.toLowerCase())) {
+      setTagsList((prev) => [...prev, clean]);
+    }
+  };
+
+  const removeTag = (val: string) => {
+    setTagsList((prev) => prev.filter((t) => t.toLowerCase() !== val.toLowerCase()));
+  };
+
+  const handleAddTag = () => {
+    if (tagInput.trim()) {
+      addTag(tagInput.trim());
+      setTagInput('');
+    }
+  };
+
+  const handleTagKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter' || e.key === ',') {
+      e.preventDefault();
+      handleAddTag();
+    }
+  };
 
   const [customUrl, setCustomUrl] = useState('');
   const [showUrlInput, setShowUrlInput] = useState(false);
@@ -50,12 +78,12 @@ export default function EditBlogPage() {
         const res = await fetch(`/api/admin/blogs/${id}`);
         if (res.ok) {
           const data = await res.json();
-          let tagStr = '';
+          let tagArr: string[] = [];
           try {
             const parsed = typeof data.tags === 'string' ? JSON.parse(data.tags) : data.tags;
-            tagStr = Array.isArray(parsed) ? parsed.join(', ') : '';
+            tagArr = Array.isArray(parsed) ? parsed : [];
           } catch {
-            tagStr = data.tags || '';
+            tagArr = data.tags ? data.tags.split(',').map((t: string) => t.trim()).filter(Boolean) : [];
           }
 
           setFormData({
@@ -68,8 +96,8 @@ export default function EditBlogPage() {
             authorName: data.authorName || '',
             authorRole: data.authorRole || '',
             readTime: data.readTime || '5 min read',
-            tags: tagStr,
           });
+          setTagsList(tagArr);
         }
       } catch (err) {
         console.error(err);
@@ -161,13 +189,12 @@ export default function EditBlogPage() {
     setSaving(true);
 
     try {
-      const tagArray = formData.tags.split(',').map((t) => t.trim());
       const res = await fetch(`/api/admin/blogs/${id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           ...formData,
-          tags: tagArray,
+          tags: tagsList,
         }),
       });
 
@@ -455,17 +482,111 @@ export default function EditBlogPage() {
             </div>
           </div>
 
-          <div>
-            <label className="block text-xs font-bold uppercase text-slate-400 mb-1">
-              Tags (comma separated)
-            </label>
-            <input
-              type="text"
-              value={formData.tags}
-              onChange={(e) => setFormData({ ...formData, tags: e.target.value })}
-              placeholder="e.g. AI Agents, LLM, Performance, Architecture"
-              className="w-full px-3 py-2 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-xs"
-            />
+          {/* Hashtags & Topic Tags Manager */}
+          <div className="p-5 rounded-2xl bg-slate-50/70 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 space-y-3.5">
+            <div className="flex items-center justify-between">
+              <div>
+                <label className="block text-xs font-bold uppercase text-slate-700 dark:text-slate-300">
+                  Article Hashtags &amp; Topics (#)
+                </label>
+                <p className="text-[11px] text-slate-500">
+                  Add hashtags so users can discover this article by topic (e.g. #AI, #LLM, #Architecture, #Nextjs).
+                </p>
+              </div>
+              <span className="text-xs font-semibold text-slate-400">
+                {tagsList.length} {tagsList.length === 1 ? 'tag' : 'tags'} added
+              </span>
+            </div>
+
+            {/* Active Tag Badges */}
+            <div className="flex flex-wrap gap-2 min-h-[38px] p-2.5 rounded-xl bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 items-center">
+              {tagsList.length === 0 ? (
+                <span className="text-xs text-slate-400 italic">
+                  No hashtags added yet. Type below or pick from recommended topics.
+                </span>
+              ) : (
+                tagsList.map((tag, idx) => (
+                  <span
+                    key={tag + idx}
+                    className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-blue-50 dark:bg-blue-950/60 text-blue-600 dark:text-blue-400 font-semibold text-xs border border-blue-500/20 shadow-2xs group"
+                  >
+                    <span>#{tag}</span>
+                    <button
+                      type="button"
+                      onClick={() => removeTag(tag)}
+                      className="text-blue-400 hover:text-rose-500 dark:text-blue-400 dark:hover:text-rose-400 font-bold ml-0.5 transition-colors"
+                      title="Remove tag"
+                    >
+                      ×
+                    </button>
+                  </span>
+                ))
+              )}
+            </div>
+
+            {/* Input to type new hashtag */}
+            <div className="flex items-center gap-2">
+              <div className="relative flex-1">
+                <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 font-bold text-xs pointer-events-none">
+                  #
+                </span>
+                <input
+                  type="text"
+                  value={tagInput}
+                  onChange={(e) => setTagInput(e.target.value)}
+                  onKeyDown={handleTagKeyDown}
+                  placeholder="Type hashtag and press Enter or comma (e.g. AI, NextJS, Python)..."
+                  className="w-full pl-8 pr-4 py-2.5 rounded-xl bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 text-xs text-slate-900 dark:text-white placeholder-slate-400 focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+              <button
+                type="button"
+                onClick={handleAddTag}
+                className="px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs transition-colors cursor-pointer shadow-sm"
+              >
+                + Add Tag
+              </button>
+            </div>
+
+            {/* Popular Hashtag Quick-Pick Suggestions */}
+            <div className="pt-1">
+              <span className="text-[11px] font-bold text-slate-400 block mb-2">
+                Popular Tech Topics (Click to add):
+              </span>
+              <div className="flex flex-wrap gap-1.5">
+                {[
+                  'AI Agents',
+                  'LLM',
+                  'Machine Learning',
+                  'Next.js 16',
+                  'Turbopack',
+                  'Cloud Architecture',
+                  'DevOps',
+                  'MariaDB',
+                  'Cybersecurity',
+                  'Microservices',
+                  'Python',
+                  'React 19',
+                ].map((suggestion) => {
+                  const alreadyAdded = tagsList.some((t) => t.toLowerCase() === suggestion.toLowerCase());
+                  return (
+                    <button
+                      type="button"
+                      key={suggestion}
+                      disabled={alreadyAdded}
+                      onClick={() => addTag(suggestion)}
+                      className={`px-2.5 py-1 rounded-lg text-xs font-medium transition-all cursor-pointer ${
+                        alreadyAdded
+                          ? 'bg-slate-200 dark:bg-slate-800 text-slate-400 dark:text-slate-500 cursor-not-allowed'
+                          : 'bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:border-blue-500 hover:text-blue-600 dark:hover:text-blue-400'
+                      }`}
+                    >
+                      {alreadyAdded ? '✓' : '+'} #{suggestion}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
           </div>
 
           <div className="pt-4 flex justify-end">
