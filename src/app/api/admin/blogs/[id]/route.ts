@@ -35,6 +35,11 @@ export async function PUT(request: Request, { params }: RouteContext) {
 
     try {
       revalidatePath('/blog');
+      revalidatePath(`/blog/${id}`);
+      if (body.slug && body.slug !== id) {
+        revalidatePath(`/blog/${body.slug}`);
+      }
+      revalidatePath('/blog/[slug]', 'page');
       revalidatePath('/');
       revalidatePath('/admin/blogs');
     } catch (e) {
@@ -54,6 +59,8 @@ export async function DELETE(request: Request, { params }: RouteContext) {
 
     try {
       revalidatePath('/blog');
+      revalidatePath(`/blog/${id}`);
+      revalidatePath('/blog/[slug]', 'page');
       revalidatePath('/');
       revalidatePath('/admin/blogs');
     } catch (e) {

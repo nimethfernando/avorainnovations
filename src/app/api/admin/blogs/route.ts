@@ -40,6 +40,8 @@ export async function POST(request: Request) {
 
     try {
       revalidatePath('/blog');
+      revalidatePath(`/blog/${slug}`);
+      revalidatePath('/blog/[slug]', 'page');
       revalidatePath('/');
       revalidatePath('/admin/blogs');
     } catch (e) {

@@ -9,27 +9,14 @@ import { ArrowLeft, Clock, Calendar, ArrowRight } from 'lucide-react';
 import { formatDate } from '@/lib/utils';
 import { db } from '@/lib/db';
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 interface BlogPageProps {
   params: Promise<{ slug: string }>;
 }
 
-export async function generateStaticParams() {
-  const slugs = new Set<string>();
-  BLOG_POSTS_DATA.forEach((p) => slugs.add(p.slug));
 
-  try {
-    const dbPosts = await db.getAllBlogs({ publishedOnly: true });
-    if (Array.isArray(dbPosts)) {
-      dbPosts.forEach((b: any) => {
-        if (b.slug) slugs.add(b.slug);
-      });
-    }
-  } catch {
-    // Fallback
-  }
-
-  return Array.from(slugs).map((slug) => ({ slug }));
-}
 
 export async function generateMetadata({ params }: BlogPageProps) {
   const { slug } = await params;
@@ -47,7 +34,7 @@ export async function generateMetadata({ params }: BlogPageProps) {
     title: `${post.title} | Engineering Blog`,
     description: post.excerpt,
     canonical: `/blog/${post.slug}`,
-    image: post.coverImage,
+    image: post.coverImage && !post.coverImage.startsWith('data:') ? post.coverImage : '/logo-horizontal-dark.png',
   });
 }
 
