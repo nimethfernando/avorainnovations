@@ -1,5 +1,8 @@
 import { NextResponse } from 'next/server';
+import { revalidatePath } from 'next/cache';
 import { db } from '@/lib/db';
+
+export const dynamic = 'force-dynamic';
 
 export async function GET() {
   try {
@@ -17,6 +20,11 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'City and address are required' }, { status: 400 });
     }
     const saved = await db.saveLocation(body);
+    try {
+      revalidatePath('/contact');
+      revalidatePath('/api/locations');
+      revalidatePath('/');
+    } catch {}
     return NextResponse.json(saved, { status: 201 });
   } catch {
     return NextResponse.json({ error: 'Failed to save location' }, { status: 500 });
@@ -31,6 +39,11 @@ export async function DELETE(request: Request) {
       return NextResponse.json({ error: 'ID is required' }, { status: 400 });
     }
     await db.deleteLocation(id);
+    try {
+      revalidatePath('/contact');
+      revalidatePath('/api/locations');
+      revalidatePath('/');
+    } catch {}
     return NextResponse.json({ success: true });
   } catch {
     return NextResponse.json({ error: 'Failed to delete location' }, { status: 500 });

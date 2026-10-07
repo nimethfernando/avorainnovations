@@ -46,29 +46,37 @@ export default function ContactPage() {
       if (!res.ok) throw new Error('Submission failed');
       setSubmitted(true);
     } catch {
-      setError('Unable to send inquiry. Please try again or email us directly at avorainnovations@gmail.com.');
+      setError('Unable to send inquiry. Please try again or email us directly at avorainnovation@gmail.com.');
     } finally {
       setLoading(false);
     }
   };
 
   const [offices, setOffices] = useState<CompanyLocation[]>(DEFAULT_LOCATIONS);
+  const [settings, setSettings] = useState<Record<string, string>>({});
 
   useEffect(() => {
-    async function loadLocations() {
+    async function loadData() {
       try {
-        const res = await fetch('/api/locations');
-        if (res.ok) {
-          const data = await res.json();
+        const [locRes, setRes] = await Promise.all([
+          fetch('/api/locations', { cache: 'no-store' }),
+          fetch('/api/settings', { cache: 'no-store' }),
+        ]);
+        if (locRes.ok) {
+          const data = await locRes.json();
           if (Array.isArray(data) && data.length > 0) {
             setOffices(data);
           }
+        }
+        if (setRes.ok) {
+          const s = await setRes.json();
+          if (s) setSettings(s);
         }
       } catch {
         // Fallback to DEFAULT_LOCATIONS
       }
     }
-    loadLocations();
+    loadData();
   }, []);
 
   return (
@@ -277,18 +285,27 @@ export default function ContactPage() {
               Direct Technical Line
             </h3>
             <div className="space-y-3 text-xs sm:text-sm">
-              <div className="flex items-center gap-3">
-                <Phone className="w-4 h-4 text-blue-500" />
-                <a href="tel:+995555433091" className="font-semibold text-slate-900 dark:text-white hover:text-blue-500">
-                  +995 555433091
-                </a>
-              </div>
-              <div className="flex items-center gap-3">
-                <Mail className="w-4 h-4 text-blue-500" />
-                <a href="mailto:avorainnovations@gmail.com" className="font-semibold text-slate-900 dark:text-white hover:text-blue-500">
-                  avorainnovations@gmail.com
-                </a>
-              </div>
+              {(() => {
+                const primaryOffice = offices.find((o) => o.isPrimary) || offices[0];
+                const activeEmail = primaryOffice?.email || settings.contactEmail || 'avorainnovation@gmail.com';
+                const activePhone = primaryOffice?.phone || settings.contactPhone || '+995 555433091';
+                return (
+                  <>
+                    <div className="flex items-center gap-3">
+                      <Phone className="w-4 h-4 text-blue-500" />
+                      <a href={`tel:${activePhone.replace(/\s+/g, '')}`} className="font-semibold text-slate-900 dark:text-white hover:text-blue-500">
+                        {activePhone}
+                      </a>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <Mail className="w-4 h-4 text-blue-500" />
+                      <a href={`mailto:${activeEmail}`} className="font-semibold text-slate-900 dark:text-white hover:text-blue-500">
+                        {activeEmail}
+                      </a>
+                    </div>
+                  </>
+                );
+              })()}
               <div className="flex items-center gap-3">
                 <Clock className="w-4 h-4 text-blue-500" />
                 <span className="text-slate-600 dark:text-slate-400">

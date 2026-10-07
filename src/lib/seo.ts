@@ -89,7 +89,7 @@ export function generateOrganizationSchema() {
     contactPoint: {
       '@type': 'ContactPoint',
       telephone: '+995 555433091',
-      email: 'avorainnovations@gmail.com',
+      email: 'avorainnovation@gmail.com',
       contactType: 'Sales and Technical Consultation',
       areaServed: 'Worldwide',
       availableLanguage: ['English', 'Georgian', 'German'],

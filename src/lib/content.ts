@@ -1350,7 +1350,7 @@ export const DEFAULT_LOCATIONS: CompanyLocation[] = [
     role: 'Global HQ & AI Research Lab',
     address: '17 Ioane Shavteli St, Tbilisi, Georgia',
     phone: '+995 555433091',
-    email: 'avorainnovations@gmail.com',
+    email: 'avorainnovation@gmail.com',
     isPrimary: true,
   },
 ];
