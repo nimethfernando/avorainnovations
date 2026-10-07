@@ -9,8 +9,32 @@ interface RouteContext {
 export async function GET(request: Request, { params }: RouteContext) {
   try {
     const { id } = await params;
+    if (!id) {
+      return NextResponse.json({ error: 'Article ID or slug is required' }, { status: 400 });
+    }
+
+    const decodedId = decodeURIComponent(id).trim();
+    const idLower = decodedId.toLowerCase();
+
+    // 1. Search in getAllBlogs
     const blogs = await db.getAllBlogs();
-    const blog = blogs.find((b: any) => b.id === id || b.slug === id);
+    let blog = blogs.find(
+      (b: any) =>
+        b.id === id ||
+        b.id === decodedId ||
+        b.slug === id ||
+        b.slug === decodedId ||
+        b.slug?.toLowerCase() === idLower ||
+        b.id?.toLowerCase() === idLower
+    );
+
+    // 2. Direct getBlogBySlug
+    if (!blog) {
+      blog = await db.getBlogBySlug(decodedId);
+    }
+    if (!blog && id !== decodedId) {
+      blog = await db.getBlogBySlug(id);
+    }
 
     if (!blog) {
       return NextResponse.json({ error: 'Blog not found' }, { status: 404 });

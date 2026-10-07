@@ -3,6 +3,7 @@
 import React, { useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import AdminHeader from '@/components/admin/AdminHeader';
+import { compressImage, formatBytes } from '@/lib/image-utils';
 import {
   Save,
   ArrowLeft,
@@ -13,6 +14,8 @@ import {
   Link as LinkIcon,
   PlusCircle,
   CheckCircle,
+  Info,
+  Sparkles,
 } from 'lucide-react';
 import Link from 'next/link';
 
@@ -37,12 +40,23 @@ export default function CreateBlogPage() {
   const [tagsList, setTagsList] = useState<string[]>(['AI Agents', 'Architecture', 'Performance']);
   const [tagInput, setTagInput] = useState('');
 
-  const addTag = (val: string) => {
-    const clean = val.replace(/^#/, '').trim();
-    if (!clean) return;
-    if (!tagsList.some((t) => t.toLowerCase() === clean.toLowerCase())) {
-      setTagsList((prev) => [...prev, clean]);
-    }
+  // Parse multiple tags from comma-separated, semicolon, or pasted text
+  const addTags = (raw: string) => {
+    if (!raw) return;
+    const items = raw
+      .split(/[,;\n]+/)
+      .map((t) => t.replace(/^#/, '').trim())
+      .filter(Boolean);
+
+    setTagsList((prev) => {
+      const next = [...prev];
+      for (const item of items) {
+        if (!next.some((existing) => existing.toLowerCase() === item.toLowerCase())) {
+          next.push(item);
+        }
+      }
+      return next;
+    });
   };
 
   const removeTag = (val: string) => {
@@ -51,7 +65,7 @@ export default function CreateBlogPage() {
 
   const handleAddTag = () => {
     if (tagInput.trim()) {
-      addTag(tagInput.trim());
+      addTags(tagInput.trim());
       setTagInput('');
     }
   };
@@ -63,21 +77,54 @@ export default function CreateBlogPage() {
     }
   };
 
+  const handleTagInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const val = e.target.value;
+    if (val.includes(',') || val.includes(';') || val.includes('\n')) {
+      addTags(val);
+      setTagInput('');
+    } else {
+      setTagInput(val);
+    }
+  };
+
+  const handleTagPaste = (e: React.ClipboardEvent<HTMLInputElement>) => {
+    const pasted = e.clipboardData.getData('text');
+    if (pasted && (pasted.includes(',') || pasted.includes(';') || pasted.includes('\n'))) {
+      e.preventDefault();
+      addTags(pasted);
+      setTagInput('');
+    }
+  };
+
   const [customUrl, setCustomUrl] = useState('');
   const [showUrlInput, setShowUrlInput] = useState(false);
   const [uploadingCover, setUploadingCover] = useState(false);
   const [uploadingBodyImage, setUploadingBodyImage] = useState(false);
+  const [uploadNotice, setUploadNotice] = useState('');
+  const [uploadProgress, setUploadProgress] = useState('');
   const [saving, setSaving] = useState(false);
 
-  // Handle Cover Image Upload
+  // Handle Cover Image Upload with Automatic Client-Side Compression
   const handleCoverUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
     setUploadingCover(true);
+    setUploadNotice('');
+    setUploadProgress('Optimizing image for high-speed delivery...');
+
     try {
+      // Compress image client-side before sending to prevent 413 errors & timeouts
+      const { file: optimizedFile, originalSize, compressedSize, width, height } = await compressImage(
+        file,
+        1600,
+        1200,
+        0.85
+      );
+
+      setUploadProgress('Uploading optimized image...');
       const data = new FormData();
-      data.append('file', file);
+      data.append('file', optimizedFile);
       data.append('category', 'Blog Cover');
 
       const res = await fetch('/api/admin/media', {
@@ -85,13 +132,26 @@ export default function CreateBlogPage() {
         body: data,
       });
 
-      if (!res.ok) throw new Error('Upload failed');
+      if (!res.ok) {
+        const errJson = await res.json().catch(() => ({}));
+        throw new Error(errJson.error || 'Upload failed');
+      }
+
       const uploaded = await res.json();
       setFormData((prev) => ({ ...prev, coverImage: uploaded.url }));
-    } catch {
-      alert('Failed to upload cover image. Please check image format and size.');
+
+      if (compressedSize < originalSize) {
+        setUploadNotice(
+          `Optimized from ${formatBytes(originalSize)} to ${formatBytes(compressedSize)} (${width} × ${height} px) ✓`
+        );
+      } else {
+        setUploadNotice(`Uploaded (${width} × ${height} px, ${formatBytes(compressedSize)}) ✓`);
+      }
+    } catch (err: any) {
+      alert(err.message || 'Failed to upload cover image. Please try again with a JPG, PNG, or WebP file.');
     } finally {
       setUploadingCover(false);
+      setUploadProgress('');
       if (coverFileInputRef.current) coverFileInputRef.current.value = '';
     }
   };
@@ -204,8 +264,24 @@ export default function CreateBlogPage() {
                   Hero Cover Image
                 </label>
                 <p className="text-[11px] text-slate-500">
-                  Featured banner displayed at the top of the article and on the blog index card (Recommended: 16:9 ratio, min 1200x675px).
+                  Featured banner displayed at the top of the article and on the blog index card.
                 </p>
+                <div className="mt-1.5 flex flex-wrap items-center gap-2 text-[11px] text-blue-600 dark:text-blue-400 bg-blue-500/10 px-2.5 py-1 rounded-lg border border-blue-500/20">
+                  <Info className="w-3.5 h-3.5 flex-shrink-0" />
+                  <span><strong>Recommended:</strong> 1200 × 675 px (16:9 ratio) • JPG, PNG, WebP • Auto-optimized for instant loading</span>
+                </div>
+                {uploadProgress && (
+                  <div className="mt-1.5 text-xs text-blue-600 dark:text-blue-400 flex items-center gap-1.5 font-semibold animate-pulse">
+                    <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                    <span>{uploadProgress}</span>
+                  </div>
+                )}
+                {uploadNotice && (
+                  <div className="mt-1.5 text-xs text-emerald-600 dark:text-emerald-400 font-semibold flex items-center gap-1">
+                    <CheckCircle className="w-3.5 h-3.5" />
+                    <span>{uploadNotice}</span>
+                  </div>
+                )}
               </div>
               {formData.coverImage && (
                 <button
@@ -487,9 +563,10 @@ export default function CreateBlogPage() {
                 <input
                   type="text"
                   value={tagInput}
-                  onChange={(e) => setTagInput(e.target.value)}
+                  onChange={handleTagInputChange}
+                  onPaste={handleTagPaste}
                   onKeyDown={handleTagKeyDown}
-                  placeholder="Type hashtag and press Enter or comma (e.g. AI, NextJS, Python)..."
+                  placeholder="Type or paste comma-separated hashtags (e.g. AI, Lithosphere, Web3, Architecture)..."
                   className="w-full pl-8 pr-4 py-2.5 rounded-xl bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 text-xs text-slate-900 dark:text-white placeholder-slate-400 focus:ring-2 focus:ring-blue-500"
                 />
               </div>
@@ -528,7 +605,7 @@ export default function CreateBlogPage() {
                       type="button"
                       key={suggestion}
                       disabled={alreadyAdded}
-                      onClick={() => addTag(suggestion)}
+                      onClick={() => addTags(suggestion)}
                       className={`px-2.5 py-1 rounded-lg text-xs font-medium transition-all cursor-pointer ${
                         alreadyAdded
                           ? 'bg-slate-200 dark:bg-slate-800 text-slate-400 dark:text-slate-500 cursor-not-allowed'

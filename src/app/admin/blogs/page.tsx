@@ -119,7 +119,7 @@ export default function AdminBlogsPage() {
                             <ExternalLink className="w-3.5 h-3.5" />
                           </Link>
                           <Link
-                            href={`/admin/blogs/${b.id}`}
+                            href={`/admin/blogs/${b.id || b.slug}`}
                             className="p-1.5 rounded-lg border border-slate-200 dark:border-slate-800 hover:text-blue-500"
                             title="Edit Article & Image"
                           >
