@@ -2,6 +2,8 @@ import { NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import { sendEmail, generateInquiryEmailHtml } from '@/lib/mailer';
 
+export const dynamic = 'force-dynamic';
+
 export async function POST(request: Request) {
   try {
     const body = await request.json();
@@ -26,10 +28,21 @@ export async function POST(request: Request) {
       message,
     });
 
-    // Send instant email notification via Nodemailer
+    // Send instant email notification via Nodemailer to the currently configured CMS email
     const emailHtml = generateInquiryEmailHtml(inquiry);
     const settings = await db.getSettings();
-    const notificationTo = process.env.ADMIN_NOTIFICATION_EMAIL || settings?.contactEmail || 'avorainnovation@gmail.com';
+    let locations: any[] = [];
+    try {
+      locations = await db.getAllLocations();
+    } catch {}
+    const primaryOffice = locations.find((l) => l.isPrimary) || locations[0];
+    const notificationTo =
+      settings?.contactEmail?.trim() ||
+      primaryOffice?.email?.trim() ||
+      process.env.ADMIN_NOTIFICATION_EMAIL?.trim() ||
+      'avorainnovation@gmail.com';
+
+    console.log(`[API INQUIRIES] Dispatching lead notification to: ${notificationTo}`);
 
     await sendEmail({
       to: notificationTo,
