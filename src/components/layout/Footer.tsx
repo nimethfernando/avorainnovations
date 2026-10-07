@@ -31,13 +31,19 @@ export default function Footer() {
   const [error, setError] = useState('');
   const [services, setServices] = useState<any[]>(SERVICES_DATA);
   const [industries, setIndustries] = useState<any[]>(INDUSTRIES_DATA);
+  const [settings, setSettings] = useState<Record<string, string>>({
+    contactEmail: 'avorainnovation@gmail.com',
+    contactPhone: '+995 555433091',
+    headquarters: '17 Ioane Shavteli St, Tbilisi, Georgia',
+  });
 
   React.useEffect(() => {
     async function loadFooterData() {
       try {
-        const [srvRes, indRes] = await Promise.all([
+        const [srvRes, indRes, setRes] = await Promise.all([
           fetch('/api/services'),
           fetch('/api/industries'),
+          fetch('/api/settings', { cache: 'no-store' }),
         ]);
         if (srvRes.ok) {
           const s = await srvRes.json();
@@ -46,6 +52,10 @@ export default function Footer() {
         if (indRes.ok) {
           const i = await indRes.json();
           if (Array.isArray(i) && i.length > 0) setIndustries(i);
+        }
+        if (setRes.ok) {
+          const st = await setRes.json();
+          if (st) setSettings((prev) => ({ ...prev, ...st }));
         }
       } catch {
         // Fallback
@@ -148,18 +158,18 @@ export default function Footer() {
             <div className="space-y-2 pt-2 text-xs">
               <div className="flex items-start gap-2.5">
                 <MapPin className="w-4 h-4 text-blue-400 flex-shrink-0 mt-0.5" />
-                <span>17 Ioane Shavteli St, Tbilisi, Georgia</span>
+                <span>{settings.headquarters || '17 Ioane Shavteli St, Tbilisi, Georgia'}</span>
               </div>
               <div className="flex items-center gap-2.5">
                 <Phone className="w-4 h-4 text-blue-400 flex-shrink-0" />
-                <a href="tel:+995555433091" className="hover:text-white transition-colors notranslate">
-                  +995 555433091
+                <a href={`tel:${(settings.contactPhone || '+995 555433091').replace(/\s+/g, '')}`} className="hover:text-white transition-colors notranslate">
+                  {settings.contactPhone || '+995 555433091'}
                 </a>
               </div>
               <div className="flex items-center gap-2.5">
                 <Mail className="w-4 h-4 text-blue-400 flex-shrink-0" />
-                <a href="mailto:avorainnovations@gmail.com" className="hover:text-white transition-colors notranslate">
-                  avorainnovations@gmail.com
+                <a href={`mailto:${settings.contactEmail || 'avorainnovation@gmail.com'}`} className="hover:text-white transition-colors notranslate">
+                  {settings.contactEmail || 'avorainnovation@gmail.com'}
                 </a>
               </div>
             </div>

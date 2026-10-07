@@ -442,11 +442,25 @@ export const db = {
 
   async findAdminByEmail(email: string) {
     await this.ensureAdminUser();
-    const rows = await queryDb<any>('SELECT * FROM avora_admin_users WHERE LOWER(email) = LOWER(?) LIMIT 1', [email]);
+    const cleanEmail = email.toLowerCase().trim();
+    const altEmail = cleanEmail.endsWith('innovations@gmail.com')
+      ? cleanEmail.replace('innovations@gmail.com', 'innovation@gmail.com')
+      : cleanEmail.endsWith('innovation@gmail.com')
+      ? cleanEmail.replace('innovation@gmail.com', 'innovations@gmail.com')
+      : cleanEmail;
+
+    const rows = await queryDb<any>(
+      'SELECT * FROM avora_admin_users WHERE LOWER(email) = ? OR LOWER(email) = ? LIMIT 1',
+      [cleanEmail, altEmail]
+    );
     if (rows && rows.length > 0) return rows[0];
 
     const store = loadLocalStore();
-    return store.adminUsers.find((u) => u.email.toLowerCase() === email.toLowerCase()) || null;
+    return (
+      store.adminUsers.find(
+        (u) => u.email.toLowerCase() === cleanEmail || u.email.toLowerCase() === altEmail
+      ) || null
+    );
   },
 
   async updateAdminPassword(email: string, passwordHash: string) {
@@ -1674,8 +1688,37 @@ export const db = {
       );
     }
 
+    // Sync primary location (loc-tbilisi) if contact info changed
+    if (newSettings.contactEmail || newSettings.contactPhone || newSettings.headquarters) {
+      try {
+        const primaryLocRows = await queryDb<any>(
+          "SELECT data FROM avora_cms_content WHERE type = 'location' AND id = 'loc-tbilisi' LIMIT 1"
+        );
+        if (primaryLocRows && primaryLocRows.length > 0) {
+          const locData = JSON.parse(primaryLocRows[0].data);
+          if (newSettings.contactEmail) locData.email = newSettings.contactEmail;
+          if (newSettings.contactPhone) locData.phone = newSettings.contactPhone;
+          if (newSettings.headquarters) locData.address = newSettings.headquarters;
+          await queryDb(
+            "UPDATE avora_cms_content SET data = ?, updatedAt = NOW() WHERE id = 'loc-tbilisi'",
+            [JSON.stringify(locData)]
+          );
+        }
+      } catch (err) {
+        console.warn('[DB] Could not sync primary location with settings:', err);
+      }
+    }
+
     const store = loadLocalStore();
     store.settings = { ...store.settings, ...newSettings };
+    if (store.locations) {
+      const primaryLoc = store.locations.find((l: any) => l.isPrimary || l.id === 'loc-tbilisi');
+      if (primaryLoc) {
+        if (newSettings.contactEmail) primaryLoc.email = newSettings.contactEmail;
+        if (newSettings.contactPhone) primaryLoc.phone = newSettings.contactPhone;
+        if (newSettings.headquarters) primaryLoc.address = newSettings.headquarters;
+      }
+    }
     saveLocalStore(store);
     return store.settings;
   },

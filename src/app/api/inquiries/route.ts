@@ -29,7 +29,7 @@ export async function POST(request: Request) {
     // Send instant email notification via Nodemailer
     const emailHtml = generateInquiryEmailHtml(inquiry);
     const settings = await db.getSettings();
-    const notificationTo = process.env.ADMIN_NOTIFICATION_EMAIL || settings?.contactEmail || 'avorainnovations@gmail.com';
+    const notificationTo = process.env.ADMIN_NOTIFICATION_EMAIL || settings?.contactEmail || 'avorainnovation@gmail.com';
 
     await sendEmail({
       to: notificationTo,

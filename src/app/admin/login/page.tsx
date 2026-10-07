@@ -10,7 +10,7 @@ function LoginForm() {
   const searchParams = useSearchParams();
   const from = searchParams.get('from') || '/admin';
 
-  const [email, setEmail] = useState('avorainnovations@gmail.com');
+  const [email, setEmail] = useState('avorainnovation@gmail.com');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');

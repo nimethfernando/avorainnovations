@@ -266,7 +266,7 @@ export default function AdminLocationsPage() {
                     type="email"
                     value={editingItem.email || ''}
                     onChange={(e) => setEditingItem({ ...editingItem, email: e.target.value })}
-                    placeholder="avorainnovations@gmail.com"
+                    placeholder="avorainnovation@gmail.com"
                     className="w-full px-3 py-2 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-xs"
                   />
                 </div>

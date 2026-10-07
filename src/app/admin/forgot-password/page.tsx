@@ -11,7 +11,7 @@ export default function ForgotPasswordPage() {
   // Step 1: 'email' -> Step 2: 'otp' -> Step 3: 'success'
   const [step, setStep] = useState<'email' | 'otp' | 'success'>('email');
 
-  const [email, setEmail] = useState('avorainnovations@gmail.com');
+  const [email, setEmail] = useState('avorainnovation@gmail.com');
   const [otp, setOtp] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');

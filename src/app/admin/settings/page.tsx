@@ -8,7 +8,7 @@ export default function AdminSettingsPage() {
   const [settings, setSettings] = useState({
     siteName: 'AVORA Innovations',
     tagline: 'Enterprise AI & Digital Engineering Partner',
-    contactEmail: 'avorainnovations@gmail.com',
+    contactEmail: 'avorainnovation@gmail.com',
     contactPhone: '+995 555433091',
     headquarters: '17 Ioane Shavteli St, Tbilisi, Georgia',
     twitter: 'https://twitter.com/avorainnovations',

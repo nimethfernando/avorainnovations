@@ -89,7 +89,7 @@ export default function AdminProfilePage() {
               <h3 className="text-base font-bold text-slate-900 dark:text-white">
                 {profile?.name || 'Avora Executive Admin'}
               </h3>
-              <p className="text-xs text-slate-500">{profile?.email || 'avorainnovations@gmail.com'}</p>
+              <p className="text-xs text-slate-500">{profile?.email || 'avorainnovation@gmail.com'}</p>
               <span className="inline-block mt-1 px-2.5 py-0.5 rounded-full bg-blue-500/10 text-blue-500 text-[10px] font-bold uppercase tracking-wider">
                 {profile?.role || 'superadmin'}
               </span>
