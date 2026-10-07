@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { cache } from 'react';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { BLOG_POSTS_DATA } from '@/lib/content';
@@ -16,17 +16,31 @@ interface BlogPageProps {
   params: Promise<{ slug: string }>;
 }
 
-
+const getCachedBlog = cache(async (rawSlug: string) => {
+  try {
+    const slug = decodeURIComponent(rawSlug).trim();
+    let post = await db.getBlogBySlug(slug);
+    if (!post && slug !== rawSlug) {
+      post = await db.getBlogBySlug(rawSlug);
+    }
+    if (!post) {
+      post = BLOG_POSTS_DATA.find(
+        (p) => p.slug === slug || p.slug === rawSlug || p.slug.toLowerCase() === slug.toLowerCase()
+      );
+    }
+    return post;
+  } catch {
+    return (
+      BLOG_POSTS_DATA.find(
+        (p) => p.slug === rawSlug || p.slug.toLowerCase() === rawSlug.toLowerCase()
+      ) || null
+    );
+  }
+});
 
 export async function generateMetadata({ params }: BlogPageProps) {
   const { slug } = await params;
-  let post: any = null;
-  try {
-    post = await db.getBlogBySlug(slug);
-  } catch {}
-  if (!post) {
-    post = BLOG_POSTS_DATA.find((p) => p.slug === slug);
-  }
+  const post = await getCachedBlog(slug);
 
   if (!post) return constructMetadata({ title: 'Post Not Found | Avora Innovations' });
 
@@ -40,13 +54,7 @@ export async function generateMetadata({ params }: BlogPageProps) {
 
 export default async function BlogDetailPage({ params }: BlogPageProps) {
   const { slug } = await params;
-  let post: any = null;
-  try {
-    post = await db.getBlogBySlug(slug);
-  } catch {}
-  if (!post) {
-    post = BLOG_POSTS_DATA.find((p) => p.slug === slug);
-  }
+  const post = await getCachedBlog(slug);
 
   if (!post) {
     notFound();

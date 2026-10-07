@@ -2,6 +2,7 @@
 
 import React, { useState, useMemo } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { ArrowRight, Clock, Calendar, Search, Sparkles } from 'lucide-react';
 import { formatDate } from '@/lib/utils';
 
@@ -11,6 +12,7 @@ interface BlogListClientProps {
 }
 
 export default function BlogListClient({ initialPosts, initialTag = '' }: BlogListClientProps) {
+  const router = useRouter();
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [activeTag, setActiveTag] = useState<string>(initialTag);
@@ -208,7 +210,8 @@ export default function BlogListClient({ initialPosts, initialTag = '' }: BlogLi
             return (
               <article
                 key={post.id || post.slug}
-                className="group rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 overflow-hidden flex flex-col justify-between hover:shadow-2xl hover:border-blue-500/50 transition-all duration-300"
+                onClick={() => router.push('/blog/' + post.slug)}
+                className="group rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 overflow-hidden flex flex-col justify-between hover:shadow-2xl hover:border-blue-500/50 transition-all duration-300 cursor-pointer"
               >
                 <div>
                   <Link

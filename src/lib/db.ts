@@ -137,28 +137,34 @@ interface StorageData {
 const STORAGE_FILE = path.join(process.cwd(), '.local_db.json');
 
 // --- MariaDB Connection Pool (Isolated avora_* tables) ---
-let pool: Pool | null = null;
+const globalForDb = globalThis as unknown as {
+  mariadbPool?: Pool;
+  blogsEnsured?: boolean;
+  blogsCache?: { data: any[]; timestamp: number };
+};
 
 function getPool(): Pool | null {
-  if (pool) return pool;
+  if (globalForDb.mariadbPool) return globalForDb.mariadbPool;
   const rawUrl = process.env.DATABASE_URL;
   if (!rawUrl) return null;
 
   try {
     const normalizedUrl = rawUrl.replace(/^mariadb:\/\//, 'mysql://');
     const parsed = new URL(normalizedUrl);
-    pool = mariadb.createPool({
+    const newPool = mariadb.createPool({
       host: parsed.hostname || 'localhost',
       port: parseInt(parsed.port || '3306', 10),
       user: decodeURIComponent(parsed.username || 'root'),
       password: decodeURIComponent(parsed.password || ''),
       database: parsed.pathname.replace(/^\//, ''),
-      connectionLimit: 10,
-      connectTimeout: 7000,
-      acquireTimeout: 7000,
-      idleTimeout: 30000,
+      connectionLimit: 4,
+      connectTimeout: 4000,
+      acquireTimeout: 4000,
+      idleTimeout: 15000,
+      minimumIdle: 0,
     });
-    return pool;
+    globalForDb.mariadbPool = newPool;
+    return newPool;
   } catch (err) {
     console.warn('[DB] Failed to initialize MariaDB pool:', err);
     return null;
@@ -1244,10 +1250,11 @@ export const db = {
 
   // --- Blogs ---
   async ensureDefaultBlogs() {
-    // 1. Try to ensure table schema and seed master articles in MariaDB
-    try {
-      await queryDb('ALTER TABLE avora_blogs MODIFY coverImage LONGTEXT');
+    if (globalForDb.blogsEnsured) return;
+    globalForDb.blogsEnsured = true;
 
+    // 1. Try to ensure master articles in MariaDB (runs once only)
+    try {
       const existingRows = await queryDb<any>('SELECT slug, coverImage FROM avora_blogs');
       if (existingRows !== null) {
         const existingSlugs = new Set((existingRows || []).map((r: any) => r.slug));
@@ -1276,14 +1283,6 @@ export const db = {
                 new Date(post.publishedAt || Date.now()).toISOString(),
               ]
             );
-          }
-        }
-
-        for (const row of existingRows) {
-          if (row.coverImage && row.coverImage.startsWith('data:') && row.coverImage.length <= 500) {
-            const master = BLOG_POSTS_DATA.find((p) => p.slug === row.slug);
-            const fallback = master ? master.coverImage : 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1200&q=80';
-            await queryDb('UPDATE avora_blogs SET coverImage = ? WHERE slug = ?', [fallback, row.slug]);
           }
         }
       }
@@ -1337,7 +1336,6 @@ export const db = {
   },
 
   async getAllBlogs(options?: { publishedOnly?: boolean }) {
-    await this.ensureDefaultBlogs();
     const sanitizeBlog = (r: any) => {
       let cover = r.coverImage;
       if (!cover || (typeof cover === 'string' && cover.startsWith('data:') && cover.length <= 500)) {
@@ -1352,50 +1350,96 @@ export const db = {
       };
     };
 
+    const now = Date.now();
+    // In-memory cache for fast, zero-delay responses (invalidated instantly on save/delete)
+    if (globalForDb.blogsCache && (now - globalForDb.blogsCache.timestamp < 20000)) {
+      const cached = globalForDb.blogsCache.data;
+      return options?.publishedOnly ? cached.filter((b) => b.isPublished) : cached;
+    }
+
+    // Try MariaDB first
     const sql = options?.publishedOnly
       ? 'SELECT * FROM avora_blogs WHERE isPublished = 1 ORDER BY createdAt DESC'
       : 'SELECT * FROM avora_blogs ORDER BY createdAt DESC';
     const rows = await queryDb<any>(sql);
     if (rows && rows.length > 0) {
-      return rows.map(sanitizeBlog);
+      const sanitized = rows.map(sanitizeBlog);
+      globalForDb.blogsCache = { data: sanitized, timestamp: now };
+
+      // Sync into local store so fallback always has latest articles
+      try {
+        const store = loadLocalStore();
+        store.blogs = sanitized;
+        saveLocalStore(store);
+      } catch {}
+
+      return options?.publishedOnly ? sanitized.filter((b) => b.isPublished) : sanitized;
     }
 
+    // Fallback to local store
     const store = loadLocalStore();
-    if (options?.publishedOnly) {
-      return store.blogs.filter((b) => b.isPublished).map(sanitizeBlog);
-    }
-    return store.blogs.map(sanitizeBlog);
+    const sanitized = (store.blogs || []).map(sanitizeBlog);
+    globalForDb.blogsCache = { data: sanitized, timestamp: now };
+    return options?.publishedOnly ? sanitized.filter((b) => b.isPublished) : sanitized;
   },
 
   async getBlogBySlug(slug: string) {
-    await this.ensureDefaultBlogs();
-    const sanitizeBlog = (r: any) => {
-      if (!r) return null;
-      let cover = r.coverImage;
+    if (!slug) return null;
+    const clean = decodeURIComponent(slug).trim().toLowerCase();
+
+    // 1. Check in-memory cache first (0ms latency!)
+    if (globalForDb.blogsCache) {
+      const found = globalForDb.blogsCache.data.find(
+        (b: any) =>
+          b.slug?.toLowerCase() === clean ||
+          b.id?.toLowerCase() === clean ||
+          b.slug === slug ||
+          b.id === slug
+      );
+      if (found) return found;
+    }
+
+    // 2. Fetch all blogs (populates cache)
+    const all = await this.getAllBlogs();
+    const found = all.find(
+      (b: any) =>
+        b.slug?.toLowerCase() === clean ||
+        b.id?.toLowerCase() === clean ||
+        b.slug === slug ||
+        b.id === slug
+    );
+    if (found) return found;
+
+    // 3. Fallback direct SQL query
+    const rows = await queryDb<any>(
+      'SELECT * FROM avora_blogs WHERE LOWER(slug) = ? OR LOWER(id) = ? OR slug = ? OR id = ? LIMIT 1',
+      [clean, clean, slug, slug]
+    );
+    if (rows && rows.length > 0) {
+      let cover = rows[0].coverImage;
       if (!cover || (typeof cover === 'string' && cover.startsWith('data:') && cover.length <= 500)) {
-        const master = BLOG_POSTS_DATA.find((p) => p.slug === r.slug);
+        const master = BLOG_POSTS_DATA.find((p) => p.slug === rows[0].slug);
         cover = master ? master.coverImage : 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1200&q=80';
       }
       return {
-        ...r,
+        ...rows[0],
         coverImage: cover,
-        isFeatured: Boolean(r.isFeatured),
-        isPublished: Boolean(r.isPublished),
+        isFeatured: Boolean(rows[0].isFeatured),
+        isPublished: Boolean(rows[0].isPublished),
       };
-    };
-
-    const rows = await queryDb<any>('SELECT * FROM avora_blogs WHERE slug = ? LIMIT 1', [slug]);
-    if (rows && rows.length > 0) {
-      return sanitizeBlog(rows[0]);
     }
 
-    const store = loadLocalStore();
-    const found = store.blogs.find((b) => b.slug === slug);
-    return found ? sanitizeBlog(found) : null;
+    // 4. Fallback to hardcoded BLOG_POSTS_DATA
+    const fallback = BLOG_POSTS_DATA.find(
+      (p) => p.slug.toLowerCase() === clean || p.id.toLowerCase() === clean || p.slug === slug
+    );
+    return fallback ? { ...fallback, isFeatured: Boolean(fallback.isFeatured), isPublished: true } : null;
   },
 
   async saveBlog(blogData: any) {
-    await this.ensureDefaultBlogs();
+    // Invalidate cache immediately so new/updated blog is reflected on next request
+    globalForDb.blogsCache = undefined;
+
     let coverImage = blogData.coverImage;
     if (!coverImage || (typeof coverImage === 'string' && coverImage.startsWith('data:') && coverImage.length <= 500)) {
       const master = BLOG_POSTS_DATA.find((p) => p.slug === blogData.slug);
@@ -1465,6 +1509,7 @@ export const db = {
   },
 
   async deleteBlog(idOrSlug: string) {
+    globalForDb.blogsCache = undefined;
     await queryDb('DELETE FROM avora_blogs WHERE id = ? OR slug = ?', [idOrSlug, idOrSlug]);
 
     const store = loadLocalStore();

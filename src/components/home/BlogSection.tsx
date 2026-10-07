@@ -2,11 +2,13 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { BLOG_POSTS_DATA } from '@/lib/content';
 import { ArrowRight, Sparkles, Clock, Calendar } from 'lucide-react';
 import { formatDate } from '@/lib/utils';
 
 export default function BlogSection() {
+  const router = useRouter();
   const [posts, setPosts] = useState<any[]>(BLOG_POSTS_DATA.slice(0, 3));
 
   useEffect(() => {
@@ -73,7 +75,8 @@ export default function BlogSection() {
             return (
               <article
                 key={post.id || post.slug}
-                className="group rounded-3xl border border-slate-200 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-950/70 overflow-hidden flex flex-col justify-between hover:shadow-2xl hover:border-blue-500/50 hover:bg-white dark:hover:bg-slate-900 transition-all duration-300"
+                onClick={() => router.push(`/blog/${post.slug}`)}
+                className="group rounded-3xl border border-slate-200 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-950/70 overflow-hidden flex flex-col justify-between hover:shadow-2xl hover:border-blue-500/50 hover:bg-white dark:hover:bg-slate-900 transition-all duration-300 cursor-pointer"
               >
                 <div>
                   {/* Cover Image Container */}
